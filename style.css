@@ -1,0 +1,12 @@
+main {
+  display: flex;
+}
+
+.column {
+  border: 1px solid red;
+  width: 280px;
+  margin: 0 0.25rem;
+}
+
+.card-list {
+}

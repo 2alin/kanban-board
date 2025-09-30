@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple kanban board</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main id="board"></main>
+
+  <template id="column-template">
+    <section class="column">
+      <h2 class="title"></h2>
+      <ol class="card-list"></ol>
+    </section>
+  </template>
+
+  <template id="card-template">
+    <section class="card">
+      <h3 class="title"></h3>
+      <p class="description"></p>
+    </section>
+  </template>
+
+  <script src="main.js"></script>
+</body>
+</html>

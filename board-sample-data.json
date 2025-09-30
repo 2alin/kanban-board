@@ -1,0 +1,34 @@
+{
+  "boardCategories": [
+    "backlog",
+    "todo",
+    "today",
+    "done"
+  ],
+  "entries": [
+    {
+      "categoryIdx": 1,
+      "boardCategory": "backlog",
+      "title": "Task A",
+      "description": "This is the description for task A"
+    },
+    {
+      "categoryIdx": 0,
+      "boardCategory": "backlog",
+      "title": "Task B",
+      "description": "This is the description for task B"
+    },
+    {
+      "categoryIdx": 10,
+      "boardCategory": "todo",
+      "title": "Task C",
+      "description": "This is the description for task C"
+    },
+    {
+      "categoryIdx": 1,
+      "boardCategory": "todo",
+      "title": "Task D",
+      "description": "This is the description for task D"
+    }
+  ]
+}
