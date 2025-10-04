@@ -1,5 +1,5 @@
 {
-  "boardCategories": [
+  "categories": [
     "backlog",
     "todo",
     "today",
@@ -14,7 +14,7 @@
     },
     {
       "categoryIdx": 0,
-      "boardCategory": "backlog",
+      "boardCategory": "todo",
       "title": "Task B",
       "description": "This is the description for task B"
     },
@@ -25,8 +25,8 @@
       "description": "This is the description for task C"
     },
     {
-      "categoryIdx": 1,
-      "boardCategory": "todo",
+      "categoryIdx": 10,
+      "boardCategory": "backlog",
       "title": "Task D",
       "description": "This is the description for task D"
     }

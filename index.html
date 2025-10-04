@@ -1,30 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple kanban board</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple kanban board</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <body>
+    <main>
+      <section class="new-card">
+        <h2>new card</h2>
+        <form name="new-card" target="_self" id="new-card-form">
+          <p>
+            <label for="new-card-title">title: </label>
+            <input type="text" name="title" id="new-card-title" />
+          </p>
+          <p>
+            <label for="new-card-description">description: </label>
+            <textarea
+              name="description"
+              id="new-card-description"
+              cols="40"
+              rows="4"
+            ></textarea>
+          </p>
+          <p>
+            <label for="new-card-category">category: </label>
+            <select name="category" id="new-card-category"></select>
+          </p>
+          <p>
+            <input type="submit" value="add card" />
+          </p>
+        </form>
+      </section>
+      <section id="board"></section>
+    </main>
 
-<body>
-  <main id="board"></main>
+    <template id="column-template">
+      <section class="column">
+        <h2 class="title"></h2>
+        <ol class="card-list"></ol>
+      </section>
+    </template>
 
-  <template id="column-template">
-    <section class="column">
-      <h2 class="title"></h2>
-      <ol class="card-list"></ol>
-    </section>
-  </template>
+    <template id="card-template">
+      <section class="card">
+        <h3 class="title"></h3>
+        <p class="description"></p>
+        <footer>
+          <select name="category" class="category"></select>
+          <button class="delete">delete</button>
+        </footer>
+      </section>
+    </template>
 
-  <template id="card-template">
-    <section class="card">
-      <h3 class="title"></h3>
-      <p class="description"></p>
-    </section>
-  </template>
-
-  <script src="main.js"></script>
-</body>
+    <script src="main.js"></script>
+  </body>
 </html>

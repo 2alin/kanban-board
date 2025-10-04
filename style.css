@@ -1,4 +1,4 @@
-main {
+#board {
   display: flex;
 }
 
@@ -9,4 +9,10 @@ main {
 }
 
 .card-list {
+  padding-left: 1rem;
+}
+
+.card {
+  border: 1px dashed blue;
+  margin: 0.25rem;
 }
