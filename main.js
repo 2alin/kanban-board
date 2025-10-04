@@ -2,6 +2,12 @@ const sampleDataLocation = "./board-sample-data.json";
 const localStorageKey = "boardData";
 let boardData;
 
+const initialLocalData = {
+  version: "0.1",
+  categories: ["backlog", "todo", "today", "done"],
+  entries: [],
+};
+
 /**
  * Retrieves a sample local data that can be used to fill the board
  *
@@ -38,17 +44,6 @@ function getLocalData() {
  */
 function setLocalData(data) {
   localStorage.setItem(localStorageKey, JSON.stringify(data));
-}
-
-/**
- * Sets app initial local data
- */
-function setInitLocalData() {
-  const initData = {
-    categories: ["backlog", "todo", "today", "done"],
-    entries: [],
-  };
-  setLocalData(initData);
 }
 
 function getColumnId(name) {
@@ -234,14 +229,26 @@ function clearForm() {
 }
 
 /**
+ * Migrates olver versions of board data to the newest version
+ */
+function migrateData() {
+  if (!boardData.version) {
+    boardData.version = initialLocalData.version;
+    setLocalData(boardData);
+  }
+}
+
+/**
  * Initializes the main app
  */
 async function initialize() {
   // initialize app memory data
   boardData = getLocalData();
   if (!boardData) {
-    setInitLocalData();
+    setLocalData(initialLocalData);
     boardData = getLocalData();
+  } else if (boardData.version !== initialLocalData.version) {
+    migrateData();
   }
   // const boardData = await getSampleData();
 
