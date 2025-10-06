@@ -16,3 +16,25 @@
   border: 1px dashed blue;
   margin: 0.25rem;
 }
+
+
+footer .import span.success {
+  color: rgb(16, 45, 173);
+}
+
+footer .import span.error {
+  color: rgb(173, 16, 16);
+}
+
+footer .import span.success,
+footer .import span.error {
+  display: none;
+}
+
+footer .import.success span.success {
+  display: initial;
+}
+
+footer .import.error span.error {
+  display: initial;
+}

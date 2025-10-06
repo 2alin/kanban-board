@@ -1,12 +1,9 @@
+import { boardData as defaultBoardData } from "./defaultSettings.js";
+import { parseBoardData } from "./parseBoardData.js";
+
 const sampleDataLocation = "./board-sample-data.json";
 const localStorageKey = "boardData";
 let boardData;
-
-const initialLocalData = {
-  version: "0.1",
-  categories: ["backlog", "todo", "today", "done"],
-  entries: [],
-};
 
 /**
  * Retrieves a sample local data that can be used to fill the board
@@ -98,6 +95,10 @@ function renderCards() {
       addCardToColumn(cardData, columnElement);
     });
   }
+
+  // the content of the board has changed
+  // we shouldn't show a deprecetated download option
+  setDownloadSectionVisibility(false);
 }
 
 /**
@@ -233,9 +234,102 @@ function clearForm() {
  */
 function migrateData() {
   if (!boardData.version) {
-    boardData.version = initialLocalData.version;
+    boardData.version = defaultBoardData.version;
     setLocalData(boardData);
   }
+}
+
+/**
+ * Sets the visibility of the download board data section
+ * and updates its elements accordingly
+ *
+ * @param {boolean} isVisible
+ */
+function setDownloadSectionVisibility(isVisible) {
+  const downloadSection = document.querySelector("span.download");
+
+  if (isVisible) {
+    downloadSection.toggleAttribute("hidden", false);
+  } else {
+    const downloadAnchor = document.querySelector("a.download");
+    downloadAnchor.href = "";
+
+    downloadSection.toggleAttribute("hidden", true);
+  }
+}
+
+/**
+ * Handles the event when the export button is clicked
+ */
+function handleExportButtonClick() {
+  const downloadAnchor = document.querySelector("a.download");
+  const blob = new Blob([JSON.stringify(boardData, null, 2)], {
+    type: "application/json",
+  });
+  downloadAnchor.href = URL.createObjectURL(blob);
+  const dateID = new Date().toISOString();
+  downloadAnchor.download = `board-${dateID}.json`;
+
+  setDownloadSectionVisibility(true);
+}
+
+async function handleLoadFileEvent() {
+  const loadButton = document.querySelector("#load-selected-button");
+  const importFileInput = document.querySelector("#import-file");
+  const [file] = importFileInput.files;
+
+  if (!file) {
+    console.error("[load-file]: No import file selected");
+    return;
+  }
+
+  const textData = await file.text();
+  const jsonData = JSON.parse(textData);
+
+  let success = false;
+  const oldBoardData = JSON.parse(JSON.stringify(boardData));
+  try {
+    boardData = parseBoardData(jsonData);
+    initializeForm();
+    renderBoard();
+    setLocalData(boardData);
+    success = true;
+  } catch (error) {
+    console.error("[load-file]: Error while trying to parse the data");
+    console.error(error);
+    boardData = JSON.parse(JSON.stringify(oldBoardData));
+    initializeForm();
+    renderBoard();
+    setLocalData(boardData);
+  }
+
+  // clearing file import section
+  importFileInput.value = null;
+  loadButton.toggleAttribute("hidden", true);
+  const importSection = document.querySelector("footer .import");
+  if (success) {
+    importSection.classList.toggle("success", true);
+  } else {
+    importSection.classList.toggle("error", true);
+  }
+  // success & error messages are only temporally visible
+  setTimeout(() => {
+    importSection.classList.toggle("success", false);
+    importSection.classList.toggle("error", false);
+  }, 3 * 1000);
+}
+
+/**
+ * Handles the event when the user has selected a file
+ * in the import input element
+ */
+function handleImportFileChange() {
+  const loadButton = document.querySelector("#load-selected-button");
+  loadButton.toggleAttribute("hidden", false);
+
+  const importSection = document.querySelector("footer .import");
+  importSection.classList.toggle("success", false);
+  importSection.classList.toggle("error", false);
 }
 
 /**
@@ -245,15 +339,23 @@ async function initialize() {
   // initialize app memory data
   boardData = getLocalData();
   if (!boardData) {
-    setLocalData(initialLocalData);
+    setLocalData(defaultBoardData);
     boardData = getLocalData();
-  } else if (boardData.version !== initialLocalData.version) {
+  } else if (boardData.version !== defaultBoardData.version) {
     migrateData();
   }
   // const boardData = await getSampleData();
 
   initializeForm();
   renderBoard();
+
+  // app event listeners
+  const exportButton = document.querySelector("#export-button");
+  exportButton.addEventListener("click", handleExportButtonClick);
+  const importFileInput = document.querySelector("#import-file");
+  importFileInput.addEventListener("change", handleImportFileChange);
+  const loadSelectedButton = document.querySelector("#load-selected-button");
+  loadSelectedButton.addEventListener("click", handleLoadFileEvent);
 }
 
 initialize();
