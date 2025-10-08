@@ -63,11 +63,15 @@
 
     <template id="card-template">
       <section class="card">
-        <h3 class="title"></h3>
+        <header>
+          <h3 class="title"></h3>
+          <button class="delete" aria-describedby="deletes card">
+            <span class="icon"></span>
+          </button>
+        </header>
         <p class="description"></p>
         <footer>
           <select name="category" class="category"></select>
-          <button class="delete">delete</button>
         </footer>
       </section>
     </template>
