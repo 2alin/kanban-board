@@ -5,6 +5,10 @@ const sampleDataLocation = "./board-sample-data.json";
 const localStorageKey = "boardData";
 let boardData;
 
+const themeStorageKey = "theme";
+const validThemes = ["blackwhite", "color-1", "color-am-1", "color-am-2"];
+const defaultTheme = validThemes[1];
+
 /**
  * Retrieves a sample local data that can be used to fill the board
  *
@@ -43,6 +47,29 @@ function setLocalData(data) {
   localStorage.setItem(localStorageKey, JSON.stringify(data));
 }
 
+/**
+ * Retrieves the theme locally stored
+ */
+function getStoredTheme() {
+  const storedTheme = localStorage.getItem(themeStorageKey);
+  return storedTheme;
+}
+
+/**
+ * Sets the theme in local storage
+ *
+ * @param {string} theme
+ */
+function storeTheme(theme) {
+  localStorage.setItem(themeStorageKey, theme);
+}
+
+/**
+ * Gets the column ID in the right format
+ *
+ * @param {string} name
+ * @returns
+ */
 function getColumnId(name) {
   return "column-" + name;
 }
@@ -345,9 +372,42 @@ function handleImportFileChange() {
 }
 
 /**
+ * Initializes the selected theme and theme selectors
+ */
+function initializeTheme() {
+  let theme = getStoredTheme();
+  if (!validThemes.includes(theme)) {
+    theme = defaultTheme;
+    storeTheme(theme);
+  }
+  document.body.dataset.theme = theme;
+
+  // initializes theme selectors
+
+  const container = document.querySelector("section.theme-selector");
+  const template = container.querySelector("template");
+  for (const theme of validThemes) {
+    const themeSelectorFragment = template.content.cloneNode(true);
+    const themeSelector = themeSelectorFragment.querySelector("button");
+    themeSelector.dataset.theme = theme;
+
+    themeSelector.addEventListener("click", (event) => {
+      const { target } = event;
+      const { theme: themeSelected } = target.closest("[data-theme]").dataset;
+      document.body.dataset.theme = themeSelected;
+      storeTheme(themeSelected);
+    });
+
+    container.appendChild(themeSelectorFragment);
+  }
+}
+
+/**
  * Initializes the main app
  */
 async function initialize() {
+  initializeTheme();
+
   // initialize app memory data
   boardData = getLocalData();
   if (!boardData) {

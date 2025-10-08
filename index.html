@@ -10,7 +10,9 @@
   <body>
     <main>
       <header>
-        <button id="new-card-button"><span class="icon"></span></button>
+        <section>
+          <button id="new-card-button"><span class="icon"></span></button>
+        </section>
       </header>
       <section id="board"></section>
 
@@ -51,6 +53,17 @@
             >Your board data is ready to
             <a href="" class="download">download</a></span
           >
+        </section>
+        <section class="theme-selector">
+          <span>Theme: </span>
+          <template>
+            <button data-theme="">
+              <span class="color-sample"></span>
+              <span class="color-sample"></span>
+              <span class="color-sample"></span>
+              <span class="color-sample"></span>
+            </button>
+          </template>
         </section>
       </footer>
     </main>
