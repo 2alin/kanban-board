@@ -218,6 +218,18 @@ function initializeForm() {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     handleAddCardEvent(event);
+    document.body.classList.toggle("new-card", false);
+  });
+
+  const submitButton = document.querySelector("#submit-card-button");
+  submitButton.addEventListener("click", () => {
+    form.requestSubmit();
+  });
+
+  const cancelButton = document.querySelector("#cancel-new-card-button");
+  cancelButton.addEventListener("click", () => {
+    document.body.classList.toggle("new-card", false);
+    clearForm();
   });
 }
 
@@ -349,11 +361,21 @@ async function initialize() {
   initializeForm();
   renderBoard();
 
+  // -------------------
   // app event listeners
+  // -------------------
+
+  const newCardButton = document.querySelector("#new-card-button");
+  newCardButton.addEventListener("click", () => {
+    document.body.classList.toggle("new-card", true);
+  });
+
   const exportButton = document.querySelector("#export-button");
   exportButton.addEventListener("click", handleExportButtonClick);
+
   const importFileInput = document.querySelector("#import-file");
   importFileInput.addEventListener("change", handleImportFileChange);
+
   const loadSelectedButton = document.querySelector("#load-selected-button");
   loadSelectedButton.addEventListener("click", handleLoadFileEvent);
 }

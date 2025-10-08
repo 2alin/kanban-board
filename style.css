@@ -6,6 +6,14 @@
   --card-text-color: #fff;
 }
 
+/* CUSTOM STYLE FOR IN-BUILT ELEMENTS */
+
+button:hover {
+  opacity: 0.75;
+}
+
+/* MAIN CONTAINERS */
+
 main {
   display: flex;
   flex-direction: column;
@@ -16,6 +24,32 @@ main {
 
 #board {
   display: flex;
+  margin: 1rem 0;
+}
+
+@media screen and (width <= 860px) {
+  #board {
+    flex-direction: column;
+  }
+}
+
+#new-card-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 4px;
+  padding: 0.25rem;
+  display: flex;
+  background-color: var(--column-bg-color);
+}
+
+#new-card-button .icon {
+  width: 100%;
+  height: 100%;
+  mask-image: url("./icons/add.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  background-color: var(--card-bg-color);
 }
 
 /* COLUMNS STYLE */
@@ -29,6 +63,17 @@ main {
 
 .column:first-child {
   margin-left: 0rem;
+}
+
+@media screen and (width <= 860px) {
+  .column {
+    margin-left: 0;
+    margin-top: 1.75rem;
+  }
+
+  .column:first-child {
+    margin-top: 0rem;
+  }
 }
 
 .column > .title {
@@ -75,11 +120,7 @@ main {
   border-radius: 4px;
   padding: 0.25rem;
   display: flex;
-  background-color: var(--column-bg-color);
-}
-
-.card button.delete:hover {
-  opacity: 0.75;
+  background-color: var(--card-text-color);
 }
 
 .card .icon {
@@ -92,7 +133,96 @@ main {
 }
 
 .card select {
-  background-color: var(--column-bg-color);
+  background-color: var(--card-text-color);
+  color: var(--card-bg-color);
+  border: 0;
+  border-radius: 4px;
+  padding: 0.2rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+/* ------------- */
+/*   NEW CARD    */
+/* ------------- */
+
+body.new-card .modal.new-card {
+  display: flex;
+}
+
+.modal.new-card {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--card-text-color);
+  z-index: 100;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.new-card .form.container {
+  width: 640px;
+  background-color: var(--card-bg-color);
+  padding: 1rem;
+  color: var(--card-text-color);
+}
+
+.new-card .title {
+  margin: 1rem 0;
+}
+
+.new-card form {
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr, 2fr;
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 0.5rem 1rem;
+}
+
+.new-card form label {
+  grid-column: 1;
+  justify-self: end;
+  align-self: center;
+}
+
+.new-card form label + * {
+  grid-column: 2;
+  justify-self: start;
+  align-self: center;
+  color: var(--card-bg-color);
+  font-weight: 600;
+}
+
+.new-card form input[type="text"] {
+  justify-self: auto;
+  padding: 0.25rem;
+}
+
+.new-card form textarea {
+  justify-self: auto;
+  resize: none;
+  padding: 0.25rem;
+}
+
+.new-card form select {
+  background-color: var(--card-text-color);
+  border: 0;
+  border-radius: 4px;
+  padding: 0.2rem;
+  font-size: 0.85rem;
+}
+
+.new-card footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-card footer button {
+  background-color: var(--card-text-color);
   color: var(--card-bg-color);
   border: 0;
   border-radius: 4px;

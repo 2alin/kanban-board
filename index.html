@@ -9,32 +9,33 @@
 
   <body>
     <main>
-      <section class="new-card">
-        <h2>new card</h2>
-        <form name="new-card" target="_self" id="new-card-form">
-          <p>
-            <label for="new-card-title">title: </label>
-            <input type="text" name="title" id="new-card-title" />
-          </p>
-          <p>
-            <label for="new-card-description">description: </label>
+      <header>
+        <button id="new-card-button"><span class="icon"></span></button>
+      </header>
+      <section id="board"></section>
+
+      <aside class="modal new-card">
+        <section class="form container">
+          <h2 class="title">New card</h2>
+          <form name="new-card" target="_self" id="new-card-form">
+            <label for="new-card-title">Title: </label>
+            <input type="text" name="title" id="new-card-title" required />
+            <label for="new-card-description">Description: </label>
             <textarea
               name="description"
               id="new-card-description"
               cols="40"
               rows="4"
             ></textarea>
-          </p>
-          <p>
-            <label for="new-card-category">category: </label>
+            <label for="new-card-category">Category: </label>
             <select name="category" id="new-card-category"></select>
-          </p>
-          <p>
-            <input type="submit" value="add card" />
-          </p>
-        </form>
-      </section>
-      <section id="board"></section>
+          </form>
+          <footer>
+            <button id="cancel-new-card-button">cancel</button>
+            <button id="submit-card-button">add card</button>
+          </footer>
+        </section>
+      </aside>
     </main>
     <footer>
       <section class="import">
