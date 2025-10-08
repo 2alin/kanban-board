@@ -13,10 +13,10 @@ body[data-theme="color-1"],
 
 body[data-theme="blackwhite"],
 .theme-selector button[data-theme="blackwhite"] {
-  --column-bg-color: #adadad;
+  --column-bg-color: #dadada;
   --column-text-color: #000000;
-  --card-bg-color: #ffffff;
-  --card-text-color: #000000;
+  --card-bg-color: #3d3d3d;
+  --card-text-color: #ffffff;
 }
 
 body[data-theme="color-am-1"],
