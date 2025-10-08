@@ -231,7 +231,32 @@ body.new-card .modal.new-card {
   font-weight: 600;
 }
 
+/* --------------------- */
 /* IMPORT & EXPORT STYLE */
+/* --------------------- */
+
+main > footer {
+  margin-top: 1rem;
+  padding: 0 1rem;
+  background-color: var(--column-bg-color);
+  color: var(--column-text-color);
+}
+
+main > footer section {
+  margin: 1rem 0;
+}
+
+main > footer button,
+main > footer input {
+  margin: 0 0.5rem;
+  background-color: var(--card-text-color);
+  color: var(--card-bg-color);
+  border: 0;
+  border-radius: 4px;
+  padding: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
 
 footer .import span.success {
   color: rgb(16, 45, 173);
