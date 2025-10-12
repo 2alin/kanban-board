@@ -1,11 +1,11 @@
+import { addCardToColumn } from "./card.jsx";
 import { boardData as defaultBoardData } from "./defaultSettings.js";
 import { parseBoardData } from "./parseBoardData.js";
+import localStorage from "./localStorage.js";
 
 const sampleDataLocation = "./board-sample-data.json";
-const localStorageKey = "boardData";
 let boardData;
 
-const themeStorageKey = "theme";
 const validThemes = ["blackwhite", "color-1", "color-am-1", "color-am-2"];
 const defaultTheme = validThemes[1];
 
@@ -18,50 +18,6 @@ async function getSampleData() {
   const rawData = await fetch(sampleDataLocation);
   const jsonData = await rawData.json();
   return jsonData;
-}
-
-/**
- * Gets the app data stored locally
- *
- * @returns the app data stored locally as an object
- */
-function getLocalData() {
-  const localDataRaw = localStorage.getItem(localStorageKey);
-  let localData;
-  try {
-    localData = JSON.parse(localDataRaw);
-  } catch (error) {
-    // there's possibilities that the data stored can't be parsed
-    // fall back to a safe value that can be used for initialization
-    localData = null;
-  }
-  return localData;
-}
-
-/**
- * Stores locally the app data as a stringified object
- *
- * @param {object} data the app data to be stored
- */
-function setLocalData(data) {
-  localStorage.setItem(localStorageKey, JSON.stringify(data));
-}
-
-/**
- * Retrieves the theme locally stored
- */
-function getStoredTheme() {
-  const storedTheme = localStorage.getItem(themeStorageKey);
-  return storedTheme;
-}
-
-/**
- * Sets the theme in local storage
- *
- * @param {string} theme
- */
-function storeTheme(theme) {
-  localStorage.setItem(themeStorageKey, theme);
 }
 
 /**
@@ -105,7 +61,8 @@ function renderCards() {
   const entries = boardData.entries;
 
   for (const columnName of columnNames) {
-    const columnElement = document.querySelector("#" + getColumnId(columnName));
+    const columnId = getColumnId(columnName);
+    const columnElement = document.querySelector("#" + columnId);
     const listElement = columnElement.querySelector(".card-list");
     listElement.innerHTML = "";
 
@@ -119,7 +76,7 @@ function renderCards() {
     columnEntries.sort((a, b) => b.categoryIdx - a.categoryIdx);
 
     columnEntries.forEach((cardData) => {
-      addCardToColumn(cardData, columnElement);
+      addCardToColumn(cardData, columnId, boardData.categories);
     });
   }
 
@@ -129,72 +86,31 @@ function renderCards() {
 }
 
 /**
- * Adds a card to the specific column with the data given
+ * Handles delete card events
  *
- * @param {object} cardData
- * @param {HTMLElement} columnElement
+ * @param {string} cardTitle - Title of the card to delete
  */
-function addCardToColumn(cardData, columnElement) {
-  const cardTemplate = document.querySelector("#card-template");
-  const listElement = columnElement.querySelector(".card-list");
-
-  const listItemElement = document.createElement("li");
-  const cardFragment = cardTemplate.content.cloneNode(true);
-
-  // filling content
-  const titleElement = cardFragment.querySelector(".title");
-  const descriptionElement = cardFragment.querySelector(".description");
-  const categoryElement = cardFragment.querySelector(".category");
-  titleElement.textContent = cardData.title;
-  descriptionElement.textContent = cardData.description;
-  boardData.categories.forEach((category) => {
-    const optionElement = document.createElement("option");
-    optionElement.value = category;
-    optionElement.textContent = category;
-    categoryElement.appendChild(optionElement);
-  });
-  categoryElement.value = cardData.category;
-
-  // adding card metadata
-  const cardElement = cardFragment.querySelector(".card");
-  cardElement.dataset.title = cardData.title;
-
-  // event listeners
-  const deleteButton = cardFragment.querySelector(".delete");
-  deleteButton.addEventListener("click", handleDeleteCardEvent);
-  categoryElement.addEventListener("change", handleCategoryChangeEvent);
-
-  listItemElement.appendChild(cardFragment);
-  listElement.appendChild(listItemElement);
-}
-
-/**
- * Handles click events on the delete button of a card
- *
- * @param {Event} event
- */
-function handleDeleteCardEvent(event) {
-  const cardElement = event.target.closest(".card");
-  const cardTitle = cardElement.dataset.title;
-
+function handleDeleteCardEvent(cardTitle) {
   boardData.entries = boardData.entries.filter(
     (entry) => entry.title !== cardTitle
   );
-  setLocalData(boardData);
+  localStorage.board.set(boardData);
   renderCards();
 }
 
-function handleCategoryChangeEvent(event) {
-  const newCategory = event.target.value;
-  const cardElement = event.target.closest(".card");
-  const cardTitle = cardElement.dataset.title;
-
+/**
+ * Handles category change events of a card
+ *
+ * @param {string} cardTitle - Title of the card to delete
+ * @param {string} newCategory - new category selected for the card
+ */
+function handleCategoryChangeEvent(cardTitle, newCategory) {
   const cardIndex = boardData.entries.findIndex(
     (entry) => entry.title === cardTitle
   );
   boardData.entries[cardIndex].category = newCategory;
 
-  setLocalData(boardData);
+  localStorage.board.set(boardData);
   renderCards();
 }
 
@@ -221,7 +137,7 @@ function handleAddCardEvent(event) {
   };
 
   boardData.entries.push(newCard);
-  setLocalData(boardData);
+  localStorage.board.set(boardData);
   renderBoard();
 
   clearForm();
@@ -274,7 +190,7 @@ function clearForm() {
 function migrateData() {
   if (!boardData.version) {
     boardData.version = defaultBoardData.version;
-    setLocalData(boardData);
+    localStorage.board.set(boardData);
   }
 }
 
@@ -331,7 +247,7 @@ async function handleLoadFileEvent() {
     boardData = parseBoardData(jsonData);
     initializeForm();
     renderBoard();
-    setLocalData(boardData);
+    localStorage.board.set(boardData);
     success = true;
   } catch (error) {
     console.error("[load-file]: Error while trying to parse the data");
@@ -339,7 +255,7 @@ async function handleLoadFileEvent() {
     boardData = JSON.parse(JSON.stringify(oldBoardData));
     initializeForm();
     renderBoard();
-    setLocalData(boardData);
+    localStorage.board.set(boardData);
   }
 
   // clearing file import section
@@ -375,10 +291,10 @@ function handleImportFileChange() {
  * Initializes the selected theme and theme selectors
  */
 function initializeTheme() {
-  let theme = getStoredTheme();
+  let theme = localStorage.theme.get();
   if (!validThemes.includes(theme)) {
     theme = defaultTheme;
-    storeTheme(theme);
+    localStorage.theme.set(theme);
   }
   document.body.dataset.theme = theme;
 
@@ -395,7 +311,7 @@ function initializeTheme() {
       const { target } = event;
       const { theme: themeSelected } = target.closest("[data-theme]").dataset;
       document.body.dataset.theme = themeSelected;
-      storeTheme(themeSelected);
+      localStorage.theme.set(themeSelected);
     });
 
     container.appendChild(themeSelectorFragment);
@@ -409,10 +325,10 @@ async function initialize() {
   initializeTheme();
 
   // initialize app memory data
-  boardData = getLocalData();
+  boardData = localStorage.board.get();
   if (!boardData) {
-    setLocalData(defaultBoardData);
-    boardData = getLocalData();
+    localStorage.board.set(defaultBoardData);
+    boardData = localStorage.board.get();
   } else if (boardData.version !== defaultBoardData.version) {
     migrateData();
   }
@@ -428,6 +344,14 @@ async function initialize() {
   const newCardButton = document.querySelector("#new-card-button");
   newCardButton.addEventListener("click", () => {
     document.body.classList.toggle("new-card", true);
+  });
+
+  document.addEventListener("card.delete", ({ detail }) => {
+    handleDeleteCardEvent(detail.title);
+  });
+
+  document.addEventListener("card.category.change", ({ detail }) => {
+    handleCategoryChangeEvent(detail.title, detail.newCategory);
   });
 
   const exportButton = document.querySelector("#export-button");
