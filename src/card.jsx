@@ -1,6 +1,9 @@
-import { createRoot } from "react-dom/client";
-
-function Card({ title, description, category, boardCategories }) {
+export default function Card({
+  title,
+  description,
+  category,
+  boardCategories,
+}) {
   function handleDelete() {
     document.dispatchEvent(
       new CustomEvent("card.delete", { detail: { title } })
@@ -44,29 +47,4 @@ function Card({ title, description, category, boardCategories }) {
       </footer>
     </section>
   );
-}
-
-/**
- * Adds a card to the specific column with the data given
- *
- * @param {object} cardData - card data
- * @param {text} columnnId - ID of the column where the card will be added
- * @param {Array[text]} boardCategories - categories defined in the board
- */
-export function addCardToColumn(cardData, columnId, boardCategories) {
-  const columnElement = document.getElementById(columnId);
-  const listElement = columnElement.querySelector(".card-list");
-
-  const listItemElement = document.createElement("li");
-  const cardRoot = createRoot(listItemElement);
-  cardRoot.render(
-    <Card
-      title={cardData.title}
-      description={cardData.description}
-      category={cardData.category}
-      boardCategories={boardCategories}
-    />
-  );
-
-  listElement.appendChild(listItemElement);
 }
