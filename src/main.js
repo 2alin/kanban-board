@@ -1,7 +1,8 @@
-import { boardData as defaultBoardData } from "./defaultSettings.js";
-import { parseBoardData } from "./parseBoardData.js";
-import localStorage from "./localStorage.js";
 import { renderBoard, initialize as initializeBoard } from "./board.jsx";
+import { boardData as defaultBoardData } from "./defaultSettings.js";
+import localStorage from "./localStorage.js";
+import { initialize as initializeNewCardModal } from "./newCardModal.jsx";
+import { parseBoardData } from "./parseBoardData.js";
 
 let boardData;
 
@@ -9,13 +10,35 @@ const validThemes = ["blackwhite", "color-1", "color-am-1", "color-am-2"];
 const defaultTheme = validThemes[1];
 
 /**
+ * Handles add card events
+ *
+ * @param {object} cardData - Data of the card to add
+ * @param {string} cardData.title - Title of the card
+ * @param {string} cardData.description - Description of the card
+ * @param {string} cardData.category - Category/column where the card belongs
+ */
+
+function handleAddCardEvent(cardData) {
+  const newCard = {
+    categoryIdx: 0,
+    title: cardData.title,
+    description: cardData.description,
+    category: cardData.category,
+  };
+
+  boardData.entries.push(newCard);
+  localStorage.board.set(boardData);
+  updateBoard();
+}
+
+/**
  * Handles delete card events
  *
- * @param {string} cardTitle - Title of the card to delete
+ * @param {string} title - Title of the card to delete
  */
-function handleDeleteCardEvent(cardTitle) {
+function handleDeleteCardEvent(title) {
   boardData.entries = boardData.entries.filter(
-    (entry) => entry.title !== cardTitle
+    (entry) => entry.title !== title
   );
   localStorage.board.set(boardData);
   updateBoard();
@@ -24,12 +47,12 @@ function handleDeleteCardEvent(cardTitle) {
 /**
  * Handles category change events of a card
  *
- * @param {string} cardTitle - Title of the card to delete
+ * @param {string} title - Title of the card to delete
  * @param {string} newCategory - new category selected for the card
  */
-function handleCategoryChangeEvent(cardTitle, newCategory) {
+function handleCategoryChangeEvent(title, newCategory) {
   const cardIndex = boardData.entries.findIndex(
-    (entry) => entry.title === cardTitle
+    (entry) => entry.title === title
   );
   boardData.entries[cardIndex].category = newCategory;
 
@@ -45,68 +68,6 @@ function updateBoard() {
   // the content of the board has changed
   // we shouldn't show a deprecetated download option
   setDownloadSectionVisibility(false);
-}
-
-/**
- * Handles the submition of new cards
- *
- * @param {SubmitEvent} event
- */
-function handleAddCardEvent(event) {
-  const formData = new FormData(event.target);
-  const newCard = {
-    categoryIdx: 0,
-    category: formData.get("category"),
-    title: formData.get("title"),
-    description: formData.get("description"),
-  };
-
-  boardData.entries.push(newCard);
-  localStorage.board.set(boardData);
-  updateBoard();
-
-  clearForm();
-}
-
-/**
- * Initializes layout, data and event handlers in the form
- */
-function initializeForm() {
-  const form = document.querySelector("#new-card-form");
-
-  const selectElement = document.querySelector("#new-card-category");
-  boardData.categories.forEach((category) => {
-    const optionElement = document.createElement("option");
-    optionElement.value = category;
-    optionElement.textContent = category;
-
-    selectElement.appendChild(optionElement);
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    handleAddCardEvent(event);
-    document.body.classList.toggle("new-card", false);
-  });
-
-  const submitButton = document.querySelector("#submit-card-button");
-  submitButton.addEventListener("click", () => {
-    form.requestSubmit();
-  });
-
-  const cancelButton = document.querySelector("#cancel-new-card-button");
-  cancelButton.addEventListener("click", () => {
-    document.body.classList.toggle("new-card", false);
-    clearForm();
-  });
-}
-
-/**
- * Clear forms data
- */
-function clearForm() {
-  const form = document.querySelector("#new-card-form");
-  form.reset();
 }
 
 /**
@@ -170,7 +131,6 @@ async function handleLoadFileEvent() {
   const oldBoardData = JSON.parse(JSON.stringify(boardData));
   try {
     boardData = parseBoardData(jsonData);
-    initializeForm();
     updateBoard();
     localStorage.board.set(boardData);
     success = true;
@@ -178,7 +138,6 @@ async function handleLoadFileEvent() {
     console.error("[load-file]: Error while trying to parse the data");
     console.error(error);
     boardData = JSON.parse(JSON.stringify(oldBoardData));
-    initializeForm();
     updateBoard();
     localStorage.board.set(boardData);
   }
@@ -259,7 +218,7 @@ async function initialize() {
   }
   // const boardData = await getSampleData();
 
-  initializeForm();
+  initializeNewCardModal(boardData.categories);
   initializeBoard();
   updateBoard();
 
@@ -270,6 +229,10 @@ async function initialize() {
   const newCardButton = document.querySelector("#new-card-button");
   newCardButton.addEventListener("click", () => {
     document.body.classList.toggle("new-card", true);
+  });
+
+  document.addEventListener("card.add", ({ detail }) => {
+    handleAddCardEvent(detail.cardData);
   });
 
   document.addEventListener("card.delete", ({ detail }) => {

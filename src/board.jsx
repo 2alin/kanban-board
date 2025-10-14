@@ -25,10 +25,10 @@ function Board({ categories, entries }) {
 }
 
 export function renderBoard({ categories, entries }) {
-  boardRoot.render(<Board categories={categories} entries={entries} />);
+  boardRoot.render(<Board {...{ categories, entries }} />);
 }
 
 export function initialize() {
   const boardElement = document.getElementById("board");
-  boardRoot = createRoot(boardElement); 
+  boardRoot = createRoot(boardElement);
 }
