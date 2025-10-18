@@ -1,21 +1,24 @@
 export default function Card({
+  categoryIdx,
   title,
   description,
   category,
   boardCategories,
+  deleteCard,
+  updateCard,
 }) {
   function handleDelete() {
-    document.dispatchEvent(
-      new CustomEvent("card.delete", { detail: { title } })
-    );
+    deleteCard(title);
   }
 
   function handleCategoryChange(event) {
-    document.dispatchEvent(
-      new CustomEvent("card.category.change", {
-        detail: { title, newCategory: event.target.value },
-      })
-    );
+    const newCategory = event.target.value;
+    updateCard(title, {
+      categoryIdx,
+      title,
+      description,
+      category: newCategory,
+    });
   }
 
   return (
@@ -35,7 +38,7 @@ export default function Card({
         <select
           name="category"
           className="category"
-          defaultValue={category}
+          value={category}
           onChange={handleCategoryChange}
         >
           {boardCategories.map((boardCategory) => (

@@ -8,45 +8,8 @@
   </head>
 
   <body>
-    <main>
-      <header>
-        <section>
-          <button id="new-card-button"><span class="icon"></span></button>
-        </section>
-      </header>
-
-      <section id="board"></section>
-
-      <aside class="modal new-card"></aside>
-      <footer>
-        <section class="import">
-          <span>Import board data: </span>
-          <input type="file" name="import-file" id="import-file" />
-          <button id="load-selected-button" hidden>Load selected data</button>
-          <span class="success">Board data loaded succcesfully!</span>
-          <span class="error">Error while loading board data!</span>
-        </section>
-        <section class="export">
-          <span>Export board data: </span>
-          <button id="export-button">export</button>
-          <span class="download" hidden
-            >Your board data is ready to
-            <a href="" class="download">download</a></span
-          >
-        </section>
-        <section class="theme-selector">
-          <span>Theme: </span>
-          <template>
-            <button data-theme="">
-              <span class="color-sample"></span>
-              <span class="color-sample"></span>
-              <span class="color-sample"></span>
-              <span class="color-sample"></span>
-            </button>
-          </template>
-        </section>
-      </footer>
+    <main id="root">
     </main>
-    <script src="main.js" type="module"></script>
+    <script src="main.jsx" type="module"></script>
   </body>
 </html>

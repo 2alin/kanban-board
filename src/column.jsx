@@ -10,8 +10,13 @@ export function getColumnId(name) {
   return "column-" + name;
 }
 
-
-export default function Column({ title, cards, boardCategories }) {
+export default function Column({
+  title,
+  cards,
+  boardCategories,
+  deleteCard,
+  updateCard,
+}) {
   const sortedCards = cards.toSorted((a, b) => b.categoryIdx - a.categoryIdx);
 
   return (
@@ -21,10 +26,11 @@ export default function Column({ title, cards, boardCategories }) {
         {sortedCards.map((card) => (
           <li key={card.title}>
             <Card
+              categoryIdx={card.categoryIdx}
               title={card.title}
               description={card.description}
               category={card.category}
-              boardCategories={boardCategories}
+              {...{ boardCategories, deleteCard, updateCard }}
             />
           </li>
         ))}

@@ -9,25 +9,25 @@
   "entries": [
     {
       "categoryIdx": 1,
-      "boardCategory": "backlog",
+      "category": "backlog",
       "title": "Task A",
       "description": "This is the description for task A"
     },
     {
       "categoryIdx": 0,
-      "boardCategory": "todo",
+      "category": "todo",
       "title": "Task B",
       "description": "This is the description for task B"
     },
     {
       "categoryIdx": 10,
-      "boardCategory": "todo",
+      "category": "todo",
       "title": "Task C",
       "description": "This is the description for task C"
     },
     {
       "categoryIdx": 10,
-      "boardCategory": "backlog",
+      "category": "backlog",
       "title": "Task D",
       "description": "This is the description for task D"
     }

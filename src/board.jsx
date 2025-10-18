@@ -3,24 +3,25 @@ import Column from "./column";
 
 let boardRoot = null;
 
-function Board({ categories, entries }) {
+export function Board({ categories, cards, deleteCard, updateCard }) {
   return (
-    // TODO: replace this fragment by a section with "board" id
-    // once we've moved up with react components
-    <>
+    <section id="board">
       {categories.map((category) => {
-        const cards = entries.filter((entry) => entry.category === category);
+        const categoryCards = cards.filter(
+          (entry) => entry.category === category
+        );
 
         return (
           <Column
             key={category}
             title={category}
-            cards={cards}
+            cards={categoryCards}
             boardCategories={categories}
+            {...{ deleteCard, updateCard }}
           />
         );
       })}
-    </>
+    </section>
   );
 }
 

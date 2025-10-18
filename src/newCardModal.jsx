@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 
-export default function NewCardModal({ boardCategories }) {
+export default function NewCardModal({ categories, addCard }) {
   const newCardFormID = "new-card-form";
 
   function clearForm() {
@@ -10,7 +10,6 @@ export default function NewCardModal({ boardCategories }) {
 
   function handleSubmitButtonClick() {
     const form = document.getElementById(newCardFormID);
-    console.log("FORM", form);
     form.requestSubmit();
   }
 
@@ -28,18 +27,15 @@ export default function NewCardModal({ boardCategories }) {
       title: formData.get("title"),
       description: formData.get("description"),
     };
-    document.dispatchEvent(
-      new CustomEvent("card.add", { detail: { cardData } })
-    );
+
+    addCard(cardData);
 
     document.body.classList.toggle("new-card", false);
     clearForm();
   }
 
   return (
-    // TODO: replace this fragment by its aside element container
-    // once we've moved up with react componentsi the DOM tree
-    <>
+    <aside className="modal new-card">
       <section className="form container">
         <h2 className="title">New card</h2>
         <form
@@ -59,7 +55,7 @@ export default function NewCardModal({ boardCategories }) {
           ></textarea>
           <label htmlFor="new-card-category">Category: </label>
           <select name="category" id="new-card-category">
-            {boardCategories.map((category) => (
+            {categories.map((category) => (
               <option value={category} key={category}>
                 {category}
               </option>
@@ -75,13 +71,13 @@ export default function NewCardModal({ boardCategories }) {
           </button>
         </footer>
       </section>
-    </>
+    </aside>
   );
 }
 
-export function initialize(boardCategories) {
+export function initialize(categories) {
   // TODO: change selector to an ID to make it less ambiguous
   const newCardModalElement = document.querySelector("aside.modal.new-card");
   const newCardModalRoot = createRoot(newCardModalElement);
-  newCardModalRoot.render(<NewCardModal {...{ boardCategories }} />);
+  newCardModalRoot.render(<NewCardModal {...{ categories }} />);
 }
