@@ -1,11 +1,13 @@
 import { createRoot } from "react-dom/client";
+
 import {
   boardData as defaultBoardData,
   defaultTheme,
   validThemes,
 } from "./defaultSettings.js";
 import storage from "./storage.js";
-import App from "./app.jsx";
+
+import App from "./components/app";
 
 /**
  * Migrates olver versions of board data to the newest version

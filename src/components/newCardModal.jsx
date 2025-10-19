@@ -1,5 +1,3 @@
-import { createRoot } from "react-dom/client";
-
 export default function NewCardModal({ categories, addCard }) {
   const newCardFormID = "new-card-form";
 
@@ -73,11 +71,4 @@ export default function NewCardModal({ categories, addCard }) {
       </section>
     </aside>
   );
-}
-
-export function initialize(categories) {
-  // TODO: change selector to an ID to make it less ambiguous
-  const newCardModalElement = document.querySelector("aside.modal.new-card");
-  const newCardModalRoot = createRoot(newCardModalElement);
-  newCardModalRoot.render(<NewCardModal {...{ categories }} />);
 }

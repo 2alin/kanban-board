@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { parseBoardData } from "./parseBoardData";
-import storage from "./storage";
+
+import { parseBoardData } from "../parseBoardData";
+import storage from "../storage";
 
 const messageClassNames = {
   none: "",
@@ -13,8 +14,6 @@ export default function Import({ setCategories, setCards }) {
   const [messageClassToShow, setMessageClassToShow] = useState(
     messageClassNames.none
   );
-
-  console.log("isFileSelected", isFileSelected);
 
   function handleImportFileChange(event) {
     const [file] = event.target.files;

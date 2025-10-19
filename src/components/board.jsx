@@ -1,9 +1,6 @@
-import { createRoot } from "react-dom/client";
 import Column from "./column";
 
-let boardRoot = null;
-
-export function Board({ categories, cards, deleteCard, updateCard }) {
+export default function Board({ categories, cards, deleteCard, updateCard }) {
   return (
     <section id="board">
       {categories.map((category) => {
@@ -23,13 +20,4 @@ export function Board({ categories, cards, deleteCard, updateCard }) {
       })}
     </section>
   );
-}
-
-export function renderBoard({ categories, entries }) {
-  boardRoot.render(<Board {...{ categories, entries }} />);
-}
-
-export function initialize() {
-  const boardElement = document.getElementById("board");
-  boardRoot = createRoot(boardElement);
 }

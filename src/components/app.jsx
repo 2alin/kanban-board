@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Board } from "./board";
-import storage from "./storage";
-import NewCardModal from "./newCardModal";
-import { validThemes } from "./defaultSettings";
+
+import { validThemes } from "../defaultSettings";
+import storage from "../storage";
+
+import Board from "./board";
 import Import from "./import";
+import NewCardModal from "./newCardModal";
 
 function getThemeSelector(theme, handleThemeSelection) {
   return (
