@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Board } from "./board";
 import storage from "./storage";
 import NewCardModal from "./newCardModal";
-import { parseBoardData } from "./parseBoardData";
 import { validThemes } from "./defaultSettings";
+import Import from "./import";
 
 function getThemeSelector(theme, handleThemeSelection) {
   return (
@@ -25,7 +25,6 @@ export default function App({
   const [cards, setCards] = useState(initialCards);
 
   const [downloadUrl, setDownloadUrl] = useState("");
-  const [fileToLoad, setFileToLoad] = useState(null);
 
   function storeCards(newCards) {
     const success = storage.board.cards.set(newCards);
@@ -81,57 +80,6 @@ export default function App({
     setDownloadUrl(downloadAnchor.href);
   }
 
-  function handleImportFileChange(event) {
-    const importFileInput = event.target;
-    const [file] = importFileInput.files;
-    setFileToLoad(file);
-  }
-
-  async function handleLoadFileClick() {
-    if (!fileToLoad) {
-      console.error("[load-file]: No import file selected");
-      return;
-    }
-
-    const textData = await fileToLoad.text();
-    const jsonData = JSON.parse(textData);
-
-    let success = false;
-    const oldBoardData = localStorage.board.get();
-    let newBoardData = null;
-    try {
-      newBoardData = parseBoardData(jsonData);
-      localStorage.board.set(newBoardData);
-      setCategories(newBoardData.categories);
-      setCards(newBoardData.entries);
-      success = true;
-    } catch (error) {
-      console.error("[load-file]: Error while trying to parse the data");
-      console.error(error);
-      localStorage.board.set(oldBoardData);
-      setCategories(oldBoardData.categories);
-      setCards(oldBoardData.entries);
-    }
-
-    // clearing file import section
-    const importFileInput = document.querySelector("#import-file");
-    importFileInput.value = null;
-    setFileToLoad(null);
-    const importSection = document.querySelector("footer .import");
-    if (success) {
-      importSection.classList.toggle("success", true);
-      // board will update we need to change elements from previous board data
-      setDownloadUrl("");
-    } else {
-      importSection.classList.toggle("error", true);
-    }
-    // success & error messages are only temporally visible
-    setTimeout(() => {
-      importSection.classList.toggle("success", false);
-      importSection.classList.toggle("error", false);
-    }, 3 * 1000);
-  }
-
   return (
     <>
       <header>
@@ -144,24 +92,7 @@ export default function App({
       <Board {...{ categories, cards, deleteCard, updateCard }} />
       <NewCardModal {...{ categories, addCard }} />
       <footer>
-        <section className="import">
-          <span>Import board data: </span>
-          <input
-            type="file"
-            name="import-file"
-            id="import-file"
-            onChange={handleImportFileChange}
-          />
-          <button
-            id="load-selected-button"
-            onClick={handleLoadFileClick}
-            hidden={fileToLoad === null}
-          >
-            Load selected data
-          </button>
-          <span className="success">Board data loaded succcesfully!</span>
-          <span className="error">Error while loading board data!</span>
-        </section>
+        <Import {...{ setCategories, setCards }} />
         <section className="export">
           <span>Export board data: </span>
           <button id="export-button" onClick={handleExportDataClick}>

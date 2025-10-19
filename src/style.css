@@ -21,21 +21,19 @@ body[data-theme="blackwhite"],
 
 body[data-theme="color-am-1"],
 .theme-selector button[data-theme="color-am-1"] {
-  --column-bg-color: #E7F6F2;
-  --column-text-color: #2C3333;
-  --card-bg-color: #395B64;
-  --card-text-color: #A5C9CA;
+  --column-bg-color: #e7f6f2;
+  --column-text-color: #2c3333;
+  --card-bg-color: #395b64;
+  --card-text-color: #a5c9ca;
 }
 
 body[data-theme="color-am-2"],
 .theme-selector button[data-theme="color-am-2"] {
-  --column-bg-color: #DFDFDE;
-  --column-text-color: #F56D91;
-  --card-bg-color: #8D8DAA  ;
-  --card-text-color: #F7F5F2;
+  --column-bg-color: #dfdfde;
+  --column-text-color: #f56d91;
+  --card-bg-color: #8d8daa;
+  --card-text-color: #f7f5f2;
 }
-
-
 
 /* CUSTOM STYLE FOR IN-BUILT ELEMENTS */
 
@@ -343,23 +341,27 @@ main > footer input {
   font-weight: 600;
 }
 
-footer .import span.success {
+#import-section input[type="file"] {
+  font-weight: 400;
+}
+
+#import-section span.success {
   color: rgb(16, 45, 173);
 }
 
-footer .import span.error {
+#import-section span.error {
   color: rgb(173, 16, 16);
 }
 
-footer .import span.success,
-footer .import span.error {
+#import-section span.success,
+#import-section span.error {
   display: none;
 }
 
-footer .import.success span.success {
+#import-section.success span.success {
   display: initial;
 }
 
-footer .import.error span.error {
+#import-section.error span.error {
   display: initial;
 }
