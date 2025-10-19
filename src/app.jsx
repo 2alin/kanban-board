@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Board } from "./board";
-import localStorage from "./localStorage";
+import storage from "./storage";
 import NewCardModal from "./newCardModal";
 import { parseBoardData } from "./parseBoardData";
 import { validThemes } from "./defaultSettings";
@@ -28,7 +28,7 @@ export default function App({
   const [fileToLoad, setFileToLoad] = useState(null);
 
   function storeCards(newCards) {
-    const success = localStorage.board.cards.set(newCards);
+    const success = storage.board.cards.set(newCards);
     if (success) {
       setCards(newCards);
     } else {
@@ -69,7 +69,7 @@ export default function App({
   }
 
   function handleExportDataClick() {
-    const boardData = localStorage.board.get();
+    const boardData = storage.board.get();
     const blob = new Blob([JSON.stringify(boardData, null, 2)], {
       type: "application/json",
     });

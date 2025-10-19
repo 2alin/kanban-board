@@ -4,7 +4,7 @@ import {
   defaultTheme,
   validThemes,
 } from "./defaultSettings.js";
-import localStorage from "./localStorage.js";
+import storage from "./storage.js";
 import App from "./app.jsx";
 
 /**
@@ -13,7 +13,7 @@ import App from "./app.jsx";
 function migrateData(boardData) {
   if (!boardData.version) {
     boardData.version = defaultBoardData.version;
-    localStorage.board.set(boardData);
+    storage.board.set(boardData);
   }
 }
 
@@ -21,28 +21,29 @@ function handleThemeSelection(event) {
   const { target } = event;
   const { theme: themeSelected } = target.closest("[data-theme]").dataset;
   document.body.dataset.theme = themeSelected;
-  localStorage.theme.set(themeSelected);
+  storage.theme.set(themeSelected);
 }
 
 /**
  * Initializes the main app
  */
 async function initialize() {
-  let initialTheme = localStorage.theme.get();
+  let initialTheme = storage.theme.get();
   if (!validThemes.includes(initialTheme)) {
     initialTheme = defaultTheme;
-    localStorage.theme.set(initialTheme);
+    storage.theme.set(initialTheme);
   }
   document.body.dataset.theme = initialTheme;
 
   // initialize app memory data
-  let initialBoardData = localStorage.board.get();
+  let initialBoardData = storage.board.get();
   if (!initialBoardData) {
-    localStorage.board.set(defaultBoardData);
-    initialBoardData = localStorage.board.get();
+    storage.board.set(defaultBoardData);
+    initialBoardData = storage.board.get();
   } else if (initialBoardData.version !== defaultBoardData.version) {
     initialBoardData = migrateData(initialBoardData);
   }
+
   const root = createRoot(document.getElementById("root"));
   root.render(
     <App
