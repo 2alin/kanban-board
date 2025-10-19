@@ -4,7 +4,7 @@ export const validThemes = [
   "color-am-1",
   "color-am-2",
 ];
-export const defaultTheme = validThemes[0];
+export const defaultTheme = validThemes[1];
 
 /**
  * Default board data
