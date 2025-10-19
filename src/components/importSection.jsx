@@ -9,7 +9,7 @@ const messageClassNames = {
   success: "success",
 };
 
-export default function Import({ setCategories, setCards }) {
+export default function ImportSection({ setCategories, setCards }) {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [messageClassToShow, setMessageClassToShow] = useState(
     messageClassNames.none

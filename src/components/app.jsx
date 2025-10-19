@@ -2,9 +2,11 @@ import { useState } from "react";
 
 import { validThemes } from "../defaultSettings";
 import storage from "../storage";
+import { getISODate } from "../utilities";
 
 import Board from "./board";
-import Import from "./import";
+import ExportSection from "./exportSection";
+import ImportSection from "./importSection";
 import NewCardModal from "./newCardModal";
 
 function getThemeSelector(theme, handleThemeSelection) {
@@ -25,19 +27,18 @@ export default function App({
 }) {
   const [categories, setCategories] = useState(initialCategories);
   const [cards, setCards] = useState(initialCards);
-
-  const [downloadUrl, setDownloadUrl] = useState("");
+  const [lastChangedBoardData, setLastChangedBoardData] = useState(
+    getISODate()
+  );
 
   function storeCards(newCards) {
     const success = storage.board.cards.set(newCards);
     if (success) {
       setCards(newCards);
+      setLastChangedBoardData(getISODate());
     } else {
       throw new Error("Issue storing cards locally");
     }
-
-    // board will update we need to change elements from previous board data
-    setDownloadUrl("");
   }
 
   function addCard(cardData) {
@@ -69,19 +70,6 @@ export default function App({
     document.body.classList.toggle("new-card", true);
   }
 
-  function handleExportDataClick() {
-    const boardData = storage.board.get();
-    const blob = new Blob([JSON.stringify(boardData, null, 2)], {
-      type: "application/json",
-    });
-    const downloadAnchor = document.querySelector("a.download");
-    downloadAnchor.href = URL.createObjectURL(blob);
-    const dateID = new Date().toISOString();
-    downloadAnchor.download = `board-${dateID}.json`;
-
-    setDownloadUrl(downloadAnchor.href);
-  }
-
   return (
     <>
       <header>
@@ -94,19 +82,8 @@ export default function App({
       <Board {...{ categories, cards, deleteCard, updateCard }} />
       <NewCardModal {...{ categories, addCard }} />
       <footer>
-        <Import {...{ setCategories, setCards }} />
-        <section className="export">
-          <span>Export board data: </span>
-          <button id="export-button" onClick={handleExportDataClick}>
-            export
-          </button>
-          <span className="download" hidden={downloadUrl === ""}>
-            <span>Your board data is ready to </span>
-            <a href="" className="download">
-              download
-            </a>
-          </span>
-        </section>
+        <ImportSection {...{ setCategories, setCards }} />
+        <ExportSection {...{ lastChangedBoardData }} />
         <section className="theme-selector">
           <span>Theme: </span>
           {validThemes.map((theme) =>
