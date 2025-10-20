@@ -1,10 +1,10 @@
-export const validThemes = [
+export const themes = [
   "blackwhite",
   "color-1",
   "color-am-1",
   "color-am-2",
 ];
-export const defaultTheme = validThemes[1];
+export const defaultTheme = themes[1];
 
 /**
  * Default board data

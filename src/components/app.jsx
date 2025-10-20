@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { validThemes } from "../defaultSettings";
 import storage from "../storage";
 import { getISODate } from "../utilities";
 
@@ -8,22 +7,12 @@ import Board from "./board";
 import ExportSection from "./exportSection";
 import ImportSection from "./importSection";
 import NewCardModal from "./newCardModal";
-
-function getThemeSelector(theme, handleThemeSelection) {
-  return (
-    <button data-theme={theme} onClick={handleThemeSelection} key={theme}>
-      <span className="color-sample"></span>
-      <span className="color-sample"></span>
-      <span className="color-sample"></span>
-      <span className="color-sample"></span>
-    </button>
-  );
-}
+import ThemeSelector from "./themeSelector";
 
 export default function App({
   initialCategories,
   initialCards,
-  handleThemeSelection,
+  handleThemeChange,
 }) {
   const [categories, setCategories] = useState(initialCategories);
   const [cards, setCards] = useState(initialCards);
@@ -84,12 +73,7 @@ export default function App({
       <footer>
         <ImportSection {...{ setCategories, setCards }} />
         <ExportSection {...{ lastChangedBoardData }} />
-        <section className="theme-selector">
-          <span>Theme: </span>
-          {validThemes.map((theme) =>
-            getThemeSelector(theme, handleThemeSelection)
-          )}
-        </section>
+        <ThemeSelector {...{ handleThemeChange }} />
       </footer>
     </>
   );

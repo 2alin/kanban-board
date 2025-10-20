@@ -3,14 +3,14 @@ import { createRoot } from "react-dom/client";
 import {
   boardData as defaultBoardData,
   defaultTheme,
-  validThemes,
+  themes,
 } from "./defaultSettings.js";
 import storage from "./storage.js";
 
 import App from "./components/app";
 
 /**
- * Migrates olver versions of board data to the newest version
+ * Migrates older versions of board data to the newest version
  */
 function migrateData(boardData) {
   if (!boardData.version) {
@@ -19,7 +19,7 @@ function migrateData(boardData) {
   }
 }
 
-function handleThemeSelection(event) {
+function handleThemeChange(event) {
   const { target } = event;
   const { theme: themeSelected } = target.closest("[data-theme]").dataset;
   document.body.dataset.theme = themeSelected;
@@ -31,7 +31,7 @@ function handleThemeSelection(event) {
  */
 async function initialize() {
   let initialTheme = storage.theme.get();
-  if (!validThemes.includes(initialTheme)) {
+  if (!themes.includes(initialTheme)) {
     initialTheme = defaultTheme;
     storage.theme.set(initialTheme);
   }
@@ -51,7 +51,7 @@ async function initialize() {
     <App
       initialCategories={initialBoardData.categories}
       initialCards={initialBoardData.entries}
-      handleThemeSelection={handleThemeSelection}
+      handleThemeChange={handleThemeChange}
     />
   );
 }
