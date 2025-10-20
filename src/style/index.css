@@ -6,8 +6,17 @@
 
 /* CUSTOM STYLE FOR IN-BUILT ELEMENTS */
 
+button,
+input[type="file"] {
+  padding: 0.3rem;
+}
+
 button:hover {
   opacity: 0.75;
+}
+
+select {
+  padding: 0.2rem;
 }
 
 /* MAIN CONTAINERS */
@@ -41,7 +50,6 @@ header {
   height: 2.5rem;
   border: 0;
   border-radius: 4px;
-  padding: 0.25rem;
   display: flex;
   background-color: var(--column-bg-color);
 }
@@ -143,7 +151,6 @@ header {
   color: var(--card-bg-color);
   border: 0;
   border-radius: 4px;
-  padding: 0.2rem;
   font-size: 0.8rem;
   font-weight: 400;
 }
@@ -152,11 +159,11 @@ header {
 /*   NEW CARD    */
 /* ------------- */
 
-body.new-card .modal.new-card {
+body.new-card .modal {
   display: flex;
 }
 
-.modal.new-card {
+.modal {
   display: none;
   position: absolute;
   top: 0;
@@ -170,15 +177,16 @@ body.new-card .modal.new-card {
   padding: 2rem;
 }
 
-.new-card .form.container {
+.modal .form-container {
   width: 640px;
   background-color: var(--card-bg-color);
   padding: 1rem;
   color: var(--card-text-color);
+  border-radius: 0.5rem;
 }
 
 @media screen and (width <= 860px) {
-  .new-card .form.container {
+  .new-card .form-container {
     width: 100%;
   }
 }
@@ -221,13 +229,15 @@ body.new-card .modal.new-card {
 
 .new-card form input[type="text"] {
   justify-self: auto;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .new-card form textarea {
   justify-self: auto;
   resize: none;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .new-card form select {
@@ -249,7 +259,6 @@ body.new-card .modal.new-card {
   color: var(--card-bg-color);
   border: 0;
   border-radius: 4px;
-  padding: 0.2rem;
   font-size: 0.85rem;
   font-weight: 600;
 }
@@ -277,7 +286,6 @@ main > footer input {
   color: var(--card-bg-color);
   border: 0;
   border-radius: 4px;
-  padding: 0.3rem;
   font-size: 0.8rem;
   font-weight: 600;
 }

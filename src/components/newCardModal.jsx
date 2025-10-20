@@ -33,8 +33,8 @@ export default function NewCardModal({ categories, addCard }) {
   }
 
   return (
-    <aside className="modal new-card">
-      <section className="form container">
+    <aside className="modal">
+      <section className="form-container">
         <h2 className="title">New card</h2>
         <form
           name="new-card"

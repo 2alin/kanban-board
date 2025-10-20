@@ -8,6 +8,7 @@ import ExportSection from "./exportSection";
 import ImportSection from "./importSection";
 import NewCardModal from "./newCardModal";
 import ThemeSelector from "./themeSelector";
+import NewCardButton from "./newCardButton";
 
 export default function App({
   initialCategories,
@@ -55,18 +56,10 @@ export default function App({
     storeCards(newCards);
   }
 
-  function handleNewCardButtonClick() {
-    document.body.classList.toggle("new-card", true);
-  }
-
   return (
     <>
       <header>
-        <section>
-          <button id="new-card-button" onClick={handleNewCardButtonClick}>
-            <span className="icon"></span>
-          </button>
-        </section>
+        <NewCardButton />
       </header>
       <Board {...{ categories, cards, deleteCard, updateCard }} />
       <NewCardModal {...{ categories, addCard }} />
