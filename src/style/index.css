@@ -1,7 +1,7 @@
 @import url("./themes.css");
 
 :root {
-  font-family: noto-sans, sans-serif;
+  font-family: noto-sans, system-ui, sans-serif;
 }
 
 /* CUSTOM STYLE FOR IN-BUILT ELEMENTS */
@@ -17,6 +17,12 @@ button:hover {
 
 select {
   padding: 0.2rem;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
 }
 
 /* MAIN CONTAINERS */
@@ -90,7 +96,7 @@ header {
 }
 
 .column > .title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   text-transform: capitalize;
   text-align: center;
   margin: 1rem 0;
