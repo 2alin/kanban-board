@@ -1,23 +1,35 @@
+import CategorySelector from "./categorySelector";
+
 export default function Card({
-  categoryIdx,
+  // card data
   title,
   description,
   category,
+  id,
+  // board data
   boardCategories,
+  // event handlers
   deleteCard,
   updateCard,
+  setModalState,
 }) {
+  function handleEdit() {
+    setModalState({ type: "edit", cardId: id });
+    document.body.classList.toggle("card-modal", true);
+  }
+
   function handleDelete() {
-    deleteCard(title);
+    deleteCard(id);
   }
 
   function handleCategoryChange(event) {
     const newCategory = event.target.value;
-    updateCard(title, {
-      categoryIdx,
-      title,
-      description,
-      category: newCategory,
+
+    updateCard({
+      cardId: id,
+      newTitle: title,
+      newDescription: description,
+      newCategory,
     });
   }
 
@@ -25,28 +37,30 @@ export default function Card({
     <section className="card" data-title={title}>
       <header>
         <h3 className="title">{title}</h3>
-        <button
-          className="delete"
-          aria-describedby="deletes card"
-          onClick={handleDelete}
-        >
-          <span className="icon"></span>
-        </button>
       </header>
       <p className="description">{description}</p>
       <footer>
-        <select
-          name="category"
-          className="category"
-          value={category}
-          onChange={handleCategoryChange}
-        >
-          {boardCategories.map((boardCategory) => (
-            <option key={boardCategory} value={boardCategory}>
-              {boardCategory}
-            </option>
-          ))}
-        </select>
+        <CategorySelector
+          categories={boardCategories}
+          defaultSelected={category}
+          handleChange={handleCategoryChange}
+        />
+        <div className="container">
+          <button
+            className="edit icon"
+            aria-describedby="edits card"
+            onClick={handleEdit}
+          >
+            <span className="icon-img"></span>
+          </button>
+          <button
+            className="delete icon"
+            aria-describedby="deletes card"
+            onClick={handleDelete}
+          >
+            <span className="icon-img"></span>
+          </button>
+        </div>
       </footer>
     </section>
   );

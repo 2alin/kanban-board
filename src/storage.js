@@ -63,6 +63,11 @@ function checkCardShape(card) {
   }
 }
 
+// TODO: As the shape of the "card" object that we use in memory
+// is different to the shape of the one that we store locally,
+// we should rename the latest to something different as well,
+// for example, "entry"
+
 /**
  * Stores locally the cards data as part of the board local data
  *
@@ -80,8 +85,16 @@ function setCardsData(cards) {
     }
   });
 
+  // store only the information that is needed
+  const cardsToStore = cards.map((card) => ({
+    categoryIdx: card.categoryIdx,
+    category: card.category,
+    title: card.title,
+    description: card.description,
+  }));
+
   const boardData = getBoardData();
-  boardData.entries = [...cards];
+  boardData.entries = [...cardsToStore];
   setBoardData(boardData);
   return true;
 }

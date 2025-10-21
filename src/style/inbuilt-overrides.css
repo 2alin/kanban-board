@@ -1,0 +1,23 @@
+button,
+input[type="file"] {
+  padding: 0.3rem;
+}
+
+button:hover {
+  opacity: 0.75;
+}
+
+select {
+  padding: 0.2rem;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button.icon {
+  padding: 0.15rem;
+}

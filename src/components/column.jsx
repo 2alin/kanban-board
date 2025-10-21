@@ -16,6 +16,7 @@ export default function Column({
   boardCategories,
   deleteCard,
   updateCard,
+  setModalState,
 }) {
   const sortedCards = cards.toSorted((a, b) => b.categoryIdx - a.categoryIdx);
 
@@ -24,13 +25,14 @@ export default function Column({
       <h2 className="title">{title}</h2>
       <ol className="card-list">
         {sortedCards.map((card) => (
-          <li key={card.title}>
+          <li key={card.id}>
             <Card
-              categoryIdx={card.categoryIdx}
               title={card.title}
               description={card.description}
               category={card.category}
-              {...{ boardCategories, deleteCard, updateCard }}
+              id={card.id}
+              key={card.id}
+              {...{ boardCategories, deleteCard, updateCard, setModalState }}
             />
           </li>
         ))}

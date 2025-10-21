@@ -1,6 +1,12 @@
 import Column from "./column";
 
-export default function Board({ categories, cards, deleteCard, updateCard }) {
+export default function Board({
+  categories,
+  cards,
+  deleteCard,
+  updateCard,
+  setModalState,
+}) {
   return (
     <section id="board">
       {categories.map((category) => {
@@ -14,7 +20,7 @@ export default function Board({ categories, cards, deleteCard, updateCard }) {
             title={category}
             cards={categoryCards}
             boardCategories={categories}
-            {...{ deleteCard, updateCard }}
+            {...{ deleteCard, updateCard, setModalState }}
           />
         );
       })}

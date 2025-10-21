@@ -6,6 +6,7 @@ import {
   themes,
 } from "./defaultSettings.js";
 import storage from "./storage.js";
+import { getRandomId } from "./utilities.js";
 
 import App from "./components/app";
 
@@ -46,11 +47,17 @@ async function initialize() {
     initialBoardData = migrateData(initialBoardData);
   }
 
+  // add Ids to initial cards that will be used in memory only
+  const initialCards = initialBoardData.entries.map((entry) => ({
+    ...entry,
+    id: getRandomId(),
+  }));
+
   const root = createRoot(document.getElementById("root"));
   root.render(
     <App
       initialCategories={initialBoardData.categories}
-      initialCards={initialBoardData.entries}
+      initialCards={initialCards}
       handleThemeChange={handleThemeChange}
     />
   );

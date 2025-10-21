@@ -9,7 +9,7 @@ const messageClassNames = {
   success: "success",
 };
 
-export default function ImportSection({ setCategories, setCards }) {
+export default function ImportSection({ setCategories, replaceCardList }) {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [messageClassToShow, setMessageClassToShow] = useState(
     messageClassNames.none
@@ -44,13 +44,13 @@ export default function ImportSection({ setCategories, setCards }) {
       newBoardData = parseBoardData(jsonData);
       storage.board.set(newBoardData);
       setCategories(newBoardData.categories);
-      setCards(newBoardData.entries);
+      replaceCardList(newBoardData.entries);
       success = true;
     } catch (error) {
       console.error("[load-file]: Error while trying to parse the data", error);
       storage.board.set(oldBoardData);
       setCategories(oldBoardData.categories);
-      setCards(oldBoardData.entries);
+      replaceCardList(oldBoardData.entries);
     }
 
     // file loading process messages to the user

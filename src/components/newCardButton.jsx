@@ -1,11 +1,16 @@
-export default function NewCardButton() {
+export default function NewCardButton({ setModalState }) {
   function handleNewCardButtonClick() {
-    document.body.classList.toggle("new-card", true);
+    setModalState({ type: "new" });
+    document.body.classList.toggle("card-modal", true);
   }
 
   return (
-    <button id="new-card-button" onClick={handleNewCardButtonClick}>
-      <span className="icon"></span>
+    <button
+      className="icon"
+      id="new-card-button"
+      onClick={handleNewCardButtonClick}
+    >
+      <span className="icon-img"></span>
     </button>
   );
 }
