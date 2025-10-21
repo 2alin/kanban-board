@@ -126,7 +126,7 @@ export default function CardModal({
           <CategorySelector
             id={selectCategoryId}
             categories={categories}
-            defaultSelectedy={prefilledData.category}
+            defaultSelected={prefilledData.category}
           />
         </form>
 
