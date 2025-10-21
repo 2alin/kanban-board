@@ -93,26 +93,34 @@ header {
 /* CARD MODAL (NEW AND EDIT) */
 /* ------------------------- */
 
-body.card-modal {
+body.show-modal {
   overflow: hidden;
 }
 
-body.card-modal .modal {
+body.show-modal .modal {
   display: flex;
 }
 
 .modal {
+  --modal-padding: 2rem;
   display: none;
   position: fixed;
   top: 0;
-  right: 0;
+  width: 100%;
   bottom: 0;
   left: 0;
   background-color: var(--card-text-color);
   z-index: 100;
   justify-content: center;
   align-items: flex-start;
-  padding: 2rem;
+  padding: var(--modal-padding);
+}
+
+@media screen and (width <= 860px) {
+  .modal {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
 
 .modal .form-container {
@@ -124,16 +132,16 @@ body.card-modal .modal {
 }
 
 @media screen and (width <= 860px) {
-  .card-modal .form-container {
-    width: 100%;
+  .modal .form-container {
+    width: calc(100% - 2 * var(--modal-padding));
   }
 }
 
-.card-modal .title {
+.modal .title {
   margin: 1rem 0;
 }
 
-.card-modal form {
+.modal form {
   margin: 1rem 0;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -142,12 +150,12 @@ body.card-modal .modal {
   grid-gap: 0.5rem 1rem;
 }
 
-.card-modal form label {
+.modal form label {
   justify-self: end;
   align-self: center;
 }
 
-.card-modal form label + * {
+.modal form label + * {
   justify-self: start;
   align-self: center;
   color: var(--card-bg-color);
@@ -155,30 +163,31 @@ body.card-modal .modal {
 }
 
 @media screen and (width <= 860px) {
-  .card-modal form {
+  .modal form {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, auto);
   }
 
-  .card-modal form label {
+  .modal form label {
     justify-self: start;
   }
 }
 
-.card-modal form input[type="text"] {
+.modal form input[type="text"] {
   justify-self: auto;
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
 
-.card-modal form textarea {
+.modal form textarea {
   justify-self: auto;
   resize: none;
   padding: 0.5rem;
+  height: 6rem;
   border-radius: 0.5rem;
 }
 
-.card-modal form select {
+.modal form select {
   background-color: var(--card-text-color);
   border: 0;
   border-radius: 4px;
@@ -186,13 +195,13 @@ body.card-modal .modal {
   font-size: 0.85rem;
 }
 
-.card-modal footer {
+.modal footer {
   margin: 0.5rem 0;
   display: flex;
   justify-content: space-between;
 }
 
-.card-modal footer button {
+.modal footer button {
   background-color: var(--card-text-color);
   color: var(--card-bg-color);
   border: 0;

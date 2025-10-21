@@ -15,7 +15,7 @@ export default function Card({
 }) {
   function handleEdit() {
     setModalState({ type: "edit", cardId: id });
-    document.body.classList.toggle("card-modal", true);
+    document.body.classList.toggle("show-modal", true);
   }
 
   function handleDelete() {

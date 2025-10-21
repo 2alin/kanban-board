@@ -1,7 +1,7 @@
 export default function NewCardButton({ setModalState }) {
   function handleNewCardButtonClick() {
     setModalState({ type: "new" });
-    document.body.classList.toggle("card-modal", true);
+    document.body.classList.toggle("show-modal", true);
   }
 
   return (

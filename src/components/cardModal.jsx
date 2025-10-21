@@ -54,7 +54,7 @@ export default function CardModal({
   }
 
   function handleCancelButtonClick() {
-    document.body.classList.toggle("card-modal", false);
+    document.body.classList.toggle("show-modal", false);
     clearForm();
   }
 
@@ -89,7 +89,7 @@ export default function CardModal({
       console.error(error);
     }
 
-    document.body.classList.toggle("card-modal", false);
+    document.body.classList.toggle("show-modal", false);
     clearForm();
   }
 
@@ -117,8 +117,8 @@ export default function CardModal({
           <textarea
             name="description"
             id="modal-card-description"
-            cols="40"
-            rows="4"
+            // cols="40"
+            // rows="4"
             defaultValue={prefilledData.description}
           ></textarea>
 
