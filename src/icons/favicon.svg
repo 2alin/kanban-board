@@ -15,7 +15,8 @@
      id="layer1"
      transform="translate(0,-0.11136527)">
     <g
-       id="g8235">
+       id="g8235"
+       transform="matrix(1.0909091,0,0,1.12,-2.2727275,-18.44774)">
       <rect
          style="fill:#a74ed7;fill-opacity:1;stroke:none;stroke-width:0.889104;stroke-linecap:square;stroke-miterlimit:0.4;stroke-dasharray:none"
          id="rect234-35"
@@ -34,7 +35,8 @@
          ry="5.1061597" />
     </g>
     <g
-       id="g7774">
+       id="g7774"
+       transform="matrix(1.0909091,0,0,1.12,0,-21.600009)">
       <rect
          style="fill:#00afab;fill-opacity:1;stroke:none;stroke-width:0.889104;stroke-linecap:square;stroke-miterlimit:0.4;stroke-dasharray:none"
          id="rect234"
@@ -54,7 +56,7 @@
     </g>
     <path
        style="fill:#34d71a;fill-opacity:1;stroke:#18570e;stroke-width:4;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
-       d="M 25,110.55072 59.38297,140.74681 177.74883,44.225958 177.83369,2.111125 59.361432,105.36327 25,73.435656 Z"
+       d="M 25,94.519274 60,134.49029 177.80467,37.051787 177.75632,2.2486642 60,99.043107 25,55.608143 Z"
        id="path9149" />
   </g>
 </svg>
