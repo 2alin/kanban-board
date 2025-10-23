@@ -1,4 +1,5 @@
 import CategorySelector from "./categorySelector";
+import RichText from "./richText";
 
 export default function Card({
   // card data
@@ -38,7 +39,9 @@ export default function Card({
       <header>
         <h3 className="title">{title}</h3>
       </header>
-      <p className="description">{description}</p>
+      <div className="description">
+        <RichText text={description} />
+      </div>
       <footer>
         <CategorySelector
           categories={boardCategories}
