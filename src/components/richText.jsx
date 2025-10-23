@@ -16,6 +16,13 @@ function getMatchTypes(text, textType, matchRegex) {
     const matchEndIdx = matchStartIdx + matchedText.length;
     const textToReplace = match[1];
 
+    // skip urls that are not valid
+    if (textType === formatType.url) {
+      if (!URL.canParse(matchedText)) {
+        continue;
+      }
+    }
+
     if (nonMatchStartIdx < matchStartIdx) {
       nonMatchEndIdx = matchStartIdx;
       textToTypeMap.push([
@@ -37,12 +44,25 @@ function getMatchTypes(text, textType, matchRegex) {
 }
 
 function getParagraph(text, key) {
-  let textToTypeMap = [];
+  let textToTypeMap = [[text, formatType.normal]];
+
+  const urlMatchRegex = /(https?:\/\/[\S]+)/g;
+  textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
+    if (type === formatType.normal) {
+      return getMatchTypes(subText, formatType.url, urlMatchRegex);
+    } else {
+      return [[subText, type]];
+    }
+  });
 
   const strongMatchRegex = /[*]{2}(.+?)[*]{2}/g;
-  textToTypeMap.push(
-    ...getMatchTypes(text, formatType.strong, strongMatchRegex)
-  );
+  textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
+    if (type === formatType.normal) {
+      return getMatchTypes(subText, formatType.strong, strongMatchRegex);
+    } else {
+      return [[subText, type]];
+    }
+  });
   const altStrongMatchRegex = /[_]{2}(.+?)[_]{2}/g;
   textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
     if (type === formatType.normal) {
@@ -76,6 +96,12 @@ function getParagraph(text, key) {
           return <strong key={index}>{subtext}</strong>;
         } else if (type === formatType.emphasis) {
           return <em key={index}>{subtext}</em>;
+        } else if (type === formatType.url) {
+          return (
+            <a href={subtext} target="_blank" key={index}>
+              {subtext}
+            </a>
+          );
         } else {
           return subtext;
         }

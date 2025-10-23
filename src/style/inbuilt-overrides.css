@@ -21,3 +21,9 @@ textarea {
 button.icon {
   padding: 0.15rem;
 }
+
+a {
+  color: inherit;
+  text-decoration-line: none;
+  border-bottom: 1px dotted;
+}
