@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/kanban-board/",
+  base: "/kanban-board",
   root: "./src",
   build: {
     outDir: "../dist",
