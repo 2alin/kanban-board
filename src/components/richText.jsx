@@ -5,7 +5,17 @@ const formatType = {
   url: "url",
 };
 
-function getMatchTypes(text, textType, matchRegex) {
+/**
+ * Gets the text matches that the a specific format type will be applied to
+ *
+ * @param {string} text - the original text to find the matches
+ * @param {string} matchType - the format text type that will be applied to the matches
+ * @param {RegExp} matchRegex - a regular expression to indentify the matches
+ * @returns  An array containing array entries with two values:
+ * - the first one indicating a portion of the text that has a specific format
+ * - the format for a specific portion of the text
+ */
+function getMatchesWithTypes(text, matchType, matchRegex) {
   const textToTypeMap = [];
   const matches = text.matchAll(matchRegex);
   let nonMatchStartIdx = 0;
@@ -17,7 +27,7 @@ function getMatchTypes(text, textType, matchRegex) {
     const textToReplace = match[1];
 
     // skip urls that are not valid
-    if (textType === formatType.url) {
+    if (matchType === formatType.url) {
       if (!URL.canParse(matchedText)) {
         continue;
       }
@@ -31,7 +41,7 @@ function getMatchTypes(text, textType, matchRegex) {
       ]);
     }
 
-    textToTypeMap.push([textToReplace, textType]);
+    textToTypeMap.push([textToReplace, matchType]);
     nonMatchStartIdx = matchEndIdx;
   }
 
@@ -43,51 +53,43 @@ function getMatchTypes(text, textType, matchRegex) {
   return textToTypeMap;
 }
 
-function getParagraph(text, key) {
+function applyMatcher(textToTypeMap, matchRegex, matchType) {
+  const newTextToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
+    if (type === formatType.normal) {
+      return getMatchesWithTypes(subText, matchType, matchRegex);
+    } else {
+      return [[subText, type]];
+    }
+  });
+
+  return newTextToTypeMap;
+}
+
+/**
+ * Parses the paragraphs received into JSX objects
+ *
+ * @param {string} text - the unparsed paragraph as string
+ * @param {string} key - an identifier for the paragraph
+ * @returns a paragraph and its content parsed as JSX object
+ */
+function parseParagraph(text, key) {
   let textToTypeMap = [[text, formatType.normal]];
 
-  const urlMatchRegex = /(https?:\/\/[\S]+)/g;
-  textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
-    if (type === formatType.normal) {
-      return getMatchTypes(subText, formatType.url, urlMatchRegex);
-    } else {
-      return [[subText, type]];
-    }
-  });
+  // matches for 'url' type
+  const urlRegex = /(https?:\/\/[\S]+)/g;
+  textToTypeMap = applyMatcher(textToTypeMap, urlRegex, formatType.url);
 
-  const strongMatchRegex = /[*]{2}(.+?)[*]{2}/g;
-  textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
-    if (type === formatType.normal) {
-      return getMatchTypes(subText, formatType.strong, strongMatchRegex);
-    } else {
-      return [[subText, type]];
-    }
-  });
-  const altStrongMatchRegex = /[_]{2}(.+?)[_]{2}/g;
-  textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
-    if (type === formatType.normal) {
-      return getMatchTypes(subText, formatType.strong, altStrongMatchRegex);
-    } else {
-      return [[subText, type]];
-    }
-  });
+  // matches for 'strong' type
+  let strongRegex = /[*]{2}(?=\S)([^*]+?)(?<=\S)[*]{2}/g;
+  textToTypeMap = applyMatcher(textToTypeMap, strongRegex, formatType.strong);
+  strongRegex = /[_]{2}(?=\S)([^_]+?)(?<=\S)[_]{2}/g;
+  textToTypeMap = applyMatcher(textToTypeMap, strongRegex, formatType.strong);
 
-  const emphaMatchRegex = /[*]{1}(.+?)[*]{1}/g;
-  textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
-    if (type === formatType.normal) {
-      return getMatchTypes(subText, formatType.emphasis, emphaMatchRegex);
-    } else {
-      return [[subText, type]];
-    }
-  });
-  const altEmphaMatchRegex = /[_]{1}(.+?)[_]{1}/g;
-  textToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
-    if (type === formatType.normal) {
-      return getMatchTypes(subText, formatType.emphasis, altEmphaMatchRegex);
-    } else {
-      return [[subText, type]];
-    }
-  });
+  // matches for 'emphasis' type
+  let emphRegex = /[*]{1}(?=\S)([^*]+?)(?<=\S)[*]{1}/g;
+  textToTypeMap = applyMatcher(textToTypeMap, emphRegex, formatType.emphasis);
+  emphRegex = /[_]{1}(?=\S)([^_]+?)(?<=\S)[_]{1}/g;
+  textToTypeMap = applyMatcher(textToTypeMap, emphRegex, formatType.emphasis);
 
   return (
     <p key={key}>
@@ -113,5 +115,9 @@ function getParagraph(text, key) {
 export default function RichText({ text }) {
   const textLines = text.split("\n");
 
-  return <>{textLines.map((line, index) => getParagraph(line, index))}</>;
+  return (
+    <>
+      {textLines.map((line, index) => parseParagraph(line, index.toString()))}
+    </>
+  );
 }
