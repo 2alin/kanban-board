@@ -3,6 +3,7 @@ const formatType = {
   strong: "strong",
   emphasis: "emphasis",
   url: "url",
+  code: "code",
 };
 
 /**
@@ -53,6 +54,16 @@ function getMatchesWithTypes(text, matchType, matchRegex) {
   return textToTypeMap;
 }
 
+/**
+ * Finds the matches given by a regex and applies the type specified
+ *
+ * @param {Array} textToTypeMap - The array of pairs (string and type)
+ *                                to which we will apply the matcher
+ * @param {*} matchRegex - regular expression to find the matches
+ * @param {*} matchType - type to apply to the matches
+ * @returns an array of pairs (string and type)
+ *          with the matches and its type applied
+ */
 function applyMatcher(textToTypeMap, matchRegex, matchType) {
   const newTextToTypeMap = textToTypeMap.flatMap(([subText, type]) => {
     if (type === formatType.normal) {
@@ -75,6 +86,21 @@ function applyMatcher(textToTypeMap, matchRegex, matchType) {
 function parseParagraph(text, key) {
   let textToTypeMap = [[text, formatType.normal]];
 
+  /**
+   * TODO:
+   * - Improve the logic and regex: it's not flexible enough
+   * - Allow 'strong' and 'emphasis' format to be applied together
+   *   easy solution: add a case for triple characters ('*' or '_')
+   */
+
+  //----------------------------------------------------------
+  // !! Caution: the order is important in the following logic
+  //----------------------------------------------------------
+
+  // matches for 'code' type
+  const codeRegex = /[`]{1}(?=\S)(.+?)(?<=\S)[`]{1}/g;
+  textToTypeMap = applyMatcher(textToTypeMap, codeRegex, formatType.code);
+
   // matches for 'url' type
   const urlRegex = /(https?:\/\/[\S]+)/g;
   textToTypeMap = applyMatcher(textToTypeMap, urlRegex, formatType.url);
@@ -94,7 +120,9 @@ function parseParagraph(text, key) {
   return (
     <p key={key}>
       {textToTypeMap.map(([subtext, type], index) => {
-        if (type === formatType.strong) {
+        if (type === formatType.code) {
+          return <code key={index}>{subtext}</code>;
+        } else if (type === formatType.strong) {
           return <strong key={index}>{subtext}</strong>;
         } else if (type === formatType.emphasis) {
           return <em key={index}>{subtext}</em>;
