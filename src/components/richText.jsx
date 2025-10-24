@@ -84,6 +84,11 @@ function applyMatcher(textToTypeMap, matchRegex, matchType) {
  * @returns a paragraph and its content parsed as JSX object
  */
 function parseParagraph(text, key) {
+  // handle empty paragraphs
+  if (text === "") {
+    return <br />;
+  }
+
   let textToTypeMap = [[text, formatType.normal]];
 
   /**

@@ -9,6 +9,19 @@
 
 .card .title {
   margin: 0;
+  margin-bottom: 1rem;
+}
+
+.card p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.card footer {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .card select {
@@ -20,13 +33,7 @@
   box-shadow: 0 1px var(--card-bg-color), 0 2px var(--card-text-color);
 }
 
-.card footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.card footer .container {
+.card footer .right-container {
   display: flex;
   flex-direction: row;
   align-items: center;

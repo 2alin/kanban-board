@@ -48,7 +48,7 @@ export default function Card({
           defaultSelected={category}
           handleChange={handleCategoryChange}
         />
-        <div className="container">
+        <div className="right-container">
           <button
             className="edit icon"
             aria-describedby="edits card"
