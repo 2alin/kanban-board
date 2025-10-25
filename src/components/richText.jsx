@@ -154,7 +154,11 @@ export default function RichText({ text }) {
 
   return (
     <>
-      {textLines.map((line, index) => parseParagraph(line, index.toString()))}
+      {text === ""
+        ? null
+        : textLines.map((line, index) =>
+            parseParagraph(line, index.toString())
+          )}
     </>
   );
 }

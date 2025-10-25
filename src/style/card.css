@@ -7,9 +7,12 @@
   word-wrap: break-word;
 }
 
+.card header {
+  margin-bottom: 1rem;
+}
+
 .card .title {
   margin: 0;
-  margin-bottom: 1rem;
 }
 
 .card p {
