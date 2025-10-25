@@ -29,7 +29,7 @@ export default function App({
   );
 
   function storeCards(newCards) {
-    const success = storage.board.cards.set(newCards);
+    const success = storage.board.entries.set(newCards);
     if (success) {
       // set default modal state to avoid using data of cards
       // that are not part of the board anymore

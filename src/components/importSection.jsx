@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { parseBoardData } from "../parseBoardData";
 import storage from "../storage";
 
 const messageClassNames = {
@@ -41,22 +40,25 @@ export default function ImportSection({ setCategories, replaceCardList }) {
     const oldBoardData = storage.board.get();
     let newBoardData = null;
     try {
-      newBoardData = parseBoardData(jsonData);
-      storage.board.set(newBoardData);
-      setCategories(newBoardData.categories);
-      replaceCardList(newBoardData.entries);
+      const isBoardDataStored = storage.board.set(jsonData);
+      if (!isBoardDataStored) {
+        throw new Error("Couldn't store board data");
+      }
+      newBoardData = storage.board.get();
       success = true;
     } catch (error) {
       console.error("[load-file]: Error while trying to parse the data", error);
       storage.board.set(oldBoardData);
-      setCategories(oldBoardData.categories);
-      replaceCardList(oldBoardData.entries);
     }
 
     // file loading process messages to the user
     if (success) {
+      setCategories(newBoardData.categories);
+      replaceCardList(newBoardData.entries);
       setMessageClassToShow(messageClassNames.success);
     } else {
+      setCategories(oldBoardData.categories);
+      replaceCardList(oldBoardData.entries);
       setMessageClassToShow(messageClassNames.error);
     }
 
