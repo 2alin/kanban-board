@@ -1,10 +1,6 @@
 import { createRoot } from "react-dom/client";
 
-import {
-  boardData as defaultBoardData,
-  defaultTheme,
-  themes,
-} from "./defaultSettings";
+import { defaultBoardData, defaultTheme, themes } from "./defaultSettings";
 import storage from "./storage";
 import { getRandomId } from "./utilities";
 
