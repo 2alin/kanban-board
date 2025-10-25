@@ -4,9 +4,9 @@ import {
   boardData as defaultBoardData,
   defaultTheme,
   themes,
-} from "./defaultSettings.js";
-import storage from "./storage.js";
-import { getRandomId } from "./utilities.js";
+} from "./defaultSettings";
+import storage from "./storage";
+import { getRandomId } from "./utilities";
 
 import App from "./components/app";
 
