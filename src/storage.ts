@@ -112,6 +112,11 @@ function setBoardData(data: unknown): boolean {
     return false;
   }
 
+  if (data.version !== defaultBoardData.version) {
+    console.error("[storage.board.set] Wrong board data version");
+    return false;
+  }
+
   const dataToStore: BoardData = {
     version: defaultBoardData.version,
     categories: [...data.categories],
