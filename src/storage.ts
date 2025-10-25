@@ -47,19 +47,23 @@ function isBoardData(candidate: unknown): candidate is BoardData {
   }
 
   if (!("categories" in candidate) || !Array.isArray(candidate.categories)) {
+    console.error("No 'categories' array found in candidate properties");
     return false;
   }
   for (const category of candidate.categories) {
     if (typeof category !== "string") {
+      console.error("Category is not of type 'string'");
       return false;
     }
   }
 
   if (!("entries" in candidate) || !Array.isArray(candidate.entries)) {
+    console.error("No 'entries' array found in candidate properties");
     return false;
   }
   for (const entry of candidate.entries) {
     if (!isCardEntry(entry)) {
+      console.error("Entry is not of type 'CardEntry'");
       return false;
     }
   }
