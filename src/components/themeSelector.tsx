@@ -1,6 +1,12 @@
 import { themes } from "../defaultSettings";
 
-export default function ThemeSelector({ handleThemeChange }) {
+interface ThemeSelectorProps {
+  handleThemeChange: React.MouseEventHandler;
+}
+
+export default function ThemeSelector({
+  handleThemeChange,
+}: ThemeSelectorProps) {
   return (
     <section className="theme-selector">
       <span>Select theme: </span>
