@@ -1,9 +1,9 @@
-import type { CardExtendedData, CardListState, ModalState } from "./app.types";
+import type { CardExtendedData, CardsMap, ModalState } from "./app.types";
 import Column from "./column";
 
 interface BoardProps {
-  categories: string[];
-  cards: CardListState;
+  cardsMap: CardsMap;
+  boardCategories: string[];
   handlers: {
     deleteCard: (id: string) => void;
     updateCard: (cardData: CardExtendedData) => void;
@@ -11,22 +11,24 @@ interface BoardProps {
   };
 }
 
-export default function Board({ categories, cards, handlers }: BoardProps) {
+export default function Board({
+  cardsMap,
+  boardCategories,
+  handlers,
+}: BoardProps) {
   const { deleteCard, updateCard, setModalState } = handlers;
 
   return (
     <section id="board">
-      {categories.map((category) => {
-        const cardsInCategory = cards.filter(
-          (entry) => entry.category === category
-        );
+      {boardCategories.map((category) => {
+        const cardsInCategory = cardsMap.get(category) || [];
 
         return (
           <Column
             key={category}
             title={category}
             cards={cardsInCategory}
-            boardCategories={categories}
+            boardCategories={boardCategories}
             handlers={{ deleteCard, updateCard, setModalState }}
           />
         );
