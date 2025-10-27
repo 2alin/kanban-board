@@ -7,7 +7,12 @@ interface CardProp {
   boardCategories: string[];
   handlers: {
     deleteCard: (id: string) => void;
-    updateCard: (cardData: CardData) => void;
+    updateCard: (cardToUpdate: {
+      id: string;
+      title: string;
+      description: string;
+      category: string;
+    }) => void;
     setModalState: ({
       type,
       cardId,
@@ -23,7 +28,7 @@ export default function Card({
   boardCategories,
   handlers,
 }: CardProp) {
-  const { id, title, description, category, categoryIdx } = cardData;
+  const { id, title, description, category } = cardData;
   const { deleteCard, updateCard, setModalState } = handlers;
 
   function handleEdit() {
@@ -50,7 +55,6 @@ export default function Card({
       title,
       description,
       category: newCategory,
-      categoryIdx,
     });
   }
 

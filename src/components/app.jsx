@@ -89,9 +89,13 @@ export default function App({
         <NewCardButton {...{ setModalState }} />
       </header>
       <Board
-        {...{ categories, cards, deleteCard, updateCard, setModalState }}
+        {...{ categories, cards }}
+        handlers={{ deleteCard, updateCard, setModalState }}
       />
-      <CardModal {...{ modalState, categories, cards, addCard, updateCard }} />
+      <CardModal
+        {...{ modalState, categories, cards }}
+        handlers={{ addCard, updateCard }}
+      />
       <footer>
         <ImportSection {...{ setCategories, replaceCardList }} />
         <ExportSection {...{ lastChangedBoard }} />
