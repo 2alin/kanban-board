@@ -1,12 +1,19 @@
+import type { CardData } from "./card.types";
 import Column from "./column";
 
-export default function Board({
-  categories,
-  cards,
-  deleteCard,
-  updateCard,
-  setModalState,
-}) {
+interface BoardProps {
+  categories: string[];
+  cards: CardData[];
+  handlers: {
+    deleteCard: () => void;
+    updateCard: () => void;
+    setModalState: () => void;
+  };
+}
+
+export default function Board({ categories, cards, handlers }: BoardProps) {
+  const { deleteCard, updateCard, setModalState } = handlers;
+
   return (
     <section id="board">
       {categories.map((category) => {
