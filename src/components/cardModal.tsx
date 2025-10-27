@@ -1,28 +1,46 @@
+import type {
+  CardBaseData,
+  CardExtendedData,
+  CardListState,
+  ModalState,
+} from "./app.types";
 import CategorySelector from "./categorySelector";
+
+interface CardModalProps {
+  modalState: ModalState;
+  categories: string[];
+  cards: CardListState;
+  handlers: {
+    addCard: (cardData: CardBaseData) => void;
+    updateCard: (cardData: CardExtendedData) => void;
+  };
+}
 
 export default function CardModal({
   modalState,
   categories,
   cards,
-  addCard,
-  updateCard,
-}) {
+  handlers,
+}: CardModalProps) {
+  const { addCard, updateCard } = handlers;
+
   const modalType = modalState.type;
-  const modalTitle = {
-    new: "New card",
-    edit: "Edit card",
-  };
-  const submitButtonText = {
-    new: "add card",
-    edit: "save card",
-  };
+  const modalTitle = new Map([
+    ["new", "New card"],
+    ["edit", "Edit card"],
+  ]);
+  const submitButtonText = new Map([
+    ["new", "add card"],
+    ["edit", "save card"],
+  ]);
   const cardFormId = "modal-card-form";
   const selectCategoryId = "modal-card-category";
 
   let prefilledData = {
-    category: categories[0],
     title: "",
     description: "",
+    category: categories[0],
+    categoryIdx: 0,
   };
 
   if (modalState.type === "edit") {
@@ -36,20 +54,36 @@ export default function CardModal({
       category: cardToEdit.category,
       title: cardToEdit.title,
       description: cardToEdit.description,
+      categoryIdx: cardToEdit.categoryIdx,
     };
 
     // patch: 'select' components don't render again
     // when the prop value used for defaultValue changes
-    document.getElementById(selectCategoryId).value = prefilledData.category;
+    const selectElement = document.getElementById(selectCategoryId);
+    if (selectElement instanceof HTMLSelectElement) {
+      selectElement.value = prefilledData.category;
+    }
   }
 
   function clearForm() {
     const form = document.getElementById(cardFormId);
+
+    if (!(form instanceof HTMLFormElement)) {
+      console.error("The target form to clear is not a Form element ");
+      return;
+    }
+
     form.reset();
   }
 
   function handleSubmitButtonClick() {
     const form = document.getElementById(cardFormId);
+
+    if (!(form instanceof HTMLFormElement)) {
+      console.error("The target form to submit is not a Form element ");
+      return;
+    }
+
     form.requestSubmit();
   }
 
@@ -58,14 +92,38 @@ export default function CardModal({
     clearForm();
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
+    const formElement = event.target;
+
+    if (!(formElement instanceof HTMLFormElement)) {
+      console.error("No form element found to submit its data");
+      return;
+    }
+
+    const formData = new FormData(formElement);
+    const [formTitle, formDescription, formCategory] = [
+      "title",
+      "description",
+      "category",
+    ].map((fieldName) => formData.get(fieldName));
+
+    if (
+      formTitle === null ||
+      formDescription === null ||
+      formCategory === null
+    ) {
+      console.error("Couldn't get the data required to submit the form");
+      document.body.classList.toggle("show-modal", false);
+      clearForm();
+      return;
+    }
+
     const cardData = {
-      title: formData.get("title"),
-      description: formData.get("description"),
-      category: formData.get("category"),
+      title: formTitle.toString(),
+      description: formDescription.toString(),
+      category: formCategory.toString(),
     };
 
     try {
@@ -75,12 +133,14 @@ export default function CardModal({
         if (!modalState.cardId) {
           throw new Error("No Id found in the card to edit");
         }
+        cards;
 
         updateCard({
-          cardId: modalState.cardId,
-          newTitle: cardData.title,
-          newDescription: cardData.description,
-          newCategory: cardData.category,
+          id: modalState.cardId,
+          title: cardData.title,
+          description: cardData.description,
+          category: cardData.category,
+          categoryIdx: prefilledData.categoryIdx,
         });
       } else {
         throw new Error("Card modal type not recognized");
@@ -96,7 +156,7 @@ export default function CardModal({
   return (
     <aside className="modal">
       <section className="form-container">
-        <h2 className="title">{modalTitle[modalType]}</h2>
+        <h2 className="title">{modalTitle.get(modalType) || ""}</h2>
 
         <form
           name="modal-card-form"
@@ -138,7 +198,7 @@ export default function CardModal({
             cancel
           </button>
           <button id="submit-card-button" onClick={handleSubmitButtonClick}>
-            {submitButtonText[modalType]}
+            {submitButtonText.get(modalType) || ""}
           </button>
         </footer>
       </section>

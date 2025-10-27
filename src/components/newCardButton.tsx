@@ -1,4 +1,8 @@
-export default function NewCardButton({ setModalState }) {
+interface NewCardButtonProps {
+  setModalState: (value: React.SetStateAction<{ type: string }>) => void;
+}
+
+export default function NewCardButton({ setModalState }: NewCardButtonProps) {
   function handleNewCardButtonClick() {
     setModalState({ type: "new" });
     document.body.classList.toggle("show-modal", true);
