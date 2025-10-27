@@ -1,27 +1,29 @@
 import Card from "./card";
+import type { CardData } from "./card.types";
 
-/**
- * Gets the column ID in the right format
- *
- * @param {string} name
- * @returns
- */
-export function getColumnId(name) {
-  return "column-" + name;
+interface ColumnProps {
+  title: string;
+  cards: CardData[];
+  boardCategories: string[];
+  handlers: {
+    deleteCard: () => void;
+    updateCard: () => void;
+    setModalState: () => void;
+  };
 }
 
 export default function Column({
   title,
   cards,
   boardCategories,
-  deleteCard,
-  updateCard,
-  setModalState,
-}) {
-  const sortedCards = cards.toSorted((a, b) => b.categoryIdx - a.categoryIdx);
+  handlers,
+}: ColumnProps) {
+  const { deleteCard, updateCard, setModalState } = handlers;
+
+  const sortedCards = [...cards].sort((a, b) => b.categoryIdx - a.categoryIdx);
 
   return (
-    <section className="column" id={getColumnId(title)}>
+    <section className="column">
       <h2 className="title">{title}</h2>
       <ol className="card-list">
         {sortedCards.map((card) => (

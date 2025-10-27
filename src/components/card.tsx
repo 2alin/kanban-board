@@ -23,7 +23,7 @@ export default function Card({
   boardCategories,
   handlers,
 }: CardProp) {
-  const { title, description, category, id } = cardData;
+  const { id, title, description, category, categoryIdx } = cardData;
   const { deleteCard, updateCard, setModalState } = handlers;
 
   function handleEdit() {
@@ -50,6 +50,7 @@ export default function Card({
       title,
       description,
       category: newCategory,
+      categoryIdx,
     });
   }
 

@@ -3,6 +3,10 @@
  */
 export interface CardData {
   /**
+   * A unique identifier for the card. Automatically generated.
+   */
+  id: string;
+  /**
    * Title of the card
    */
   title: string;
@@ -15,7 +19,7 @@ export interface CardData {
    */
   category: string;
   /**
-   * A unique identifier for the card. Automatically generated.
+   * The order where the card will appear in the board column
    */
-  id: string;
+  categoryIdx: number;
 }

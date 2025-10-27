@@ -10,7 +10,7 @@ export default function Board({
   return (
     <section id="board">
       {categories.map((category) => {
-        const categoryCards = cards.filter(
+        const cardsInCategory = cards.filter(
           (entry) => entry.category === category
         );
 
@@ -18,9 +18,9 @@ export default function Board({
           <Column
             key={category}
             title={category}
-            cards={categoryCards}
+            cards={cardsInCategory}
             boardCategories={categories}
-            {...{ deleteCard, updateCard, setModalState }}
+            handlers={{ deleteCard, updateCard, setModalState }}
           />
         );
       })}
