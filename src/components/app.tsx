@@ -19,7 +19,7 @@ import NewCardButton from "./newCardButton";
 interface AppProps {
   initialCategories: string[];
   initialCards: CardListState;
-  handleThemeChange: () => void;
+  handleThemeChange: React.MouseEventHandler;
 }
 
 export default function App({

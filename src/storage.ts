@@ -1,4 +1,4 @@
-import { defaultBoardData } from "./defaultSettings";
+import { defaultBoardData, themes } from "./defaultSettings";
 import type { BoardData, CardEntry } from "./storage.types";
 import { hasPropertyPrimitiveTypes } from "./utilities";
 
@@ -72,6 +72,22 @@ function isBoardData(candidate: unknown): candidate is BoardData {
 }
 
 /**
+ * Historically board data types
+ */
+type AnyVersionBoardData = BoardData;
+
+/**
+ * Migrates older versions of board data to the newest version
+ */
+function migrateData(boardData: AnyVersionBoardData): BoardData {
+  // we are expecting to have currently migrated
+  // all users from a previous board data version
+  // current version: "0.1"
+  const newBoardData = JSON.parse(JSON.stringify(boardData));
+  return newBoardData;
+}
+
+/**
  * Gets the board data stored locally
  *
  * @returns The board data stored locally or null if no data has been stored
@@ -88,6 +104,10 @@ function getBoardData(): BoardData | null {
     }
 
     localData = JSON.parse(localDataRaw);
+    if (localData.version !== defaultBoardData.version) {
+      localData = migrateData(localData);
+    }
+
     if (!isBoardData(localData)) {
       throw new Error("Local data doesn't have the right board data shape");
     }
@@ -200,6 +220,10 @@ function getTheme(): string | null {
  */
 function setTheme(theme: string): boolean {
   try {
+    if (!themes.includes(theme)) {
+      throw new Error("Theme value received is not supported");
+    }
+
     localStorage.setItem(themeStorageKey, theme);
   } catch (error) {
     console.error("[storage.theme.set] Couldn't store the theme", error);
