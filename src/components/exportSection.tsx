@@ -1,11 +1,27 @@
 import { useState } from "react";
 import storage from "../storage";
 
-function isValirURL(url) {
-  return URL.canParse(url);
+/**
+ * Checks if a text is a valid URL or not
+ *
+ * @param text The text URL to check against
+ * @returns Whether the text URL is a valid URL or not
+ */
+function isValirURL(text: string) {
+  return URL.canParse(text);
 }
 
-export default function ExportSection({ lastChangedBoardData }) {
+interface ExportSectionProps {
+  /**
+   * The last time the board data (cards data or state, columns)
+   * was changed, in ISO string format
+   */
+  lastChangedBoard: string;
+}
+
+export default function ExportSection({
+  lastChangedBoard,
+}: ExportSectionProps) {
   const [downloadUrl, setDownloadUrl] = useState("");
   const [lastChangedDownload, setLastChangedDownload] = useState("");
 
@@ -16,11 +32,11 @@ export default function ExportSection({ lastChangedBoardData }) {
     });
     const blobUrl = URL.createObjectURL(blob);
     setDownloadUrl(blobUrl);
-    setLastChangedDownload(lastChangedBoardData);
+    setLastChangedDownload(lastChangedBoard);
   }
 
   const isDownloadHidden =
-    !isValirURL(downloadUrl) || lastChangedBoardData !== lastChangedDownload;
+    !isValirURL(downloadUrl) || lastChangedBoard !== lastChangedDownload;
 
   return (
     <section id="export-section">

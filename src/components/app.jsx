@@ -24,9 +24,7 @@ export default function App({
 
   const [categories, setCategories] = useState(initialCategories);
   const [cards, setCards] = useState(initialCards);
-  const [lastChangedBoardData, setLastChangedBoardData] = useState(
-    getISODate()
-  );
+  const [lastChangedBoard, setLastChangedBoard] = useState(getISODate());
 
   function storeCards(newCards) {
     const success = storage.board.entries.set(newCards);
@@ -36,7 +34,7 @@ export default function App({
       setModalState({ type: "new" });
 
       setCards(newCards);
-      setLastChangedBoardData(getISODate());
+      setLastChangedBoard(getISODate());
     } else {
       throw new Error("Issue storing cards locally");
     }
@@ -96,7 +94,7 @@ export default function App({
       <CardModal {...{ modalState, categories, cards, addCard, updateCard }} />
       <footer>
         <ImportSection {...{ setCategories, replaceCardList }} />
-        <ExportSection {...{ lastChangedBoardData }} />
+        <ExportSection {...{ lastChangedBoard }} />
         <ThemeSelector {...{ handleThemeChange }} />
       </footer>
     </>
