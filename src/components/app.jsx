@@ -65,13 +65,13 @@ export default function App({
     storeCards(newCards);
   }
 
-  function updateCard({ cardId, newTitle, newDescription, newCategory }) {
-    const cardIndex = cards.findIndex((card) => card.id === cardId);
+  function updateCard({ id, title, description, category }) {
+    const cardIndex = cards.findIndex((card) => card.id === id);
 
     const updatedCard = cards[cardIndex];
-    updatedCard.title = newTitle;
-    updatedCard.description = newDescription;
-    updatedCard.category = newCategory;
+    updatedCard.title = title;
+    updatedCard.description = description;
+    updatedCard.category = category;
 
     const newCards = [...cards];
     newCards[cardIndex] = updatedCard;

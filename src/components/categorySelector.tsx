@@ -1,8 +1,8 @@
 interface CategorySelectorProps {
-  id: string;
+  id?: string;
   categories: string[];
   defaultSelected: string;
-  handleChange: React.ChangeEventHandler;
+  handleChange?: React.ChangeEventHandler;
 }
 
 /**

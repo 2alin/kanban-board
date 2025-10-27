@@ -77,10 +77,10 @@ export default function CardModal({
         }
 
         updateCard({
-          cardId: modalState.cardId,
-          newTitle: cardData.title,
-          newDescription: cardData.description,
-          newCategory: cardData.category,
+          id: modalState.cardId,
+          title: cardData.title,
+          description: cardData.description,
+          category: cardData.category,
         });
       } else {
         throw new Error("Card modal type not recognized");

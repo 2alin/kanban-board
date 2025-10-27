@@ -1,19 +1,31 @@
+import type { CardData } from "./card.types";
 import CategorySelector from "./categorySelector";
 import RichText from "./richText";
 
+interface CardProp {
+  cardData: CardData;
+  boardCategories: string[];
+  handlers: {
+    deleteCard: (id: string) => void;
+    updateCard: (cardData: CardData) => void;
+    setModalState: ({
+      type,
+      cardId,
+    }: {
+      type: string;
+      cardId?: string;
+    }) => void;
+  };
+}
+
 export default function Card({
-  // card data
-  title,
-  description,
-  category,
-  id,
-  // board data
+  cardData,
   boardCategories,
-  // event handlers
-  deleteCard,
-  updateCard,
-  setModalState,
-}) {
+  handlers,
+}: CardProp) {
+  const { title, description, category, id } = cardData;
+  const { deleteCard, updateCard, setModalState } = handlers;
+
   function handleEdit() {
     setModalState({ type: "edit", cardId: id });
     document.body.classList.toggle("show-modal", true);
@@ -23,14 +35,21 @@ export default function Card({
     deleteCard(id);
   }
 
-  function handleCategoryChange(event) {
-    const newCategory = event.target.value;
+  function handleCategoryChange(event: React.ChangeEvent) {
+    const selectElement = event.target;
+
+    if (!(selectElement instanceof HTMLSelectElement)) {
+      console.error("Event target is not a Select element");
+      return;
+    }
+
+    const newCategory = selectElement.value;
 
     updateCard({
-      cardId: id,
-      newTitle: title,
-      newDescription: description,
-      newCategory,
+      id,
+      title,
+      description,
+      category: newCategory,
     });
   }
 

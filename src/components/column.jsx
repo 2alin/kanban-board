@@ -27,12 +27,10 @@ export default function Column({
         {sortedCards.map((card) => (
           <li key={card.id}>
             <Card
-              title={card.title}
-              description={card.description}
-              category={card.category}
-              id={card.id}
               key={card.id}
-              {...{ boardCategories, deleteCard, updateCard, setModalState }}
+              cardData={card}
+              boardCategories={boardCategories}
+              handlers={{ deleteCard, updateCard, setModalState }}
             />
           </li>
         ))}
