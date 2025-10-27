@@ -1,22 +1,18 @@
-import type { CardData } from "./card.types";
+import type {
+  CardBaseData,
+  CardExtendedData,
+  CardListState,
+  ModalState,
+} from "./app.types";
 import CategorySelector from "./categorySelector";
 
 interface CardModalProps {
-  modalState: { type: string; cardId: string };
+  modalState: ModalState;
   categories: string[];
-  cards: CardData[];
+  cards: CardListState;
   handlers: {
-    addCard: (cardToAdd: {
-      title: string;
-      description: string;
-      category: string;
-    }) => void;
-    updateCard: (cardToUpdate: {
-      id: string;
-      title: string;
-      description: string;
-      category: string;
-    }) => void;
+    addCard: (cardData: CardBaseData) => void;
+    updateCard: (cardData: CardExtendedData) => void;
   };
 }
 
@@ -41,9 +37,10 @@ export default function CardModal({
   const selectCategoryId = "modal-card-category";
 
   let prefilledData = {
-    category: categories[0],
     title: "",
     description: "",
+    category: categories[0],
+    categoryIdx: 0,
   };
 
   if (modalState.type === "edit") {
@@ -57,6 +54,7 @@ export default function CardModal({
       category: cardToEdit.category,
       title: cardToEdit.title,
       description: cardToEdit.description,
+      categoryIdx: cardToEdit.categoryIdx,
     };
 
     // patch: 'select' components don't render again
@@ -135,12 +133,14 @@ export default function CardModal({
         if (!modalState.cardId) {
           throw new Error("No Id found in the card to edit");
         }
+        cards;
 
         updateCard({
           id: modalState.cardId,
           title: cardData.title,
           description: cardData.description,
           category: cardData.category,
+          categoryIdx: prefilledData.categoryIdx,
         });
       } else {
         throw new Error("Card modal type not recognized");

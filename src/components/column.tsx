@@ -1,14 +1,14 @@
 import Card from "./card";
-import type { CardData } from "./card.types";
+import type { CardExtendedData, CardListState, ModalState } from "./app.types";
 
 interface ColumnProps {
   title: string;
-  cards: CardData[];
+  cards: CardListState;
   boardCategories: string[];
   handlers: {
-    deleteCard: () => void;
-    updateCard: () => void;
-    setModalState: () => void;
+    deleteCard: (id: string) => void;
+    updateCard: (cardData: CardExtendedData) => void;
+    setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
 

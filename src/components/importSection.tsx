@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import storage from "../storage";
-import type { CardEntry } from "../storage.types";
+import type { CardBaseData } from "./app.types";
 
 const messageClassNames = {
   none: "",
@@ -11,7 +11,7 @@ const messageClassNames = {
 
 interface ImportSectionProps {
   setCategories: (categories: string[]) => void;
-  replaceCardList: (cardEntries: CardEntry[]) => void;
+  replaceCardList: (cardDataList: CardBaseData[]) => void;
 }
 
 export default function ImportSection({
@@ -78,14 +78,27 @@ export default function ImportSection({
       storage.board.set(oldBoardData);
     }
 
-    // file loading process messages to the user
     if (success && newBoardData) {
       setCategories(newBoardData.categories);
-      replaceCardList(newBoardData.entries);
+      const newCardList = newBoardData.entries.map((entry) => {
+        return {
+          title: entry.title,
+          description: entry.description || "",
+          category: entry.category,
+        };
+      });
+      replaceCardList(newCardList);
       setMessageClassToShow(messageClassNames.success);
     } else if (oldBoardData) {
       setCategories(oldBoardData.categories);
-      replaceCardList(oldBoardData.entries);
+      const oldCardList = oldBoardData.entries.map((entry) => {
+        return {
+          title: entry.title,
+          description: entry.description || "",
+          category: entry.category,
+        };
+      });
+      replaceCardList(oldCardList);
       setMessageClassToShow(messageClassNames.error);
     } else {
       console.error("[load-file]: The current board data is empty");

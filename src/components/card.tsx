@@ -1,25 +1,14 @@
-import type { CardData } from "./card.types";
+import type { CardExtendedData, ModalState } from "./app.types";
 import CategorySelector from "./categorySelector";
 import RichText from "./richText";
 
 interface CardProp {
-  cardData: CardData;
+  cardData: CardExtendedData;
   boardCategories: string[];
   handlers: {
     deleteCard: (id: string) => void;
-    updateCard: (cardToUpdate: {
-      id: string;
-      title: string;
-      description: string;
-      category: string;
-    }) => void;
-    setModalState: ({
-      type,
-      cardId,
-    }: {
-      type: string;
-      cardId?: string;
-    }) => void;
+    updateCard: (cardData: CardExtendedData) => void;
+    setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
 
@@ -28,7 +17,7 @@ export default function Card({
   boardCategories,
   handlers,
 }: CardProp) {
-  const { id, title, description, category } = cardData;
+  const { id, title, description, category, categoryIdx } = cardData;
   const { deleteCard, updateCard, setModalState } = handlers;
 
   function handleEdit() {
@@ -55,6 +44,7 @@ export default function Card({
       title,
       description,
       category: newCategory,
+      categoryIdx,
     });
   }
 
