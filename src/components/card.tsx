@@ -48,6 +48,23 @@ export default function Card({
     });
   }
 
+  /**
+   * Move the cards position in the category that is located
+   *
+   * @param direction The direction to move the card:
+   *   - a positive number means moving the card upwards
+   *   - a negative number means moving the card downwards
+   */
+  function moveCard(direction: number) {
+    updateCard({
+      id,
+      title,
+      description,
+      category,
+      categoryIdx: categoryIdx - 1.5 * direction,
+    });
+  }
+
   return (
     <section className="card" data-title={title}>
       <header>
@@ -62,7 +79,23 @@ export default function Card({
           defaultSelected={category}
           handleChange={handleCategoryChange}
         />
-        <div className="right-container">
+        <div className="middle container">
+          <button
+            className="move-up icon"
+            aria-describedby="move card upwards"
+            onClick={() => moveCard(+1)}
+          >
+            <span className="icon-img"></span>
+          </button>
+          <button
+            className="move-down icon"
+            aria-describedby="move card downwards"
+            onClick={() => moveCard(-1)}
+          >
+            <span className="icon-img"></span>
+          </button>
+        </div>
+        <div className="right container">
           <button
             className="edit icon"
             aria-describedby="edits card"

@@ -36,31 +36,33 @@
   box-shadow: 0 1px var(--card-bg-color), 0 2px var(--card-text-color);
 }
 
-.card footer .right-container {
+.card footer .container {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.card button.delete,
-.card button.edit {
+.card button.icon,
+.card button.icon {
   --buton-size: 1.25rem;
   width: var(--buton-size);
   height: var(--buton-size);
   border: 0;
   padding: 0;
-  /* border-radius: 4px; */
-  /* border-bottom: 1px solid var(--card-text-color); */
-  /* box-shadow: 0 2px var(--card-bg-color), 0 4px var(--card-text-color); */
   display: flex;
   background-color: var(--card-bg-color);
 }
 
-.card footer button {
+.card footer .container button {
+  margin-right: calc(1 * var(--buton-size));
+}
+
+.card footer .right.container button {
+  /* adding more space for the remove card button to avoid click by mistake */
   margin-right: calc(1.5 * var(--buton-size));
 }
 
-.card footer button:last-of-type {
+.card footer .container button:last-of-type {
   margin-right: 0;
 }
 
@@ -72,10 +74,26 @@
   background-color: var(--card-text-color);
 }
 
+.card button.move-up .icon-img {
+  mask-image: url("../icons/move-up.svg");
+}
+
+.card button.move-down .icon-img {
+  mask-image: url("../icons/move-down.svg");
+}
+
 .card button.edit .icon-img {
   mask-image: url("../icons/edit.svg");
 }
 
 .card button.delete .icon-img {
   mask-image: url("../icons/remove.svg");
+}
+
+/* hiding the move up and move down buttons ofr first and last cards */
+.card-list > li:first-of-type button.move-up {
+  visibility: hidden;
+}
+.card-list > li:last-of-type button.move-down {
+  visibility: hidden;
 }
