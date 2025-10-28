@@ -31,9 +31,9 @@ export interface CardExtendedData extends CardBaseData {
 }
 
 /**
- * The cards memory state
+ * A map in memory that holds the cards per category assigned
  */
-export type CardListState = CardExtendedData[];
+export type CardsMap = Map<string, CardExtendedData[]>;
 
 /**
  * The state of the modal. Valid typesare:

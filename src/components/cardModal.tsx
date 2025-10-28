@@ -1,15 +1,16 @@
+import { toCardList } from "./app";
 import type {
   CardBaseData,
   CardExtendedData,
-  CardListState,
+  CardsMap,
   ModalState,
 } from "./app.types";
 import CategorySelector from "./categorySelector";
 
 interface CardModalProps {
   modalState: ModalState;
-  categories: string[];
-  cards: CardListState;
+  cardsMap: CardsMap;
+  boardCategories: string[];
   handlers: {
     addCard: (cardData: CardBaseData) => void;
     updateCard: (cardData: CardExtendedData) => void;
@@ -18,8 +19,8 @@ interface CardModalProps {
 
 export default function CardModal({
   modalState,
-  categories,
-  cards,
+  cardsMap,
+  boardCategories,
   handlers,
 }: CardModalProps) {
   const { addCard, updateCard } = handlers;
@@ -39,12 +40,13 @@ export default function CardModal({
   let prefilledData = {
     title: "",
     description: "",
-    category: categories[0],
+    category: boardCategories[0],
     categoryIdx: 0,
   };
 
   if (modalState.type === "edit") {
-    const cardToEdit = cards.find((card) => card.id === modalState.cardId);
+    const cardList = toCardList(cardsMap);
+    const cardToEdit = cardList.find((card) => card.id === modalState.cardId);
 
     if (!cardToEdit) {
       throw new Error("No card to edit was found with the given Id");
@@ -133,7 +135,6 @@ export default function CardModal({
         if (!modalState.cardId) {
           throw new Error("No Id found in the card to edit");
         }
-        cards;
 
         updateCard({
           id: modalState.cardId,
@@ -177,15 +178,13 @@ export default function CardModal({
           <textarea
             name="description"
             id="modal-card-description"
-            // cols="40"
-            // rows="4"
             defaultValue={prefilledData.description}
           ></textarea>
 
           <label htmlFor="modal-card-category">Category: </label>
           <CategorySelector
             id={selectCategoryId}
-            categories={categories}
+            categories={boardCategories}
             defaultSelected={prefilledData.category}
           />
         </form>

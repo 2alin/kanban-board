@@ -1,7 +1,9 @@
 import { useState } from "react";
 
+import type { CardExtendedData, CardsMap } from "./app.types";
 import storage from "../storage";
-import type { CardBaseData } from "./app.types";
+import { getRandomId } from "../utilities";
+import { toCardsMap } from "./app";
 
 const messageClassNames = {
   none: "",
@@ -10,13 +12,13 @@ const messageClassNames = {
 };
 
 interface ImportSectionProps {
-  setCategories: (categories: string[]) => void;
-  replaceCardList: (cardDataList: CardBaseData[]) => void;
+  setBoardCategories: (categories: string[]) => void;
+  updateBoardData: (cardsMap: CardsMap) => void;
 }
 
 export default function ImportSection({
-  setCategories,
-  replaceCardList,
+  setBoardCategories,
+  updateBoardData,
 }: ImportSectionProps) {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [messageClassToShow, setMessageClassToShow] = useState(
@@ -62,46 +64,37 @@ export default function ImportSection({
 
     const textData = await file.text();
     const jsonData = JSON.parse(textData);
-
-    let success = false;
-    const oldBoardData = storage.board.get();
     let newBoardData = null;
+
+    const oldBoardData = storage.board.get();
+    let isNewBoardDataStored = false;
     try {
-      const isBoardDataStored = storage.board.set(jsonData);
-      if (!isBoardDataStored) {
-        throw new Error("Couldn't store board data");
-      }
+      isNewBoardDataStored = storage.board.set(jsonData);
       newBoardData = storage.board.get();
-      success = true;
     } catch (error) {
-      console.error("[load-file]: Error while trying to parse the data", error);
+      console.error(
+        "[load-file]: Error while trying to import the data",
+        error
+      );
       storage.board.set(oldBoardData);
     }
 
-    if (success && newBoardData) {
-      setCategories(newBoardData.categories);
+    if (isNewBoardDataStored && newBoardData) {
+      setBoardCategories(newBoardData.categories);
       const newCardList = newBoardData.entries.map((entry) => {
         return {
+          id: getRandomId(),
           title: entry.title,
           description: entry.description || "",
           category: entry.category,
+          categoryIdx: entry.categoryIdx,
         };
       });
-      replaceCardList(newCardList);
+      const newCardsMap = toCardsMap(newCardList, newBoardData.categories);
+      updateBoardData(newCardsMap);
       setMessageClassToShow(messageClassNames.success);
     } else if (oldBoardData) {
-      setCategories(oldBoardData.categories);
-      const oldCardList = oldBoardData.entries.map((entry) => {
-        return {
-          title: entry.title,
-          description: entry.description || "",
-          category: entry.category,
-        };
-      });
-      replaceCardList(oldCardList);
       setMessageClassToShow(messageClassNames.error);
-    } else {
-      console.error("[load-file]: The current board data is empty");
     }
 
     // clearing file import section

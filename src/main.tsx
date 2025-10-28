@@ -6,7 +6,7 @@ import { getRandomId } from "./utilities";
 
 import App from "./components/app";
 import type { BoardData } from "./storage.types";
-import type { CardListState } from "./components/app.types";
+import type { CardExtendedData } from "./components/app.types";
 
 function handleThemeChange(event: React.MouseEvent) {
   const { target } = event;
@@ -58,13 +58,15 @@ async function initialize() {
   }
 
   // add Ids to initial cards that will be used in memory only
-  const initialCards: CardListState = initialBoardData.entries.map((entry) => ({
-    id: getRandomId(),
-    title: entry.title,
-    description: entry.description || "",
-    category: entry.category,
-    categoryIdx: entry.categoryIdx,
-  }));
+  const initialCards: CardExtendedData[] = initialBoardData.entries.map(
+    (entry) => ({
+      id: getRandomId(),
+      title: entry.title,
+      description: entry.description || "",
+      category: entry.category,
+      categoryIdx: entry.categoryIdx,
+    })
+  );
 
   const rootContainer = document.getElementById("root");
   if (!rootContainer) {
