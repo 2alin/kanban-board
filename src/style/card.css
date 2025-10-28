@@ -42,6 +42,10 @@
   align-items: center;
 }
 
+.card footer .middle.container {
+  margin: 0 1.5rem; 
+}
+
 .card button.icon,
 .card button.icon {
   --buton-size: 1.25rem;
@@ -74,12 +78,20 @@
   background-color: var(--card-text-color);
 }
 
+.card button.move-top .icon-img {
+  mask-image: url("../icons/move-top.svg");
+}
+
 .card button.move-up .icon-img {
   mask-image: url("../icons/move-up.svg");
 }
 
 .card button.move-down .icon-img {
   mask-image: url("../icons/move-down.svg");
+}
+
+.card button.move-bottom .icon-img {
+  mask-image: url("../icons/move-bottom.svg");
 }
 
 .card button.edit .icon-img {
@@ -91,9 +103,9 @@
 }
 
 /* hiding the move up and move down buttons ofr first and last cards */
-.card-list > li:first-of-type button.move-up {
-  visibility: hidden;
-}
-.card-list > li:last-of-type button.move-down {
+.card-list > li:first-of-type button.move-top,
+.card-list > li:first-of-type button.move-up,
+.card-list > li:last-of-type button.move-down,
+.card-list > li:last-of-type button.move-bottom {
   visibility: hidden;
 }

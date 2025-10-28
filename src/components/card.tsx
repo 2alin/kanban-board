@@ -51,17 +51,35 @@ export default function Card({
   /**
    * Move the cards position in the category that is located
    *
-   * @param direction The direction to move the card:
-   *   - a positive number means moving the card upwards
-   *   - a negative number means moving the card downwards
+   * @param direction The direction to move the card.
+   * Values accepted: "top", "up", "down", "bottom"
    */
-  function moveCard(direction: number) {
+  function moveCard(direction: string) {
+    let newCategoryIdx = categoryIdx;
+
+    switch (direction) {
+      case "top":
+        newCategoryIdx = Number.NEGATIVE_INFINITY;
+        break;
+      case "up":
+        newCategoryIdx = categoryIdx - 1.5;
+        break;
+      case "down":
+        newCategoryIdx = categoryIdx + 1.5;
+        break;
+      case "bottom":
+        newCategoryIdx = Number.POSITIVE_INFINITY;
+        break;
+      default:
+        // handled already in the initialization of this method
+    }
+
     updateCard({
       id,
       title,
       description,
       category,
-      categoryIdx: categoryIdx - 1.5 * direction,
+      categoryIdx: newCategoryIdx,
     });
   }
 
@@ -81,16 +99,30 @@ export default function Card({
         />
         <div className="middle container">
           <button
+            className="move-top icon"
+            aria-describedby="move card to the top"
+            onClick={() => moveCard("top")}
+          >
+            <span className="icon-img"></span>
+          </button>
+          <button
             className="move-up icon"
             aria-describedby="move card upwards"
-            onClick={() => moveCard(+1)}
+            onClick={() => moveCard("up")}
           >
             <span className="icon-img"></span>
           </button>
           <button
             className="move-down icon"
             aria-describedby="move card downwards"
-            onClick={() => moveCard(-1)}
+            onClick={() => moveCard("down")}
+          >
+            <span className="icon-img"></span>
+          </button>
+          <button
+            className="move-bottom icon"
+            aria-describedby="move card to the bottom"
+            onClick={() => moveCard("bottom")}
           >
             <span className="icon-img"></span>
           </button>
