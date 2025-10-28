@@ -73,14 +73,6 @@ export function toCardList(cardsMap: CardsMap): CardExtendedData[] {
   return cardList;
 }
 
-export function getCategoryLastIdx(
-  cards: CardExtendedData[],
-  category: string
-) {
-  const cardsInCategory = cards.filter((card) => card.category === category);
-  return cardsInCategory.length;
-}
-
 interface AppProps {
   initialCategories: string[];
   initialCards: CardExtendedData[];
