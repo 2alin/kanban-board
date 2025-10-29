@@ -15,6 +15,7 @@ import ImportSection from "./importSection";
 import CardModal from "./cardModal";
 import ThemeSelector from "./themeSelector";
 import NewCardButton from "./newCardButton";
+import { HistoryContros } from "./historyControls";
 
 /**
  * Normalizes a list of cards in the following sense:
@@ -91,6 +92,10 @@ export default function App({
   const [cardsMap, setCardsMap] = useState(initialCardsMap);
   const [boardCategories, setBoardCategories] = useState(initialCategories);
 
+  const cloneCardsMap = structuredClone(cardsMap);
+  const [boardHistory, setBoardHistory] = useState([cloneCardsMap]);
+  const [historyIdx, setHistoryIdx] = useState(0);
+
   const [lastChangedBoard, setLastChangedBoard] = useState(getISODate());
 
   /**
@@ -100,8 +105,10 @@ export default function App({
    * - last update state
    *
    * @param newCardsMap The new cards map assigned to the board
+   * @param rewriteHistory Whether we should rewrite history or not.
+   *                       Used in undo/redo actions
    */
-  function updateBoardData(newCardsMap: CardsMap) {
+  function updateBoardData(newCardsMap: CardsMap, rewriteHistory = true) {
     const newCardList = toCardList(newCardsMap);
     const success = storage.board.entries.set(newCardList);
     if (success) {
@@ -110,6 +117,18 @@ export default function App({
       setModalState({ type: "new" });
 
       setCardsMap(newCardsMap);
+
+      if (rewriteHistory) {
+        const newHistoryIdx = historyIdx + 1;
+        const pastHistory = boardHistory.slice(0, newHistoryIdx);
+        const cloneNewsCardMap = structuredClone(newCardsMap);
+        let newBoardHistory = [...pastHistory, cloneNewsCardMap];
+        // store only last 10 history actions
+        newBoardHistory = newBoardHistory.slice(-10);
+        setBoardHistory(newBoardHistory);
+        setHistoryIdx(newHistoryIdx);
+      }
+
       setLastChangedBoard(getISODate());
     } else {
       throw new Error("Issue storing cards locally");
@@ -160,7 +179,7 @@ export default function App({
     });
 
     if (oldCategory === "") {
-      console.log("Card to update not found in the board");
+      console.error("Card to update not found in the board");
       return null;
     }
 
@@ -238,6 +257,10 @@ export default function App({
     <>
       <header>
         <NewCardButton {...{ setModalState }} />
+        <HistoryContros
+          {...{ boardHistory, historyIdx }}
+          handlers={{ updateBoardData, setHistoryIdx }}
+        />
       </header>
       <Board
         {...{ cardsMap, boardCategories }}
