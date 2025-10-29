@@ -71,7 +71,7 @@ export default function Card({
         newCategoryIdx = Number.POSITIVE_INFINITY;
         break;
       default:
-        // handled already in the initialization of this method
+      // handled already in the initialization of this method
     }
 
     updateCard({
@@ -97,7 +97,7 @@ export default function Card({
           defaultSelected={category}
           handleChange={handleCategoryChange}
         />
-        <div className="middle container">
+        <div className="buttons middle container">
           <button
             className="move-top icon"
             aria-describedby="move card to the top"
@@ -127,7 +127,7 @@ export default function Card({
             <span className="icon-img"></span>
           </button>
         </div>
-        <div className="right container">
+        <div className="buttons right container">
           <button
             className="edit icon"
             aria-describedby="edits card"

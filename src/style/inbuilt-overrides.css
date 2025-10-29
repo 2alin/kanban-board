@@ -15,7 +15,9 @@ button,
 input,
 select,
 textarea {
+  border: 0;
   font-family: inherit;
+  font-size: inherit;
 }
 
 button.icon {
