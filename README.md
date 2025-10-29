@@ -2,6 +2,9 @@
 
 This projects creates a simple kanban board that is persistant across sessions.
 
+<img width="1736" height="841" alt="image" src="https://github.com/user-attachments/assets/fefa6f95-98e1-4e78-b4d5-9c8c580cea6a" />
+
+
 ## Features
 
 Currently it supports the following ✅:
@@ -10,6 +13,7 @@ Currently it supports the following ✅:
 - Moving cards in the same column
 - Moving cards to other columns
 - Basic rich text in card content description (see details bellow)
+- Undo and redo changes to the board data
 - Import and exporting board data
 - Theme selection
 
