@@ -191,8 +191,8 @@ export default function App({
       oldCategoryCardList = oldCategoryCardList.map((card) =>
         card.id === cardData.id ? cardData : card
       );
-      // no need to normalize the card list
-      // as the card is not supposed to change its position
+      // normalizing as we allow floating numbers to change position in a card
+      oldCategoryCardList = normalizeCards(oldCategoryCardList);
 
       newCardsMap.set(oldCategory, oldCategoryCardList);
     }

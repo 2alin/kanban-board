@@ -1,5 +1,6 @@
 @import url("./themes.css");
 @import url("inbuilt-overrides.css");
+@import url("./modal.css");
 @import url("./card.css");
 
 :root {
@@ -8,20 +9,29 @@
 
 /* MAIN CONTAINERS */
 
+body {
+  margin: 0;
+}
+
 main {
   display: flex;
   flex-direction: column;
-  width: fit-content;
-  max-width: 100%;
   margin: 0 auto;
+  max-width: 1920px;
 }
 
 #board {
+  align-self: stretch;
   display: flex;
+  /* we may have too many columns */
+  overflow: auto;
   margin: 1rem 0;
 }
+body.show-modal #board {
+  display: none;
+}
 
-@media screen and (width <= 860px) {
+@media screen and (width <= 640px) {
   #board {
     flex-direction: column;
   }
@@ -30,6 +40,10 @@ main {
 header {
   display: flex;
   justify-content: space-between;
+}
+
+body.show-modal header {
+  display: none;
 }
 
 #new-card-button {
@@ -53,7 +67,9 @@ header {
 /* COLUMNS STYLE */
 
 .column {
-  width: 412px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 420px;
   margin-left: 1.75rem;
   background-color: var(--column-bg-color);
   color: var(--column-text-color);
@@ -64,9 +80,9 @@ header {
   margin-left: 0rem;
 }
 
-@media screen and (width <= 860px) {
+@media screen and (width <= 640px) {
   .column {
-    width: auto;
+    flex: auto;
     margin-left: 0;
     margin-top: 1.75rem;
   }
@@ -89,136 +105,6 @@ header {
   padding: 0 0.75rem;
 }
 
-/* ------------------------- */
-/* CARD MODAL (NEW AND EDIT) */
-/* ------------------------- */
-
-body.show-modal {
-  overflow: hidden;
-}
-
-body.show-modal .modal {
-  display: flex;
-}
-
-.modal {
-  --modal-padding: 2rem;
-  display: none;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  background-color: var(--card-text-color);
-  z-index: 100;
-  justify-content: center;
-  align-items: flex-start;
-  padding: var(--modal-padding);
-}
-
-@media screen and (width <= 860px) {
-  .modal {
-    padding-right: 0;
-    padding-left: 0;
-  }
-}
-
-.modal .form-container {
-  width: 640px;
-  background-color: var(--card-bg-color);
-  padding: 1rem;
-  color: var(--card-text-color);
-  border-radius: 0.5rem;
-}
-
-@media screen and (width <= 860px) {
-  .modal .form-container {
-    width: calc(100% - 2 * var(--modal-padding));
-  }
-}
-
-.modal .title {
-  margin: 1rem 0;
-}
-
-.modal form {
-  margin: 1rem 0;
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-auto-flow: row;
-  gap: 1rem;
-}
-
-@media screen and (width <= 860px) {
-  .modal form {
-    gap: 0.5rem
-  }
-}
-
-.modal form label {
-  justify-self: end;
-  align-self: center;
-}
-
-.modal form label + * {
-  justify-self: start;
-  align-self: center;
-  color: var(--card-bg-color);
-  font-weight: 600;
-}
-
-@media screen and (width <= 860px) {
-  .modal form {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, auto);
-  }
-
-  .modal form label {
-    justify-self: start;
-  }
-
-  .modal form label + * {
-    margin-bottom: 0.5rem;
-  }
-}
-
-.modal form input[type="text"] {
-  justify-self: auto;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-}
-
-.modal form textarea {
-  justify-self: auto;
-  resize: none;
-  padding: 0.5rem;
-  height: 10rem;
-  border-radius: 0.5rem;
-}
-
-.modal form select {
-  background-color: var(--card-text-color);
-  border: 0;
-  border-radius: 4px;
-  padding: 0.2rem;
-  font-size: 0.85rem;
-}
-
-.modal footer {
-  margin: 0.5rem 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.modal footer button {
-  background-color: var(--card-text-color);
-  color: var(--card-bg-color);
-  border: 0;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
 /* --------------------- */
 /*       FOOTER          */
 /* --------------------- */
@@ -230,6 +116,9 @@ main > footer {
   color: var(--column-text-color);
   border-radius: 0.5rem;
 }
+body.show-modal main > footer {
+  display: none;
+}
 
 main > footer section {
   margin: 1rem 0;
@@ -237,7 +126,7 @@ main > footer section {
 
 main > footer button,
 main > footer input {
-  margin: 0 0.5rem;
+  margin: 0.5rem;
   background-color: var(--card-text-color);
   color: var(--card-bg-color);
   border: 0;
@@ -276,15 +165,20 @@ main > footer input {
 section.theme-selector {
   display: flex;
 }
+
 .theme-selector button {
   border: none;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0;
   background: none;
   display: grid;
   align-self: center;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  margin: 0 0.5rem;
+  margin-left: 1rem;
 }
+
 .theme-selector .color-sample {
   width: 1rem;
   height: 1rem;
