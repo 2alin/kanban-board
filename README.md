@@ -2,21 +2,35 @@
 
 This projects creates a simple kanban board that is persistant across sessions.
 
+## Features
+
+Currently it supports the following ✅:
+
+- Adding, removing and editing cards
+- Moving cards in the same column
+- Moving cards to other columns
+- Basic rich text in card content description (see details bellow)
+- Import and exporting board data
+- Theme selection
+
+For features to come or for suggesting features please check the [project's issues section](https://github.com/2alin/kanban-board/issues).
+
+
 ## Try it out
 
 A live version of the project can be found on https://adilson.mx/kanban-board
 
 ## Rich text in card content description
 
-Card description support rich text ✨\n\n":
+Card description support rich text ✨":
 
-- ✅ For bold text, wrap the text with double star or double underscore characters: `**bold**` or `__bold__` will be shown as **bold**.
+-  For bold text, wrap the text with double star or double underscore characters: `**bold**` or `__bold__` will be shown as **bold**.
 
-- ✅ For italic text, wrap the text with single star or single underscore characters: `*italic*` or `_italic_` will be shown as _italic_.
+- For italic text, wrap the text with single star or single underscore characters: `*italic*` or `_italic_` will be shown as _italic_.
 
-- ✅ For unformatted text, wrap the text with single grave accent characters: `code` will be shown as `code`.
+- For unformatted text, wrap the text with single grave accent characters: \`code\` will be shown as `code`.
 
-- ✅ For links, just write the full URL of the link: `https://example.com` will be shown as https://example.com
+- For links, just write the full URL of the link: `https://example.com` will be shown as https://example.com
 
 
 # Acknowledgements
