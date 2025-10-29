@@ -1,6 +1,3 @@
-body.show-modal main > * {
-  display: none;
-}
 body.show-modal .modal {
   display: flex;
 }
