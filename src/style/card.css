@@ -9,6 +9,7 @@
 
 .card header {
   margin-bottom: 1rem;
+  overflow: hidden;
 }
 
 .card .title {
@@ -67,7 +68,6 @@
   margin-right: 0;
 }
 
-.card button.icon,
 .card button.icon {
   --buton-size: 1.25rem;
   width: var(--buton-size);
