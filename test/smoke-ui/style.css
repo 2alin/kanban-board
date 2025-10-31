@@ -1,0 +1,13 @@
+@import url("../../src/style/themes.css");
+@import url("../../src/style/inbuilt-overrides.css");
+@import url("../../src/style/menu.css");
+
+header {
+  text-align: center;
+}
+
+section  {
+  display: inline-block;
+  margin: 0 1rem;
+  border: 1px solid green;
+}

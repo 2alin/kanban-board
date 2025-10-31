@@ -3,8 +3,9 @@ input[type="file"] {
   padding: 0.3rem;
 }
 
-button:hover {
-  opacity: 0.75;
+button:hover,
+button:focus {
+  filter: brightness(1.15);
 }
 
 select {
