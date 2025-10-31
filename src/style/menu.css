@@ -1,0 +1,37 @@
+.menu-component {
+  display: inline-block;
+  flex-direction: column;
+}
+
+.menu-component .options.container {
+  position: relative;
+}
+
+.menu-component .options.list[hidden] {
+  display: none;  
+}
+
+.menu-component .options.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max-content;
+}
+
+.menu-component[data-options-position="top"] {
+  position: relative; 
+}
+.menu-component[data-options-position="top"] .options.container{
+  position: static;
+}
+.menu-component[data-options-position="top"] .options.list {
+  transform: translateY(-100%);
+}
+
+.menu-component .option {
+  list-style: none;
+}
