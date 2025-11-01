@@ -1,4 +1,5 @@
 import { defaultBoardData, themes } from "./defaultSettings";
+import type { BoardData_v01 } from "./storage.old.types";
 import type { BoardData, CardEntry } from "./storage.types";
 import { hasPropertyPrimitiveTypes } from "./utilities";
 
@@ -13,9 +14,9 @@ const themeStorageKey = "theme";
  */
 function isCardEntry(candidate: unknown): candidate is CardEntry {
   const propertyPrimitives = [
-    { name: "category", type: "string" },
-    { name: "title", type: "string" },
     { name: "categoryIdx", type: "number" },
+    { name: "title", type: "string" },
+    { name: "orderInCategory", type: "number" },
   ];
 
   if (
@@ -74,16 +75,60 @@ function isBoardData(candidate: unknown): candidate is BoardData {
 /**
  * Historically board data types
  */
-type AnyVersionBoardData = BoardData;
+type AnyVersionBoardData = BoardData | BoardData_v01;
+
+/**
+ * Migrates board data from v0.1 to v0.2
+ *
+ * @param oldBoardData Board data v0.1
+ * @returns A converted board data v0.2
+ */
+function migrateDataV01toV02(oldBoardData: BoardData_v01): BoardData {
+  const newBoardData = JSON.parse(JSON.stringify(oldBoardData));
+
+  const newEntries: CardEntry[] = oldBoardData.entries.map((entry) => {
+    let newCategoryIdx = oldBoardData.categories.findIndex(
+      (category) => category === entry.category
+    );
+    // if no category found we will assign the entry to the first category
+    if (newCategoryIdx < 0 && oldBoardData.categories.length) {
+      newCategoryIdx = 0;
+    }
+
+    const newEntry = {
+      categoryIdx: newCategoryIdx,
+      title: entry.title,
+      description: entry.description,
+      orderInCategory: entry.categoryIdx,
+    };
+
+    return newEntry;
+  });
+
+  newBoardData.entries = newEntries;
+  newBoardData.version = "0.2";
+
+  return newBoardData;
+}
 
 /**
  * Migrates older versions of board data to the newest version
  */
-function migrateData(boardData: AnyVersionBoardData): BoardData {
-  // we are expecting to have currently migrated
-  // all users from a previous board data version
-  // current version: "0.1"
-  const newBoardData = JSON.parse(JSON.stringify(boardData));
+export function migrateData(boardData: AnyVersionBoardData): BoardData {
+  let newBoardData = JSON.parse(JSON.stringify(boardData));
+
+  // ---------------------------
+  // migrating from v0.1 to v0.2
+  if (newBoardData.version === "0.1") {
+    newBoardData = migrateDataV01toV02(newBoardData as BoardData_v01);
+  }
+
+  if (!isBoardData(newBoardData)) {
+    console.error("Board data migration failed");
+  } else {
+    console.info("Board data migration was a success");
+  }
+
   return newBoardData;
 }
 
@@ -165,8 +210,8 @@ function setBoardData(data: unknown): boolean {
  */
 function setCardEntries(cardEntries: CardEntry[]) {
   const entriesToAdd = cardEntries.map((cardEntry) => ({
+    orderInCategory: cardEntry.orderInCategory,
     categoryIdx: cardEntry.categoryIdx,
-    category: cardEntry.category,
     title: cardEntry.title,
     description: cardEntry.description,
   }));

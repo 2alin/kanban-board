@@ -1,12 +1,11 @@
 /**
- * Persistant Card data
+ * Persistant Card data for storage v0.1
  */
-export interface CardEntry {
+interface CardEntry_V01 {
   /**
-   * Index of the board column where the card belongs
-   * linked to BoardData.categories
+   * Board column where the card belongs
    */
-  categoryIdx: number;
+  category: string;
   /**
    * Title of the card
    */
@@ -18,13 +17,13 @@ export interface CardEntry {
   /**
    * The order where the card will appear in the board column
    */
-  orderInCategory: number;
+  categoryIdx: number;
 }
 
 /**
- * Persistant board data
+ * Persistant board data for storage v0.1
  */
-export interface BoardData {
+export interface BoardData_v01 {
   /**
    * names that will be assigned to board columns
    */
@@ -32,7 +31,7 @@ export interface BoardData {
   /**
    * data that will be used to populate the cards
    */
-  entries: CardEntry[];
+  entries: CardEntry_V01[];
   /**
    * board storage version
    */

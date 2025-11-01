@@ -21,13 +21,13 @@ export default function CategorySelector({
 }: CategorySelectorProps) {
   return (
     <select
-      name="category"
+      name="categoryIdx"
       id={id}
       defaultValue={defaultSelected}
       onChange={handleChange}
     >
-      {categories.map((category) => (
-        <option value={category} key={category}>
+      {categories.map((category, index) => (
+        <option value={index} key={index}>
           {category}
         </option>
       ))}

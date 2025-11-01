@@ -11,9 +11,9 @@ export interface CardBaseData {
    */
   description: string;
   /**
-   * Board column where the card belongs
+   * Index of the board column where the card belongs.
    */
-  category: string;
+  categoryIdx: number;
 }
 
 /**
@@ -27,13 +27,13 @@ export interface CardExtendedData extends CardBaseData {
   /**
    * The order where the card will appear in the board column
    */
-  categoryIdx: number;
+  orderInCategory: number;
 }
 
 /**
- * A map in memory that holds the cards per category assigned
+ * A map in memory that holds the cards per category index assigned
  */
-export type CardsMap = Map<string, CardExtendedData[]>;
+export type CardsMap = Map<number, CardExtendedData[]>;
 
 /**
  * The state of the modal. Valid typesare:
