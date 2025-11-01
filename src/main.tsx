@@ -57,15 +57,33 @@ async function initialize() {
     ) as BoardData;
   }
 
+  if (!initialBoardData.categories.length) {
+    console.error("There was no categories stored");
+    initialBoardData.categories = [...defaultBoardData.categories];
+  }
+
   // add Ids to initial cards that will be used in memory only
   const initialCards: CardExtendedData[] = initialBoardData.entries.map(
-    (entry) => ({
-      id: getRandomId(),
-      title: entry.title,
-      description: entry.description || "",
-      category: entry.category,
-      categoryIdx: entry.categoryIdx,
-    })
+    (entry) => {
+      let categoryIdx = entry.categoryIdx;
+
+      // handle entries that doesn't correspond to existing categories
+      // send them to the first category in the list if it exists
+      if (
+        categoryIdx < 0 ||
+        categoryIdx >= initialBoardData.categories.length
+      ) {
+        categoryIdx = 0;
+      }
+
+      return {
+        id: getRandomId(),
+        title: entry.title,
+        description: entry.description || "",
+        categoryIdx,
+        orderInCategory: entry.orderInCategory,
+      };
+    }
   );
 
   const rootContainer = document.getElementById("root");

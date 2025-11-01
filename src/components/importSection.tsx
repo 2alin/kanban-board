@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { CardExtendedData, CardsMap } from "./app.types";
+import type { CardsMap } from "./app.types";
 import storage from "../storage";
 import { getRandomId } from "../utilities";
 import { toCardsMap } from "./app";
@@ -86,8 +86,8 @@ export default function ImportSection({
           id: getRandomId(),
           title: entry.title,
           description: entry.description || "",
-          category: entry.category,
           categoryIdx: entry.categoryIdx,
+          orderInCategory: entry.orderInCategory,
         };
       });
       const newCardsMap = toCardsMap(newCardList, newBoardData.categories);

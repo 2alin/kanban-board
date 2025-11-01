@@ -19,40 +19,44 @@ import { HistoryContros } from "./historyControls";
 
 /**
  * Normalizes a list of cards in the following sense:
- * - sorts the list in ascending order through their `categoryIdx` value
- * - updates the `categoryIdx` value to match the position in the sorted array,
+ * - sorts the list in ascending order through their `orderInCategory` value
+ * - updates the `orderInCategory` value to match the position in the sorted array,
  *   starting with 0
  *
  * @param cards A list of cards to normalize
  * @returns A new list of cards
  */
 export function normalizeCards(cards: CardExtendedData[]) {
-  const sortedCards = [...cards].sort((a, b) => a.categoryIdx - b.categoryIdx);
+  const sortedCards = [...cards].sort(
+    (a, b) => a.orderInCategory - b.orderInCategory
+  );
   const normalizedCards = sortedCards.map((card, index) => ({
     ...card,
-    categoryIdx: index,
+    orderInCategory: index,
   }));
 
   return normalizedCards;
 }
 
 /**
- *  Converts an array of cards into a map of cards per category
+ *  Converts an array of cards into a map of cards per category index
  *
  * @param cards The array of cards to convert
  * @param categories The categories that will become the keys of the map
- * @returns A map of cards per category
+ * @returns A map of cards per category index
  */
 export function toCardsMap(
   cards: CardExtendedData[],
   categories: string[]
 ): CardsMap {
-  const cardsByCategory = new Map();
-  categories.forEach((category) => {
-    let cardsInCategory = cards.filter((card) => card.category === category);
+  const cardsByCategory: CardsMap = new Map();
+  categories.forEach((category, index) => {
+    let cardsInCategory = cards.filter(
+      (card) => category === categories[card.categoryIdx]
+    );
 
     cardsInCategory = normalizeCards(cardsInCategory);
-    cardsByCategory.set(category, cardsInCategory);
+    cardsByCategory.set(index, cardsInCategory);
   });
 
   return cardsByCategory;
@@ -141,23 +145,27 @@ export default function App({
    * @param cardData The card base data to be added
    */
   function addCard(cardData: CardBaseData) {
-    const { category } = cardData;
-    const cardsInCategory = cardsMap.get(category) || [];
+    let categoryIdx = cardData.categoryIdx;
+    if (categoryIdx < 0 || categoryIdx >= boardCategories.length) {
+      categoryIdx = 0;
+    }
+
+    const cardsInCategory = cardsMap.get(categoryIdx) || [];
 
     // the new card should be added to the bottom of the list
-    const categoryIdx = cardsInCategory?.length || 0;
+    const orderInCategory = cardsInCategory.length;
     const newCard = {
-      categoryIdx,
+      orderInCategory,
       title: cardData.title,
       description: cardData.description,
-      category,
+      categoryIdx,
       id: getRandomId(),
     };
 
     let newCardsInCategory = [...cardsInCategory, newCard];
     newCardsInCategory = normalizeCards(newCardsInCategory);
     const newCardsMap = new Map(cardsMap);
-    newCardsMap.set(category, newCardsInCategory);
+    newCardsMap.set(categoryIdx, newCardsInCategory);
 
     updateBoardData(newCardsMap);
   }
@@ -169,30 +177,30 @@ export default function App({
    */
   function updateCard(cardData: CardExtendedData) {
     let oldCategoryCardList: CardExtendedData[] = [];
-    let oldCategory = "";
+    let oldCategoryIdx = -1;
 
-    cardsMap.forEach((cardsInCategory, category) => {
+    cardsMap.forEach((cardsInCategory, categoryIdx) => {
       if (cardsInCategory.find((card) => card.id === cardData.id)) {
         oldCategoryCardList = [...cardsInCategory];
-        oldCategory = category;
+        oldCategoryIdx = categoryIdx;
       }
     });
 
-    if (oldCategory === "") {
+    if (oldCategoryIdx < 0) {
       console.error("Card to update not found in the board");
       return null;
     }
 
     const newCardsMap = new Map(cardsMap);
-    const newCategory = cardData.category;
+    const newCategoryIdx = cardData.categoryIdx;
 
-    if (oldCategory !== newCategory) {
+    if (oldCategoryIdx !== newCategoryIdx) {
       // updating new category list and sending card to the end of it
-      const newCategoryCardList = cardsMap.get(newCategory) || [];
-      const categoryIdx = newCategoryCardList.length;
+      const newCategoryCardList = cardsMap.get(newCategoryIdx) || [];
+      const orderInCategory = newCategoryCardList.length;
       newCategoryCardList.push({
         ...cardData,
-        categoryIdx,
+        orderInCategory,
       });
 
       // removing from old category list
@@ -203,8 +211,8 @@ export default function App({
       oldCategoryCardList = normalizeCards(oldCategoryCardList);
 
       // updating cards map with the new category lists
-      newCardsMap.set(newCategory, newCategoryCardList);
-      newCardsMap.set(oldCategory, oldCategoryCardList);
+      newCardsMap.set(newCategoryIdx, newCategoryCardList);
+      newCardsMap.set(oldCategoryIdx, oldCategoryCardList);
     } else {
       // card stays in the same category
       oldCategoryCardList = oldCategoryCardList.map((card) =>
@@ -213,7 +221,7 @@ export default function App({
       // normalizing as we allow floating numbers to change position in a card
       oldCategoryCardList = normalizeCards(oldCategoryCardList);
 
-      newCardsMap.set(oldCategory, oldCategoryCardList);
+      newCardsMap.set(oldCategoryIdx, oldCategoryCardList);
     }
 
     updateBoardData(newCardsMap);
@@ -234,8 +242,8 @@ export default function App({
       return;
     }
 
-    const category = card.category;
-    const categoryCardList = cardsMap.get(category);
+    const categoryIdx = card.categoryIdx;
+    const categoryCardList = cardsMap.get(categoryIdx);
 
     if (!categoryCardList) {
       console.error(
@@ -247,7 +255,7 @@ export default function App({
     } else {
       let newCategoryList = categoryCardList.filter((card) => card.id !== id);
       newCategoryList = normalizeCards(newCategoryList);
-      newCardsMap.set(category, newCategoryList);
+      newCardsMap.set(categoryIdx, newCategoryList);
     }
 
     updateBoardData(newCardsMap);

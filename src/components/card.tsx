@@ -17,7 +17,7 @@ export default function Card({
   boardCategories,
   handlers,
 }: CardProp) {
-  const { id, title, description, category, categoryIdx } = cardData;
+  const { id, title, description, categoryIdx, orderInCategory } = cardData;
   const { deleteCard, updateCard, setModalState } = handlers;
 
   function handleEdit() {
@@ -37,14 +37,14 @@ export default function Card({
       return;
     }
 
-    const newCategory = selectElement.value;
+    const newCategoryIdx = Number(selectElement.value);
 
     updateCard({
       id,
       title,
       description,
-      category: newCategory,
-      categoryIdx,
+      categoryIdx: newCategoryIdx,
+      orderInCategory,
     });
   }
 
@@ -55,20 +55,20 @@ export default function Card({
    * Values accepted: "top", "up", "down", "bottom"
    */
   function moveCard(direction: string) {
-    let newCategoryIdx = categoryIdx;
+    let newOrderInCategory = orderInCategory;
 
     switch (direction) {
       case "top":
-        newCategoryIdx = Number.NEGATIVE_INFINITY;
+        newOrderInCategory = Number.NEGATIVE_INFINITY;
         break;
       case "up":
-        newCategoryIdx = categoryIdx - 1.5;
+        newOrderInCategory = orderInCategory - 1.5;
         break;
       case "down":
-        newCategoryIdx = categoryIdx + 1.5;
+        newOrderInCategory = orderInCategory + 1.5;
         break;
       case "bottom":
-        newCategoryIdx = Number.POSITIVE_INFINITY;
+        newOrderInCategory = Number.POSITIVE_INFINITY;
         break;
       default:
       // handled already in the initialization of this method
@@ -78,8 +78,8 @@ export default function Card({
       id,
       title,
       description,
-      category,
-      categoryIdx: newCategoryIdx,
+      categoryIdx,
+      orderInCategory: newOrderInCategory,
     });
   }
 
@@ -94,7 +94,7 @@ export default function Card({
       <footer>
         <CategorySelector
           categories={boardCategories}
-          defaultSelected={category}
+          defaultSelected={categoryIdx.toString()}
           handleChange={handleCategoryChange}
         />
         <div className="buttons middle container">

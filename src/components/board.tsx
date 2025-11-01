@@ -20,12 +20,12 @@ export default function Board({
 
   return (
     <section id="board">
-      {boardCategories.map((category) => {
-        const cardsInCategory = cardsMap.get(category) || [];
+      {boardCategories.map((category, index) => {
+        const cardsInCategory = cardsMap.get(index) || [];
 
         return (
           <Column
-            key={category}
+            key={index}
             title={category}
             cards={cardsInCategory}
             boardCategories={boardCategories}

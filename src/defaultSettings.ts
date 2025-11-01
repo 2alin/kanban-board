@@ -14,12 +14,12 @@ export const defaultTheme = themes[1];
  * Default board data
  */
 export const defaultBoardData: BoardData = {
-  version: "0.1",
+  version: "0.2",
   categories: ["backlog", "todo", "today", "done"],
   entries: [
     {
+      orderInCategory: 0,
       categoryIdx: 0,
-      category: "backlog",
       title: "Welcome to your Kanban Board",
       description:
         "This is an example of a card that you can have in this board.\n\n" +

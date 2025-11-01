@@ -1,5 +1,5 @@
 {
-  "version": "0.1", 
+  "version": "0.2", 
   "categories": [
     "backlog",
     "todo",
@@ -8,26 +8,26 @@
   ],
   "entries": [
     {
-      "categoryIdx": 1,
-      "category": "backlog",
+      "orderInCategory": 1,
+      "categoryIdx": 0,
       "title": "Task A",
       "description": "This is the description for task A"
     },
     {
-      "categoryIdx": 0,
-      "category": "todo",
+      "orderInCategory": 0,
+      "categoryIdx": 1,
       "title": "Task B",
       "description": "This is the description for task B"
     },
     {
-      "categoryIdx": 10,
-      "category": "todo",
+      "orderInCategory": 10,
+      "categoryIdx": 1,
       "title": "Task C",
       "description": "This is the description for task C"
     },
     {
-      "categoryIdx": 10,
-      "category": "backlog",
+      "orderInCategory": 10,
+      "categoryIdx": 0,
       "title": "Task D",
       "description": "This is the description for task D"
     }

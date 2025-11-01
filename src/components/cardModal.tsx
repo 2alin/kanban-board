@@ -40,8 +40,8 @@ export default function CardModal({
   let prefilledData = {
     title: "",
     description: "",
-    category: boardCategories[0],
     categoryIdx: 0,
+    orderInCategory: 0,
   };
 
   if (modalState.type === "edit") {
@@ -53,17 +53,17 @@ export default function CardModal({
     }
 
     prefilledData = {
-      category: cardToEdit.category,
+      categoryIdx: cardToEdit.categoryIdx,
       title: cardToEdit.title,
       description: cardToEdit.description,
-      categoryIdx: cardToEdit.categoryIdx,
+      orderInCategory: cardToEdit.orderInCategory,
     };
 
     // patch: 'select' components don't render again
     // when the prop value used for defaultValue changes
     const selectElement = document.getElementById(selectCategoryId);
     if (selectElement instanceof HTMLSelectElement) {
-      selectElement.value = prefilledData.category;
+      selectElement.value = prefilledData.categoryIdx.toString();
     }
   }
 
@@ -105,16 +105,16 @@ export default function CardModal({
     }
 
     const formData = new FormData(formElement);
-    const [formTitle, formDescription, formCategory] = [
+    const [formTitle, formDescription, formCategoryIdx] = [
       "title",
       "description",
-      "category",
+      "categoryIdx",
     ].map((fieldName) => formData.get(fieldName));
 
     if (
       formTitle === null ||
       formDescription === null ||
-      formCategory === null
+      formCategoryIdx === null
     ) {
       console.error("Couldn't get the data required to submit the form");
       document.body.classList.toggle("show-modal", false);
@@ -125,7 +125,7 @@ export default function CardModal({
     const cardData = {
       title: formTitle.toString(),
       description: formDescription.toString(),
-      category: formCategory.toString(),
+      categoryIdx: Number(formCategoryIdx),
     };
 
     try {
@@ -140,8 +140,8 @@ export default function CardModal({
           id: modalState.cardId,
           title: cardData.title,
           description: cardData.description,
-          category: cardData.category,
-          categoryIdx: prefilledData.categoryIdx,
+          categoryIdx: cardData.categoryIdx,
+          orderInCategory: prefilledData.orderInCategory,
         });
       } else {
         throw new Error("Card modal type not recognized");
@@ -185,7 +185,7 @@ export default function CardModal({
           <CategorySelector
             id={selectCategoryId}
             categories={boardCategories}
-            defaultSelected={prefilledData.category}
+            defaultSelected={prefilledData.categoryIdx.toString()}
           />
         </form>
 
