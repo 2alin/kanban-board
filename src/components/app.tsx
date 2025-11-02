@@ -8,6 +8,7 @@ import type {
   CardExtendedData,
   CardsMap,
   ModalState,
+  ModalStateNew,
 } from "./app.types";
 import Board from "./board";
 import ExportSection from "./exportSection";
@@ -89,8 +90,8 @@ export default function App({
   initialCards,
   handleThemeChange,
 }: AppProps) {
-  const intialModalState: ModalState = { type: "new" };
-  const [modalState, setModalState] = useState(intialModalState);
+  const intialModalState: ModalStateNew = { type: "new" };
+  const [modalState, setModalState] = useState<ModalState>(intialModalState);
 
   const initialCardsMap = toCardsMap(initialCards, initialCategories);
   const [cardsMap, setCardsMap] = useState(initialCardsMap);
@@ -275,7 +276,8 @@ export default function App({
         handlers={{ deleteCard, updateCard, setModalState }}
       />
       <CardModal
-        {...{ modalState, cardsMap, boardCategories }}
+        key={modalState.type === "edit" ? modalState.cardToEdit.id : ""}
+        {...{ modalState, boardCategories }}
         handlers={{ addCard, updateCard }}
       />
       <footer>

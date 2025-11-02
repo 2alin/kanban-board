@@ -36,11 +36,21 @@ export interface CardExtendedData extends CardBaseData {
 export type CardsMap = Map<number, CardExtendedData[]>;
 
 /**
- * The state of the modal. Valid typesare:
- * - {type: "new"} -- for adding a new card
- * - {type: "edit", cardId: [string]} -- for editing an existing ca
+ * Modal used to add a new card.
  */
-export interface ModalState {
-  type: string;
-  cardId?: string;
+export interface ModalStateNew {
+  type: "new";
 }
+
+/**
+ * Modal used to edit a card.
+ */
+interface ModalStateEdit {
+  type: "edit";
+  cardToEdit: CardExtendedData;
+}
+
+/**
+ * The modal state: type and data associated to it.
+ */
+export type ModalState = ModalStateNew | ModalStateEdit;

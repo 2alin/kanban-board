@@ -21,7 +21,7 @@ export default function Card({
   const { deleteCard, updateCard, setModalState } = handlers;
 
   function handleEdit() {
-    setModalState({ type: "edit", cardId: id });
+    setModalState({ type: "edit", cardToEdit: cardData });
     document.body.classList.toggle("show-modal", true);
   }
 
@@ -29,15 +29,8 @@ export default function Card({
     deleteCard(id);
   }
 
-  function handleCategoryChange(event: React.ChangeEvent) {
-    const selectElement = event.target;
-
-    if (!(selectElement instanceof HTMLSelectElement)) {
-      console.error("Event target is not a Select element");
-      return;
-    }
-
-    const newCategoryIdx = Number(selectElement.value);
+  function handleCategoryChange(newValue: string) {
+    const newCategoryIdx = Number(newValue);
 
     updateCard({
       id,
@@ -94,8 +87,8 @@ export default function Card({
       <footer>
         <CategorySelector
           categories={boardCategories}
-          defaultSelected={categoryIdx.toString()}
-          handleChange={handleCategoryChange}
+          defaultValue={categoryIdx.toString()}
+          onChange={handleCategoryChange}
         />
         <div className="buttons middle container">
           <button
