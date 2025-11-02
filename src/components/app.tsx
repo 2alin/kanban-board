@@ -90,8 +90,7 @@ export default function App({
   initialCards,
   handleThemeChange,
 }: AppProps) {
-  const intialModalState: ModalStateNew = { type: "new" };
-  const [modalState, setModalState] = useState<ModalState>(intialModalState);
+  const [modalState, setModalState] = useState<ModalState>(null);
 
   const initialCardsMap = toCardsMap(initialCards, initialCategories);
   const [cardsMap, setCardsMap] = useState(initialCardsMap);
@@ -275,11 +274,18 @@ export default function App({
         {...{ cardsMap, boardCategories }}
         handlers={{ deleteCard, updateCard, setModalState }}
       />
-      <CardModal
-        key={modalState.type === "edit" ? modalState.cardToEdit.id : ""}
-        {...{ modalState, boardCategories }}
-        handlers={{ addCard, updateCard }}
-      />
+      {modalState && (
+        <CardModal
+          key={
+            modalState.type === "edit"
+              ? modalState.cardToEdit.id
+              : modalState.type
+          }
+          {...{ modalState, boardCategories }}
+          handlers={{ addCard, updateCard }}
+          onClose={() => setModalState(null)}
+        />
+      )}
       <footer>
         <ImportSection
           {...{
