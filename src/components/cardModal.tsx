@@ -18,14 +18,20 @@ interface CardModalProps {
     addCard: (cardData: CardBaseData) => void;
     updateCard: (cardData: CardExtendedData) => void;
   };
+  onClose: () => void;
 }
 
 export default function CardModal({
   modalState,
-  handlers,
   boardCategories,
+  handlers,
+  onClose,
 }: CardModalProps) {
   const { addCard, updateCard } = handlers;
+
+  if (!modalState) {
+    return;
+  }
 
   const initialFormData: CardFormData = {
     title: "",
@@ -49,9 +55,14 @@ export default function CardModal({
   function handleClose() {
     document.body.classList.toggle("show-modal", false);
     clearFormData();
+    onClose();
   }
 
   function handleSubmit() {
+    if (!modalState) {
+      return;
+    }
+
     switch (modalState.type) {
       case "new":
         const cardToAdd = {
@@ -75,16 +86,27 @@ export default function CardModal({
         console.error("Card modal type not recognized");
     }
 
-    document.body.classList.toggle("show-modal", false);
-    clearFormData();
+    handleClose();
   }
 
   function handleChange(newFormData: CardFormData) {
     setFormData({ ...newFormData });
   }
 
+  function handleKeyDown(event: React.KeyboardEvent) {
+    const { key } = event;
+
+    switch (key) {
+      case "Escape":
+        handleClose();
+        break;
+      default:
+      // nothing to do here
+    }
+  }
+
   return (
-    <aside className="modal">
+    <aside className="modal" onKeyDown={handleKeyDown}>
       <section className="form-container">
         <h2 className="title">{modalTitle.get(modalState.type) || ""}</h2>
 

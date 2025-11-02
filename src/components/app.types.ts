@@ -53,4 +53,4 @@ interface ModalStateEdit {
 /**
  * The modal state: type and data associated to it.
  */
-export type ModalState = ModalStateNew | ModalStateEdit;
+export type ModalState = ModalStateNew | ModalStateEdit | null;

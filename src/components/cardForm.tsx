@@ -30,6 +30,7 @@ export default function CardForm({
     >
       <label htmlFor="modal-card-title">Title: </label>
       <input
+        autoFocus={true}
         type="text"
         name="title"
         id="modal-card-title"
