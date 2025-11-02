@@ -1,5 +1,7 @@
+import type { ModalState } from "./app.types";
+
 interface NewCardButtonProps {
-  setModalState: (value: React.SetStateAction<{ type: string }>) => void;
+  setModalState: (value: React.SetStateAction<ModalState>) => void;
 }
 
 export default function NewCardButton({ setModalState }: NewCardButtonProps) {
