@@ -163,7 +163,7 @@ body.show-modal header {
   --button-size: 1.5rem;
   border-radius: 4px;
   background-color: var(--column-bg-color);
-  margin: 0 0.25rem;
+  margin: 0 0.5rem;
 }
 
 .column > header .edit.form .cancel .icon-img {

@@ -34,6 +34,7 @@ export default function CardForm({
         type="text"
         name="title"
         id="modal-card-title"
+        autoComplete="off"
         required
         value={formData.title}
         onChange={({ target }) => {
