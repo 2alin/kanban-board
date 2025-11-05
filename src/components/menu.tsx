@@ -8,12 +8,14 @@ interface Option {
 
 interface MenuProps {
   options: Option[];
+  isIconButton?: boolean;
   positionX?: string;
   positionY?: string;
 }
 
 export default function Menu({
   options,
+  isIconButton,
   positionX,
   positionY,
   children,
@@ -53,7 +55,13 @@ export default function Menu({
       return;
     }
 
-    const { action } = target.dataset;
+    const actionElement = target.closest("[data-action]");
+
+    if (!(actionElement instanceof HTMLElement)) {
+      return;
+    }
+
+    const { action } = actionElement.dataset;
 
     switch (action) {
       case "toggle-open":
@@ -204,13 +212,13 @@ export default function Menu({
     >
       <button
         id={"anchor" + postfixId}
-        className="anchor"
+        className={`anchor ${isIconButton && "icon"}`}
         data-action="toggle-open"
         ref={anchorRef}
         aria-haspopup={true}
         aria-controls={"menu" + postfixId}
       >
-        {children}
+        {isIconButton ? <span className="icon-img" /> : children}
       </button>
       <div className="options container">
         <menu

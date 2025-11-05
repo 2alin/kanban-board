@@ -7,6 +7,7 @@ interface BoardProps {
   handlers: {
     deleteCard: (id: string) => void;
     updateCard: (cardData: CardExtendedData) => void;
+    renameColumn: (columnId: number, newName: string) => void;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
@@ -16,7 +17,8 @@ export default function Board({
   boardCategories,
   handlers,
 }: BoardProps) {
-  const { deleteCard, updateCard, setModalState } = handlers;
+  const { deleteCard, updateCard, renameColumn, setModalState } =
+    handlers;
 
   return (
     <section id="board">
@@ -26,10 +28,16 @@ export default function Board({
         return (
           <Column
             key={index}
+            columnId={index}
             title={category}
             cards={cardsInCategory}
             boardCategories={boardCategories}
-            handlers={{ deleteCard, updateCard, setModalState }}
+            handlers={{
+              deleteCard,
+              updateCard,
+              renameColumn,
+              setModalState,
+            }}
           />
         );
       })}
