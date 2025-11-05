@@ -8,12 +8,16 @@ interface Option {
 
 interface MenuProps {
   options: Option[];
-  optionsPosition?: string;
+  isIconButton?: boolean;
+  positionX?: string;
+  positionY?: string;
 }
 
 export default function Menu({
   options,
-  optionsPosition,
+  isIconButton,
+  positionX,
+  positionY,
   children,
 }: React.PropsWithChildren<MenuProps>) {
   const postfixId = useId();
@@ -51,7 +55,13 @@ export default function Menu({
       return;
     }
 
-    const { action } = target.dataset;
+    const actionElement = target.closest("[data-action]");
+
+    if (!(actionElement instanceof HTMLElement)) {
+      return;
+    }
+
+    const { action } = actionElement.dataset;
 
     switch (action) {
       case "toggle-open":
@@ -153,7 +163,7 @@ export default function Menu({
     }
   }
 
-  function getBestOptionsPosition() {
+  function getBestPosition() {
     const anchorElement = anchorRef.current;
     if (!anchorElement) {
       return;
@@ -194,20 +204,21 @@ export default function Menu({
   return (
     <div
       className="menu-component"
-      data-options-position={optionsPosition || getBestOptionsPosition()}
+      data-position-x={positionX}
+      data-position-y={positionY || getBestPosition()}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       ref={componentRef}
     >
       <button
         id={"anchor" + postfixId}
-        className="anchor"
+        className={`anchor ${isIconButton && "icon"}`}
         data-action="toggle-open"
         ref={anchorRef}
         aria-haspopup={true}
         aria-controls={"menu" + postfixId}
       >
-        {children}
+        {isIconButton ? <span className="icon-img" /> : children}
       </button>
       <div className="options container">
         <menu

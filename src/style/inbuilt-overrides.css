@@ -17,12 +17,9 @@ input,
 select,
 textarea {
   border: 0;
+  color: inherit;
   font-family: inherit;
   font-size: inherit;
-}
-
-button.icon {
-  padding: 0.15rem;
 }
 
 a {

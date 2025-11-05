@@ -51,7 +51,7 @@
 }
 
 .card footer .buttons.container button {
-  margin-right: calc(1 * var(--buton-size));
+  margin-right: calc(1 * var(--button-size));
 }
 .card footer .buttons.container button:last-of-type {
   margin-right: 0;
@@ -62,27 +62,18 @@
   and to the edit button to keep consistency
 */
 .card footer .buttons.right.container button {
-  margin-right: calc(1.25 * var(--buton-size));
+  margin-right: calc(1.25 * var(--button-size));
 }
 .card footer .buttons.right.container button:last-of-type {
   margin-right: 0;
 }
 
 .card button.icon {
-  --buton-size: 1.25rem;
-  width: var(--buton-size);
-  height: var(--buton-size);
-  border: 0;
-  padding: 0;
-  display: flex;
+  --button-size: 1.25rem;
   background-color: var(--card-bg-color);
 }
 
 .card button .icon-img {
-  width: 100%;
-  height: 100%;
-  mask-size: 100%;
-  mask-repeat: no-repeat;
   background-color: var(--card-text-color);
 }
 

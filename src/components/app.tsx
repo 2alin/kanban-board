@@ -8,7 +8,6 @@ import type {
   CardExtendedData,
   CardsMap,
   ModalState,
-  ModalStateNew,
 } from "./app.types";
 import Board from "./board";
 import ExportSection from "./exportSection";
@@ -16,7 +15,7 @@ import ImportSection from "./importSection";
 import CardModal from "./cardModal";
 import ThemeSelector from "./themeSelector";
 import NewCardButton from "./newCardButton";
-import { HistoryContros } from "./historyControls";
+import { HistoryControls } from "./historyControls";
 
 /**
  * Normalizes a list of cards in the following sense:
@@ -261,18 +260,37 @@ export default function App({
     updateBoardData(newCardsMap);
   }
 
+  /**
+   * Changes the title of a column
+   *
+   * @param columnId The id of the column
+   * @param newName The new name for the column
+   */
+  function renameColumn(columnId: number, newName: string) {
+    const newCategories = [...boardCategories];
+    newCategories[columnId] = newName.trim().toLowerCase();
+    setBoardCategories(newCategories);
+
+    const boardData = storage.board.get();
+    if (!boardData) {
+      return;
+    }
+    boardData.categories = newCategories;
+    storage.board.set(boardData);
+  }
+
   return (
     <>
       <header>
         <NewCardButton {...{ setModalState }} />
-        <HistoryContros
+        <HistoryControls
           {...{ boardHistory, historyIdx }}
           handlers={{ updateBoardData, setHistoryIdx }}
         />
       </header>
       <Board
         {...{ cardsMap, boardCategories }}
-        handlers={{ deleteCard, updateCard, setModalState }}
+        handlers={{ deleteCard, updateCard, renameColumn, setModalState }}
       />
       {modalState && (
         <CardModal

@@ -9,7 +9,7 @@ interface HistoryControlsProps {
   };
 }
 
-export function HistoryContros({
+export function HistoryControls({
   boardHistory,
   historyIdx,
   handlers,

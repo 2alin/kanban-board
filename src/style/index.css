@@ -2,9 +2,27 @@
 @import url("inbuilt-overrides.css");
 @import url("./modal.css");
 @import url("./card.css");
+@import url("./menu.css");
 
 :root {
   font-family: noto-sans, system-ui, sans-serif;
+}
+
+/* BUTTONS WITH ONLY ICON */
+
+button.icon {
+  width: var(--button-size);
+  height: var(--button-size);
+  border: 0;
+  padding: 0;
+  display: flex;
+}
+
+button.icon .icon-img {
+  width: 100%;
+  height: 100%;
+  mask-size: 100%;
+  mask-repeat: no-repeat;
 }
 
 /* MAIN CONTAINERS */
@@ -16,7 +34,7 @@ body {
 main {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 1rem;
   max-width: 1920px;
 }
 
@@ -32,12 +50,15 @@ body.show-modal #board {
 }
 
 @media screen and (width <= 640px) {
+  main {
+    margin: 0;
+  }
   #board {
     flex-direction: column;
   }
 }
 
-header {
+main > header {
   display: flex;
   justify-content: space-between;
 }
@@ -47,20 +68,13 @@ body.show-modal header {
 }
 
 #new-card-button {
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 0;
+  --button-size: 2.5rem;
   border-radius: 4px;
-  display: flex;
   background-color: var(--column-bg-color);
 }
 
 #new-card-button .icon-img {
-  width: 100%;
-  height: 100%;
   mask-image: url("../icons/add.svg");
-  mask-size: 100%;
-  mask-repeat: no-repeat;
   background-color: var(--card-bg-color);
 }
 
@@ -70,25 +84,16 @@ body.show-modal header {
 }
 
 .history-controls button:disabled {
-  visibility: hidden  ;
+  visibility: hidden;
 }
 
 .history-controls button.icon {
-  --buton-size: 1.75rem;
-  width: var(--buton-size);
-  height: var(--buton-size);
-  border: 0;
-  padding: 0;
+  --button-size: 1.75rem;
   margin: 0.5rem 0.75rem;
-  display: flex;
   background-color: inherit;
 }
 
 .history-controls button .icon-img {
-  width: 100%;
-  height: 100%;
-  mask-size: 100%;
-  mask-repeat: no-repeat;
   background-color: var(--card-bg-color);
 }
 
@@ -110,6 +115,7 @@ body.show-modal header {
   color: var(--column-text-color);
   border-radius: 0.5rem;
   overflow: hidden;
+  min-height: 160px;
 }
 
 .column:first-child {
@@ -128,11 +134,61 @@ body.show-modal header {
   }
 }
 
-.column > .title {
+.column > header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+}
+
+.column > header .title {
+  flex-grow: 1;
   font-size: 1.5rem;
   text-transform: capitalize;
   text-align: center;
-  margin: 1rem 0;
+  margin: 0;
+}
+
+.column > header .edit.form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.column > header .edit.title {
+  flex: 1;
+  border-radius: 4px;
+}
+
+.column > header .edit.form button.icon {
+  --button-size: 1.5rem;
+  border-radius: 4px;
+  background-color: var(--column-bg-color);
+  margin: 0 0.25rem;
+}
+
+.column > header .edit.form .cancel .icon-img {
+  mask-image: url("../icons/close.svg");
+  background-color: var(--column-text-color);
+}
+
+.column > header .edit.form .submit .icon-img {
+  mask-image: url("../icons/check.svg");
+  background-color: var(--column-text-color);
+}
+
+.column > header .menu-component button.icon {
+  --button-size: 1.25rem;
+  border-radius: 4px;
+  background-color: var(--column-bg-color);
+}
+
+.column > header .menu-component .icon-img {
+  mask-image: url("../icons/menu.svg");
+  background-color: var(--column-text-color);
+}
+
+.column > header .menu-component .options {
+  font-size: 0.9rem;
 }
 
 .card-list {

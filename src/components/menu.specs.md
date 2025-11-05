@@ -1,5 +1,5 @@
 # Description
-This document describes the spefications around the behaviour, structure and basic style of the menu component.
+This document describes the specifications around the behaviour, structure and basic style of the menu component.
 
 
 # Specifications

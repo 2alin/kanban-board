@@ -13,6 +13,7 @@ Note: keep the dev tools console open to detect any error
 - Edit the card (partial and full changes)
 - Remove the card
 - Undo 2 times and redo 2 times
+- Rename a category
 - Import a valid board data json file
 - Cards should be able to change order in the columns
 - Shouldn't import an invalid board data json file (e.g. invalid version number)
