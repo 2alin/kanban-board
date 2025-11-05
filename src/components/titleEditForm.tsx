@@ -22,6 +22,7 @@ export default function TitleEditForm({
         name="title"
         className="edit title"
         autoFocus={true}
+        autoComplete="off"
         defaultValue={defaultValue}
       />
       <button
