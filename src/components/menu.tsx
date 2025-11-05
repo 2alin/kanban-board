@@ -8,12 +8,14 @@ interface Option {
 
 interface MenuProps {
   options: Option[];
-  optionsPosition?: string;
+  positionX?: string;
+  positionY?: string;
 }
 
 export default function Menu({
   options,
-  optionsPosition,
+  positionX,
+  positionY,
   children,
 }: React.PropsWithChildren<MenuProps>) {
   const postfixId = useId();
@@ -153,7 +155,7 @@ export default function Menu({
     }
   }
 
-  function getBestOptionsPosition() {
+  function getBestPosition() {
     const anchorElement = anchorRef.current;
     if (!anchorElement) {
       return;
@@ -194,7 +196,8 @@ export default function Menu({
   return (
     <div
       className="menu-component"
-      data-options-position={optionsPosition || getBestOptionsPosition()}
+      data-position-x={positionX}
+      data-position-y={positionY || getBestPosition()}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       ref={componentRef}

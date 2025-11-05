@@ -1,5 +1,5 @@
 .menu-component {
-  display: inline-block;
+  display: inline-flex;
   flex-direction: column;
 }
 
@@ -22,15 +22,22 @@
   width: max-content;
 }
 
-.menu-component[data-options-position="top"] {
+.menu-component[data-position-y="top"] {
   position: relative; 
 }
-.menu-component[data-options-position="top"] .options.container{
+.menu-component[data-position-y="top"] .options.container{
   position: static;
 }
-.menu-component[data-options-position="top"] .options.list {
+.menu-component[data-position-y="top"] .options.list {
   transform: translateY(-100%);
 }
+
+.menu-component[data-position-x="right"] .options.list {
+  left: unset;
+  right: 0;
+}
+
+
 
 .menu-component .option {
   list-style: none;
