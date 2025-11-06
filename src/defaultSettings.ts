@@ -15,7 +15,7 @@ export const defaultTheme = themes[1];
  */
 export const defaultBoardData: BoardData = {
   version: "0.2",
-  categories: ["backlog", "todo", "today", "done"],
+  categories: ["Backlog", "Todo", "Today", "Done"],
   entries: [
     {
       orderInCategory: 0,
