@@ -41,6 +41,10 @@ export default function Column({
       case "edit-column-name":
         setIsTitleEdit(true);
         break;
+      case "add-card":
+        setModalState({ type: "new", categoryIdx: columnId });
+        document.body.classList.toggle("show-modal", true);
+        break;
       default:
       // nothing to do here
     }
@@ -68,6 +72,11 @@ export default function Column({
                 {
                   key: "edit-column-name",
                   text: "Edit Title",
+                  handler: handleMenuClick,
+                },
+                {
+                  key: "add-card",
+                  text: "Add Card",
                   handler: handleMenuClick,
                 },
               ]}

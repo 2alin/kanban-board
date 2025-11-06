@@ -115,10 +115,6 @@ export default function App({
     const newCardList = toCardList(newCardsMap);
     const success = storage.board.entries.set(newCardList);
     if (success) {
-      // set default modal state to avoid using data of cards
-      // that are not part of the board anymore
-      setModalState({ type: "new" });
-
       setCardsMap(newCardsMap);
 
       if (rewriteHistory) {

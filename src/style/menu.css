@@ -40,3 +40,7 @@
 .menu-component .option {
   list-style: none;
 }
+
+.menu-component .option button {
+  width: 100%;
+}
