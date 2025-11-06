@@ -268,7 +268,7 @@ export default function App({
    */
   function renameColumn(columnId: number, newName: string) {
     const newCategories = [...boardCategories];
-    newCategories[columnId] = newName.trim().toLowerCase();
+    newCategories[columnId] = newName.trim();
     setBoardCategories(newCategories);
 
     const boardData = storage.board.get();
