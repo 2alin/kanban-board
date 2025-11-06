@@ -137,15 +137,18 @@ body.show-modal header {
 .column > header {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   padding: 0.75rem;
 }
 
-.column > header .title {
-  flex-grow: 1;
+.column > header .show.title {
+  width: 50%;
+  flex: 1 1 auto;
   font-size: 1.5rem;
   text-transform: capitalize;
   text-align: center;
-  margin: 0;
+  margin: 0 0.5rem;
+  overflow: hidden;
 }
 
 .column > header .menu-component .options.list {
@@ -166,8 +169,13 @@ body.show-modal header {
 }
 
 .column > header .edit.title {
-  flex: 1;
+  width: 50%;
+  flex: 1 1 auto;
   border-radius: 4px;
+}
+
+.column > header .edit.form button {
+  flex-shrink: 0;
 }
 
 .column > header .edit.form button.icon {
