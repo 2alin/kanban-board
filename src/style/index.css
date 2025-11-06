@@ -1,6 +1,7 @@
 @import url("./themes.css");
 @import url("inbuilt-overrides.css");
 @import url("./modal.css");
+@import url("./column.css");
 @import url("./card.css");
 @import url("./menu.css");
 
@@ -36,6 +37,7 @@ main {
   flex-direction: column;
   margin: 1rem;
   max-width: 1920px;
+  min-width: 350px;
 }
 
 #board {
@@ -102,99 +104,6 @@ body.show-modal header {
 }
 .history-controls button.redo .icon-img {
   mask-image: url("../icons/redo.svg");
-}
-
-/* COLUMNS STYLE */
-
-.column {
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 420px;
-  margin-left: 1.75rem;
-  background-color: var(--column-bg-color);
-  color: var(--column-text-color);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  min-height: 160px;
-}
-
-.column:first-child {
-  margin-left: 0rem;
-}
-
-@media screen and (width <= 640px) {
-  .column {
-    flex: auto;
-    margin-left: 0;
-    margin-top: 1.75rem;
-  }
-
-  .column:first-child {
-    margin-top: 0rem;
-  }
-}
-
-.column > header {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem;
-}
-
-.column > header .title {
-  flex-grow: 1;
-  font-size: 1.5rem;
-  text-transform: capitalize;
-  text-align: center;
-  margin: 0;
-}
-
-.column > header .edit.form {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.column > header .edit.title {
-  flex: 1;
-  border-radius: 4px;
-}
-
-.column > header .edit.form button.icon {
-  --button-size: 1.5rem;
-  border-radius: 4px;
-  background-color: var(--column-bg-color);
-  margin: 0 0.5rem;
-}
-
-.column > header .edit.form .cancel .icon-img {
-  mask-image: url("../icons/close.svg");
-  background-color: var(--column-text-color);
-}
-
-.column > header .edit.form .submit .icon-img {
-  mask-image: url("../icons/check.svg");
-  background-color: var(--column-text-color);
-}
-
-.column > header .menu-component button.icon {
-  --button-size: 1.25rem;
-  border-radius: 4px;
-  background-color: var(--column-bg-color);
-}
-
-.column > header .menu-component .icon-img {
-  mask-image: url("../icons/menu.svg");
-  background-color: var(--column-text-color);
-}
-
-.column > header .menu-component .options {
-  font-size: 0.9rem;
-}
-
-.card-list {
-  list-style: none;
-  margin: 0;
-  padding: 0 0.75rem;
 }
 
 /* --------------------- */

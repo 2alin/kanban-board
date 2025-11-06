@@ -1,0 +1,109 @@
+.column {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 420px;
+  margin-left: 1.75rem;
+  background-color: var(--column-bg-color);
+  color: var(--column-text-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  min-height: 160px;
+}
+
+.column:first-child {
+  margin-left: 0rem;
+}
+
+@media screen and (width <= 640px) {
+  .column {
+    flex: auto;
+    margin-left: 0;
+    margin-top: 1.75rem;
+  }
+
+  .column:first-child {
+    margin-top: 0rem;
+  }
+}
+
+.column > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.75rem;
+}
+
+.column > header .show.title {
+  width: 50%;
+  flex: 1 1 auto;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 0 0.5rem;
+  overflow: hidden;
+}
+
+.column > header .menu-component .options.list {
+  border-radius: 4px;
+  border: 1px solid var(--card-text-color);
+  overflow: hidden;
+}
+
+.column > header .menu-component .option button {
+  background-color: var(--card-bg-color);
+  color: var(--card-text-color);
+}
+
+.column > header .edit.form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.column > header .edit.title {
+  width: 50%;
+  flex: 1 1 auto;
+  border-radius: 4px;
+}
+
+.column > header .edit.form button {
+  flex-shrink: 0;
+}
+
+.column > header .edit.form button.icon {
+  --button-size: 1.5rem;
+  border-radius: 4px;
+  background-color: var(--column-bg-color);
+  margin: 0 0.5rem;
+}
+
+.column > header .edit.form .cancel .icon-img {
+  mask-image: url("../icons/close.svg");
+  background-color: var(--column-text-color);
+}
+
+.column > header .edit.form .submit .icon-img {
+  mask-image: url("../icons/check.svg");
+  background-color: var(--column-text-color);
+}
+
+.column > header .menu-component button.icon {
+  --button-size: 1.25rem;
+  border-radius: 4px;
+  background-color: var(--column-bg-color);
+}
+
+.column > header .menu-component .icon-img {
+  mask-image: url("../icons/menu.svg");
+  background-color: var(--column-text-color);
+}
+
+.column > header .menu-component .options {
+  font-size: 0.9rem;
+}
+
+.column .card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0.75rem;
+}
