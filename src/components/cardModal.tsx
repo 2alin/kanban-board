@@ -44,6 +44,8 @@ export default function CardModal({
     initialFormData.title = cardToEdit.title;
     initialFormData.description = cardToEdit.description;
     initialFormData.categorySelected = cardToEdit.categoryIdx.toString();
+  } else if (modalState.type === "new") {
+    initialFormData.categorySelected = (modalState.categoryIdx || 0).toString();
   }
 
   const [formData, setFormData] = useState(initialFormData);

@@ -40,6 +40,7 @@ export type CardsMap = Map<number, CardExtendedData[]>;
  */
 export interface ModalStateNew {
   type: "new";
+  categoryIdx?: number;
 }
 
 /**
