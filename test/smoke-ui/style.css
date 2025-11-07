@@ -11,3 +11,7 @@ article  {
   margin: 0 1rem;
   border: 1px solid green;
 }
+
+.menu-component .options.list{
+  --background-menu-list: #eee;
+}

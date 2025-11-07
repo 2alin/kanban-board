@@ -43,14 +43,12 @@
 }
 
 .column > header .menu-component .options.list {
+  font-size: 0.9rem;
   border-radius: 4px;
   border: 1px solid var(--card-text-color);
-  overflow: hidden;
-}
-
-.column > header .menu-component .option button {
-  background-color: var(--card-bg-color);
+  --background-menu-list: var(--card-bg-color);
   color: var(--card-text-color);
+  overflow: hidden;
 }
 
 .column > header .edit.form {
@@ -95,10 +93,6 @@
 .column > header .menu-component .icon-img {
   mask-image: url("../icons/menu.svg");
   background-color: var(--column-text-color);
-}
-
-.column > header .menu-component .options {
-  font-size: 0.9rem;
 }
 
 .column .card-list {
