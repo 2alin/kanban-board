@@ -20,8 +20,12 @@ export default function Card({
   const { id, title, description, categoryIdx, orderInCategory } = cardData;
   const { deleteCard, updateCard, setModalState } = handlers;
 
-  function handleEdit() {
-    setModalState({ type: "edit", cardToEdit: cardData });
+  function handleEdit(event: React.MouseEvent) {
+    const { target } = event;
+
+    const origin = target instanceof HTMLElement ? target : undefined;
+
+    setModalState({ type: "edit", cardToEdit: cardData, origin });
     document.body.classList.toggle("show-modal", true);
   }
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CardExtendedData, ModalState } from "./app.types";
 import Card from "./card";
 import Menu from "./menu";
@@ -27,6 +27,7 @@ export default function Column({
   const { deleteCard, updateCard, renameColumn, setModalState } = handlers;
 
   const [isTitleEdit, setIsTitleEdit] = useState(false);
+  const columnRef = useRef<HTMLElement>(null);
 
   function handleMenuClick(event: React.MouseEvent) {
     const { target } = event;
@@ -42,8 +43,22 @@ export default function Column({
         setIsTitleEdit(true);
         break;
       case "add-card":
-        setModalState({ type: "new", categoryIdx: columnId });
-        document.body.classList.toggle("show-modal", true);
+        {
+          let origin =
+            columnRef.current?.querySelector(".menu-component .anchor") ||
+            undefined;
+
+          if (!(origin instanceof HTMLElement)) {
+            origin = undefined;
+          }
+
+          setModalState({
+            type: "new",
+            categoryIdx: columnId,
+            origin,
+          });
+          document.body.classList.toggle("show-modal", true);
+        }
         break;
       default:
       // nothing to do here
@@ -51,7 +66,7 @@ export default function Column({
   }
 
   return (
-    <section className="column">
+    <section className="column" ref={columnRef}>
       <header>
         {isTitleEdit ? (
           <TitleEditForm

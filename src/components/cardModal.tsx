@@ -58,6 +58,10 @@ export default function CardModal({
     document.body.classList.toggle("show-modal", false);
     clearFormData();
     onClose();
+
+    if (modalState?.origin) {
+      modalState.origin.focus();
+    }
   }
 
   function handleSubmit() {
