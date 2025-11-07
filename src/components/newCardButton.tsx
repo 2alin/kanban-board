@@ -5,8 +5,12 @@ interface NewCardButtonProps {
 }
 
 export default function NewCardButton({ setModalState }: NewCardButtonProps) {
-  function handleNewCardButtonClick() {
-    setModalState({ type: "new" });
+  function handleNewCardButtonClick(event: React.MouseEvent) {
+    const { target } = event;
+
+    const origin = target instanceof HTMLElement ? target : undefined;
+
+    setModalState({ type: "new", origin });
     document.body.classList.toggle("show-modal", true);
   }
 

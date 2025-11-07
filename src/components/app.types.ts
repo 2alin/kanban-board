@@ -41,6 +41,11 @@ export type CardsMap = Map<number, CardExtendedData[]>;
 export interface ModalStateNew {
   type: "new";
   categoryIdx?: number;
+  /**
+   * Optional value to bring back focus to an element
+   * when the modal gets closed
+   */
+  origin?: HTMLElement;
 }
 
 /**
@@ -49,6 +54,11 @@ export interface ModalStateNew {
 interface ModalStateEdit {
   type: "edit";
   cardToEdit: CardExtendedData;
+  /**
+   * Optional value to bring back focus to an element
+   * when the modal gets closed
+   */
+  origin?: HTMLElement;
 }
 
 /**

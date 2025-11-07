@@ -57,7 +57,7 @@ export function HistoryControls({
     <div className="history-controls">
       <button
         className="undo icon"
-        aria-describedby="Undo board history"
+        aria-description="Undo board history"
         onClick={undoBoardState}
         disabled={historyIdx <= 0}
       >
@@ -65,7 +65,7 @@ export function HistoryControls({
       </button>
       <button
         className="redo icon"
-        aria-describedby="Redo board history"
+        aria-description="Redo board history"
         onClick={redoBoardState}
         disabled={historyIdx >= boardHistory.length - 1}
       >

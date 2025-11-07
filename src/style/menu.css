@@ -20,6 +20,8 @@
   top: 0;
   left: 0;
   width: max-content;
+  --background-menu-list: initial;
+  background: var(--background-menu-list);
 }
 
 .menu-component[data-position-y="top"] {
@@ -42,5 +44,7 @@
 }
 
 .menu-component .option button {
-  width: 100%;
+  background: var(--background-menu-list);
+  margin: 0.25rem;
+  border-radius: 4px;
 }
