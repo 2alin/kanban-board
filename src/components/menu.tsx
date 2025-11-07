@@ -153,9 +153,11 @@ export default function Menu({
         anchorRef.current?.focus();
         break;
       case "ArrowDown":
+        event.preventDefault();
         focusNext();
         break;
       case "ArrowUp":
+        event.preventDefault();
         focusPrevious();
         break;
       default:
