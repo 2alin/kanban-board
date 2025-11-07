@@ -93,28 +93,28 @@ export default function Card({
         <div className="buttons middle container">
           <button
             className="move-top icon"
-            aria-describedby="move card to the top"
+            aria-description="move card to the top"
             onClick={() => moveCard("top")}
           >
             <span className="icon-img"></span>
           </button>
           <button
             className="move-up icon"
-            aria-describedby="move card upwards"
+            aria-description="move card upwards"
             onClick={() => moveCard("up")}
           >
             <span className="icon-img"></span>
           </button>
           <button
             className="move-down icon"
-            aria-describedby="move card downwards"
+            aria-description="move card downwards"
             onClick={() => moveCard("down")}
           >
             <span className="icon-img"></span>
           </button>
           <button
             className="move-bottom icon"
-            aria-describedby="move card to the bottom"
+            aria-description="move card to the bottom"
             onClick={() => moveCard("bottom")}
           >
             <span className="icon-img"></span>
@@ -123,14 +123,14 @@ export default function Card({
         <div className="buttons right container">
           <button
             className="edit icon"
-            aria-describedby="edits card"
+            aria-description="edits card"
             onClick={handleEdit}
           >
             <span className="icon-img"></span>
           </button>
           <button
             className="delete icon"
-            aria-describedby="deletes card"
+            aria-description="deletes card"
             onClick={handleDelete}
           >
             <span className="icon-img"></span>
