@@ -1,28 +1,25 @@
+import { useContext } from "react";
 import type { CardExtendedData, CardsMap, ModalState } from "./app.types";
 import Column from "./column";
+import { CategoriesContext } from "./categoriesContext";
 
 interface BoardProps {
   cardsMap: CardsMap;
-  boardCategories: string[];
   handlers: {
     deleteCard: (id: string) => void;
     updateCard: (cardData: CardExtendedData) => void;
-    renameColumn: (columnId: number, newName: string) => void;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
 
-export default function Board({
-  cardsMap,
-  boardCategories,
-  handlers,
-}: BoardProps) {
-  const { deleteCard, updateCard, renameColumn, setModalState } =
-    handlers;
+export default function Board({ cardsMap, handlers }: BoardProps) {
+  const { deleteCard, updateCard, setModalState } = handlers;
+
+  const categories = useContext(CategoriesContext);
 
   return (
     <section id="board">
-      {boardCategories.map((category, index) => {
+      {categories.map((category, index) => {
         const cardsInCategory = cardsMap.get(index) || [];
 
         return (
@@ -31,11 +28,9 @@ export default function Board({
             columnId={index}
             title={category}
             cards={cardsInCategory}
-            boardCategories={boardCategories}
             handlers={{
               deleteCard,
               updateCard,
-              renameColumn,
               setModalState,
             }}
           />

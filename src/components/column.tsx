@@ -1,18 +1,17 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import type { CardExtendedData, ModalState } from "./app.types";
 import Card from "./card";
 import Menu from "./menu";
 import TitleEditForm from "./titleEditForm";
+import { CategoriesDispatchContext } from "./categoriesContext";
 
 interface ColumnProps {
   columnId: number;
   title: string;
   cards: CardExtendedData[];
-  boardCategories: string[];
   handlers: {
     deleteCard: (id: string) => void;
     updateCard: (cardData: CardExtendedData) => void;
-    renameColumn: (columnId: number, newName: string) => void;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
@@ -21,13 +20,14 @@ export default function Column({
   columnId,
   title,
   cards,
-  boardCategories,
   handlers,
 }: ColumnProps) {
-  const { deleteCard, updateCard, renameColumn, setModalState } = handlers;
+  const { deleteCard, updateCard, setModalState } = handlers;
 
   const [isTitleEdit, setIsTitleEdit] = useState(false);
   const columnRef = useRef<HTMLElement>(null);
+
+  const categoriesDispatch = useContext(CategoriesDispatchContext);
 
   function handleMenuClick(event: React.MouseEvent) {
     const { target } = event;
@@ -72,7 +72,7 @@ export default function Column({
           <TitleEditForm
             defaultValue={title}
             handleSubmit={(value) => {
-              renameColumn(columnId, value);
+              categoriesDispatch({ type: "rename", id: columnId, value });
               setIsTitleEdit(false);
             }}
             handleCancel={() => {
@@ -108,7 +108,6 @@ export default function Column({
             <Card
               key={card.id}
               cardData={card}
-              boardCategories={boardCategories}
               handlers={{ deleteCard, updateCard, setModalState }}
             />
           </li>

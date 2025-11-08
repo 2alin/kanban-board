@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import type { CardsMap } from "./app.types";
 import storage from "../storage";
 import { getRandomId } from "../utilities";
 import { toCardsMap } from "./app";
+import { CategoriesDispatchContext } from "./categoriesContext";
 
 const messageClassNames = {
   none: "",
@@ -12,18 +13,16 @@ const messageClassNames = {
 };
 
 interface ImportSectionProps {
-  setBoardCategories: (categories: string[]) => void;
   updateBoardData: (cardsMap: CardsMap) => void;
 }
 
-export default function ImportSection({
-  setBoardCategories,
-  updateBoardData,
-}: ImportSectionProps) {
+export default function ImportSection({ updateBoardData }: ImportSectionProps) {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [messageClassToShow, setMessageClassToShow] = useState(
     messageClassNames.none
   );
+
+  const categoriesDispatch = useContext(CategoriesDispatchContext);
 
   function handleImportFileChange(event: React.ChangeEvent) {
     const inputFileElement = event.target as HTMLInputElement;
@@ -80,7 +79,7 @@ export default function ImportSection({
     }
 
     if (isNewBoardDataStored && newBoardData) {
-      setBoardCategories(newBoardData.categories);
+      categoriesDispatch({ type: "set", categories: newBoardData.categories });
       const newCardList = newBoardData.entries.map((entry) => {
         return {
           id: getRandomId(),
@@ -90,7 +89,7 @@ export default function ImportSection({
           orderInCategory: entry.orderInCategory,
         };
       });
-      const newCardsMap = toCardsMap(newCardList, newBoardData.categories);
+      const newCardsMap = toCardsMap(newCardList);
       updateBoardData(newCardsMap);
       setMessageClassToShow(messageClassNames.success);
     } else if (oldBoardData) {

@@ -13,7 +13,6 @@ const submitButtonText = new Map([
 
 interface CardModalProps {
   modalState: ModalState;
-  boardCategories: string[];
   handlers: {
     addCard: (cardData: CardBaseData) => void;
     updateCard: (cardData: CardExtendedData) => void;
@@ -23,7 +22,6 @@ interface CardModalProps {
 
 export default function CardModal({
   modalState,
-  boardCategories,
   handlers,
   onClose,
 }: CardModalProps) {
@@ -120,7 +118,6 @@ export default function CardModal({
           formData={formData}
           onSubmit={handleSubmit}
           onChange={handleChange}
-          boardCategories={boardCategories}
         />
 
         <footer>

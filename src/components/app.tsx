@@ -16,67 +16,7 @@ import CardModal from "./cardModal";
 import ThemeSelector from "./themeSelector";
 import NewCardButton from "./newCardButton";
 import { HistoryControls } from "./historyControls";
-
-/**
- * Normalizes a list of cards in the following sense:
- * - sorts the list in ascending order through their `orderInCategory` value
- * - updates the `orderInCategory` value to match the position in the sorted array,
- *   starting with 0
- *
- * @param cards A list of cards to normalize
- * @returns A new list of cards
- */
-export function normalizeCards(cards: CardExtendedData[]) {
-  const sortedCards = [...cards].sort(
-    (a, b) => a.orderInCategory - b.orderInCategory
-  );
-  const normalizedCards = sortedCards.map((card, index) => ({
-    ...card,
-    orderInCategory: index,
-  }));
-
-  return normalizedCards;
-}
-
-/**
- *  Converts an array of cards into a map of cards per category index
- *
- * @param cards The array of cards to convert
- * @param categories The categories that will become the keys of the map
- * @returns A map of cards per category index
- */
-export function toCardsMap(
-  cards: CardExtendedData[],
-  categories: string[]
-): CardsMap {
-  const cardsByCategory: CardsMap = new Map();
-  categories.forEach((category, index) => {
-    let cardsInCategory = cards.filter(
-      (card) => category === categories[card.categoryIdx]
-    );
-
-    cardsInCategory = normalizeCards(cardsInCategory);
-    cardsByCategory.set(index, cardsInCategory);
-  });
-
-  return cardsByCategory;
-}
-
-/**
- * Converts an map of cards to an array of cards
- *
- * @param cardsMap A map fo cards per category
- * @returns An array of cards
- */
-export function toCardList(cardsMap: CardsMap): CardExtendedData[] {
-  const cardList: CardExtendedData[] = [];
-
-  cardsMap.forEach((cardListInCategory) => {
-    cardList.push(...cardListInCategory);
-  });
-
-  return cardList;
-}
+import { CategoriesProvider } from "./categoriesContext";
 
 interface AppProps {
   initialCategories: string[];
@@ -91,9 +31,8 @@ export default function App({
 }: AppProps) {
   const [modalState, setModalState] = useState<ModalState>(null);
 
-  const initialCardsMap = toCardsMap(initialCards, initialCategories);
+  const initialCardsMap = toCardsMap(initialCards);
   const [cardsMap, setCardsMap] = useState(initialCardsMap);
-  const [boardCategories, setBoardCategories] = useState(initialCategories);
 
   const cloneCardsMap = structuredClone(cardsMap);
   const [boardHistory, setBoardHistory] = useState([cloneCardsMap]);
@@ -141,7 +80,7 @@ export default function App({
    */
   function addCard(cardData: CardBaseData) {
     let categoryIdx = cardData.categoryIdx;
-    if (categoryIdx < 0 || categoryIdx >= boardCategories.length) {
+    if (categoryIdx < 0) {
       categoryIdx = 0;
     }
 
@@ -246,7 +185,7 @@ export default function App({
           "Proceeding to delete card anyway."
       );
       const newCardList = cardsList.filter((card) => card.id !== id);
-      newCardsMap = toCardsMap(newCardList, boardCategories);
+      newCardsMap = toCardsMap(newCardList);
     } else {
       let newCategoryList = categoryCardList.filter((card) => card.id !== id);
       newCategoryList = normalizeCards(newCategoryList);
@@ -256,27 +195,8 @@ export default function App({
     updateBoardData(newCardsMap);
   }
 
-  /**
-   * Changes the title of a column
-   *
-   * @param columnId The id of the column
-   * @param newName The new name for the column
-   */
-  function renameColumn(columnId: number, newName: string) {
-    const newCategories = [...boardCategories];
-    newCategories[columnId] = newName.trim();
-    setBoardCategories(newCategories);
-
-    const boardData = storage.board.get();
-    if (!boardData) {
-      return;
-    }
-    boardData.categories = newCategories;
-    storage.board.set(boardData);
-  }
-
   return (
-    <>
+    <CategoriesProvider initialCategories={initialCategories}>
       <header>
         <NewCardButton {...{ setModalState }} />
         <HistoryControls
@@ -285,8 +205,8 @@ export default function App({
         />
       </header>
       <Board
-        {...{ cardsMap, boardCategories }}
-        handlers={{ deleteCard, updateCard, renameColumn, setModalState }}
+        {...{ cardsMap }}
+        handlers={{ deleteCard, updateCard, setModalState }}
       />
       {modalState && (
         <CardModal
@@ -295,7 +215,7 @@ export default function App({
               ? modalState.cardToEdit.id
               : modalState.type
           }
-          {...{ modalState, boardCategories }}
+          {...{ modalState }}
           handlers={{ addCard, updateCard }}
           onClose={() => setModalState(null)}
         />
@@ -303,13 +223,71 @@ export default function App({
       <footer>
         <ImportSection
           {...{
-            setBoardCategories,
             updateBoardData,
           }}
         />
         <ExportSection {...{ lastChangedBoard }} />
         <ThemeSelector {...{ handleThemeChange }} />
       </footer>
-    </>
+    </CategoriesProvider>
   );
+}
+
+/**
+ * Normalizes a list of cards in the following sense:
+ * - sorts the list in ascending order through their `orderInCategory` value
+ * - updates the `orderInCategory` value to match the position in the sorted array,
+ *   starting with 0
+ *
+ * @param cards A list of cards to normalize
+ * @returns A new list of cards
+ */
+export function normalizeCards(cards: CardExtendedData[]) {
+  const sortedCards = [...cards].sort(
+    (a, b) => a.orderInCategory - b.orderInCategory
+  );
+  const normalizedCards = sortedCards.map((card, index) => ({
+    ...card,
+    orderInCategory: index,
+  }));
+
+  return normalizedCards;
+}
+
+/**
+ * Converts an array of cards into a map of cards per category index
+ *
+ * @param cardList The array of cards to convert
+ * @returns A map of cards per category index
+ */
+export function toCardsMap(cardList: CardExtendedData[]): CardsMap {
+  const cardsByCategory: CardsMap = new Map();
+
+  for (const card of cardList) {
+    const cardsInCategory = cardsByCategory.get(card.categoryIdx) || [];
+    cardsInCategory.push(card);
+    cardsByCategory.set(card.categoryIdx, cardsInCategory);
+  }
+
+  for (const [categoryIdx, cardsInCategory] of cardsByCategory.entries()) {
+    cardsByCategory.set(categoryIdx, normalizeCards(cardsInCategory));
+  }
+
+  return cardsByCategory;
+}
+
+/**
+ * Converts an map of cards to an array of cards
+ *
+ * @param cardsMap A map fo cards per category
+ * @returns An array of cards
+ */
+export function toCardList(cardsMap: CardsMap): CardExtendedData[] {
+  const cardList: CardExtendedData[] = [];
+
+  cardsMap.forEach((cardListInCategory) => {
+    cardList.push(...cardListInCategory);
+  });
+
+  return cardList;
 }
