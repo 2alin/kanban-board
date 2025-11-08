@@ -1,10 +1,11 @@
+import { useContext } from "react";
 import type { CardExtendedData, ModalState } from "./app.types";
 import CategorySelector from "./categorySelector";
 import RichText from "./richText";
+import { CategoriesContext } from "./categoriesContext";
 
 interface CardProp {
   cardData: CardExtendedData;
-  boardCategories: string[];
   handlers: {
     deleteCard: (id: string) => void;
     updateCard: (cardData: CardExtendedData) => void;
@@ -12,13 +13,11 @@ interface CardProp {
   };
 }
 
-export default function Card({
-  cardData,
-  boardCategories,
-  handlers,
-}: CardProp) {
+export default function Card({ cardData, handlers }: CardProp) {
   const { id, title, description, categoryIdx, orderInCategory } = cardData;
   const { deleteCard, updateCard, setModalState } = handlers;
+
+  const boardCategories = useContext(CategoriesContext);
 
   function handleEdit(event: React.MouseEvent) {
     const { target } = event;

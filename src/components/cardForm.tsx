@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import CategorySelector from "./categorySelector";
+import { CategoriesContext } from "./categoriesContext";
 
 const cardFormId = "modal-card-form";
 
@@ -12,15 +14,15 @@ interface CardFormProps {
   formData: CardFormData;
   onSubmit: (event: React.FormEvent) => void;
   onChange: (newFormData: CardFormData) => void;
-  boardCategories: string[];
 }
 
 export default function CardForm({
   formData,
   onSubmit,
   onChange,
-  boardCategories,
 }: CardFormProps) {
+  const boardCategories = useContext(CategoriesContext);
+
   return (
     <form
       name="modal-card-form"
