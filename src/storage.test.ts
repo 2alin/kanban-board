@@ -1,4 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, test } from "vitest";
+
 import type { BoardData_v01 } from "./storage.old.types";
 import type { BoardData } from "./storage.types";
 import { migrateData } from "./storage";
