@@ -1,25 +1,33 @@
-import { useContext } from "react";
-import type { CardExtendedData, CardsMap, ModalState } from "./app.types";
+import { useContext, useEffect } from "react";
+
+import { CardsContext, toCardsMap } from "../contexts/cards";
+import { CategoriesContext } from "../contexts/categories";
+
+import type { ModalState } from "./app.types";
 import Column from "./column";
-import { CategoriesContext } from "./categoriesContext";
+import { getISODate } from "../utilities";
 
 interface BoardProps {
-  cardsMap: CardsMap;
   handlers: {
-    deleteCard: (id: string) => void;
-    updateCard: (cardData: CardExtendedData) => void;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
+    setLastChangedBoard: React.Dispatch<React.SetStateAction<string>>;
   };
 }
 
-export default function Board({ cardsMap, handlers }: BoardProps) {
-  const { deleteCard, updateCard, setModalState } = handlers;
+export default function Board({ handlers }: BoardProps) {
+  const { setModalState, setLastChangedBoard } = handlers;
 
   const categories = useContext(CategoriesContext);
+  const cards = useContext(CardsContext);
+
+  useEffect(() => {
+    setLastChangedBoard(getISODate());
+  }, [categories, cards]);
 
   return (
     <section id="board">
       {categories.map((category, index) => {
+        const cardsMap = toCardsMap(cards);
         const cardsInCategory = cardsMap.get(index) || [];
 
         return (
@@ -29,8 +37,6 @@ export default function Board({ cardsMap, handlers }: BoardProps) {
             title={category}
             cards={cardsInCategory}
             handlers={{
-              deleteCard,
-              updateCard,
               setModalState,
             }}
           />

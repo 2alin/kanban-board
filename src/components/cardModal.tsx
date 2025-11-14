@@ -1,5 +1,8 @@
-import { useState } from "react";
-import type { CardBaseData, CardExtendedData, ModalState } from "./app.types";
+import { useContext, useState } from "react";
+
+import { CardsDispatchContext } from "../contexts/cards";
+
+import type { ModalState } from "./app.types";
 import CardForm, { type CardFormData } from "./cardForm";
 
 const modalTitle = new Map([
@@ -13,19 +16,11 @@ const submitButtonText = new Map([
 
 interface CardModalProps {
   modalState: ModalState;
-  handlers: {
-    addCard: (cardData: CardBaseData) => void;
-    updateCard: (cardData: CardExtendedData) => void;
-  };
   onClose: () => void;
 }
 
-export default function CardModal({
-  modalState,
-  handlers,
-  onClose,
-}: CardModalProps) {
-  const { addCard, updateCard } = handlers;
+export default function CardModal({ modalState, onClose }: CardModalProps) {
+  const cardsDispatch = useContext(CardsDispatchContext);
 
   if (!modalState) {
     return;
@@ -69,22 +64,22 @@ export default function CardModal({
 
     switch (modalState.type) {
       case "new":
-        const cardToAdd = {
+        const cardBaseData = {
           title: formData.title,
           description: formData.description,
           categoryIdx: Number(formData.categorySelected),
         };
-        addCard(cardToAdd);
+        cardsDispatch({ type: "add", cardBaseData, addToHistory: true });
         break;
       case "edit":
-        const cardToUpdate = {
+        const newCardData = {
           id: modalState.cardToEdit.id,
           title: formData.title,
           description: formData.description,
           categoryIdx: Number(formData.categorySelected),
           orderInCategory: modalState.cardToEdit.orderInCategory,
         };
-        updateCard(cardToUpdate);
+        cardsDispatch({ type: "update", newCardData, addToHistory: true });
         break;
       default:
         console.error("Card modal type not recognized");

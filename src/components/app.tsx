@@ -1,22 +1,23 @@
 import { useState } from "react";
 
-import storage from "../storage";
-import { getISODate, getRandomId } from "../utilities";
-
 import type {
-  CardBaseData,
+  BoardHistory,
+  BoardHistoryItem,
   CardExtendedData,
-  CardsMap,
+  HistoryChangeItem,
   ModalState,
 } from "./app.types";
+
+import { CardsProvider } from "../contexts/cards";
+import { CategoriesProvider } from "../contexts/categories";
+
 import Board from "./board";
-import ExportSection from "./exportSection";
-import ImportSection from "./importSection";
 import CardModal from "./cardModal";
-import ThemeSelector from "./themeSelector";
-import NewCardButton from "./newCardButton";
+import ExportSection from "./exportSection";
 import { HistoryControls } from "./historyControls";
-import { CategoriesProvider } from "./categoriesContext";
+import NewCardButton from "./newCardButton";
+import ImportSection from "./importSection";
+import ThemeSelector from "./themeSelector";
 
 interface AppProps {
   initialCategories: string[];
@@ -31,263 +32,90 @@ export default function App({
 }: AppProps) {
   const [modalState, setModalState] = useState<ModalState>(null);
 
-  const initialCardsMap = toCardsMap(initialCards);
-  const [cardsMap, setCardsMap] = useState(initialCardsMap);
+  const [lastChangedBoard, setLastChangedBoard] = useState("");
 
-  const cloneCardsMap = structuredClone(cardsMap);
-  const [boardHistory, setBoardHistory] = useState([cloneCardsMap]);
+  const initialHistoryItem: BoardHistoryItem = {
+    categories: [...initialCategories],
+    cards: structuredClone(initialCards),
+  };
+  const [boardHistory, setBoardHistory] = useState<BoardHistory>([
+    initialHistoryItem,
+  ]);
   const [historyIdx, setHistoryIdx] = useState(0);
 
-  const [lastChangedBoard, setLastChangedBoard] = useState(getISODate());
-
   /**
-   * Updates all data related to be board:
-   * - local storage
-   * - memory state
-   * - last update state
+   * Adds board changes to the history
    *
-   * @param newCardsMap The new cards map assigned to the board
-   * @param rewriteHistory Whether we should rewrite history or not.
-   *                       Used in undo/redo actions
+   * @param historyChangeItem A board history change
    */
-  function updateBoardData(newCardsMap: CardsMap, rewriteHistory = true) {
-    const newCardList = toCardList(newCardsMap);
-    const success = storage.board.entries.set(newCardList);
-    if (success) {
-      setCardsMap(newCardsMap);
-
-      if (rewriteHistory) {
-        const newHistoryIdx = historyIdx + 1;
-        const pastHistory = boardHistory.slice(0, newHistoryIdx);
-        const cloneNewsCardMap = structuredClone(newCardsMap);
-        let newBoardHistory = [...pastHistory, cloneNewsCardMap];
-        // store only last 10 history actions
-        newBoardHistory = newBoardHistory.slice(-10);
-        setBoardHistory(newBoardHistory);
-        setHistoryIdx(newHistoryIdx);
-      }
-
-      setLastChangedBoard(getISODate());
-    } else {
-      throw new Error("Issue storing cards locally");
-    }
-  }
-
-  /**
-   * Adds a new card in the board
-   *
-   * @param cardData The card base data to be added
-   */
-  function addCard(cardData: CardBaseData) {
-    let categoryIdx = cardData.categoryIdx;
-    if (categoryIdx < 0) {
-      categoryIdx = 0;
-    }
-
-    const cardsInCategory = cardsMap.get(categoryIdx) || [];
-
-    // the new card should be added to the bottom of the list
-    const orderInCategory = cardsInCategory.length;
-    const newCard = {
-      orderInCategory,
-      title: cardData.title,
-      description: cardData.description,
-      categoryIdx,
-      id: getRandomId(),
-    };
-
-    let newCardsInCategory = [...cardsInCategory, newCard];
-    newCardsInCategory = normalizeCards(newCardsInCategory);
-    const newCardsMap = new Map(cardsMap);
-    newCardsMap.set(categoryIdx, newCardsInCategory);
-
-    updateBoardData(newCardsMap);
-  }
-
-  /**
-   * Updates a card in the board with the data given
-   *
-   * @param cardData The data to use to update a card
-   */
-  function updateCard(cardData: CardExtendedData) {
-    let oldCategoryCardList: CardExtendedData[] = [];
-    let oldCategoryIdx = -1;
-
-    cardsMap.forEach((cardsInCategory, categoryIdx) => {
-      if (cardsInCategory.find((card) => card.id === cardData.id)) {
-        oldCategoryCardList = [...cardsInCategory];
-        oldCategoryIdx = categoryIdx;
-      }
-    });
-
-    if (oldCategoryIdx < 0) {
-      console.error("Card to update not found in the board");
-      return null;
-    }
-
-    const newCardsMap = new Map(cardsMap);
-    const newCategoryIdx = cardData.categoryIdx;
-
-    if (oldCategoryIdx !== newCategoryIdx) {
-      // updating new category list and sending card to the end of it
-      const newCategoryCardList = cardsMap.get(newCategoryIdx) || [];
-      const orderInCategory = newCategoryCardList.length;
-      newCategoryCardList.push({
-        ...cardData,
-        orderInCategory,
-      });
-
-      // removing from old category list
-      oldCategoryCardList = oldCategoryCardList.filter(
-        (card) => card.id !== cardData.id
-      );
-      // only the category where the card was removed needs to be normalized
-      oldCategoryCardList = normalizeCards(oldCategoryCardList);
-
-      // updating cards map with the new category lists
-      newCardsMap.set(newCategoryIdx, newCategoryCardList);
-      newCardsMap.set(oldCategoryIdx, oldCategoryCardList);
-    } else {
-      // card stays in the same category
-      oldCategoryCardList = oldCategoryCardList.map((card) =>
-        card.id === cardData.id ? cardData : card
-      );
-      // normalizing as we allow floating numbers to change position in a card
-      oldCategoryCardList = normalizeCards(oldCategoryCardList);
-
-      newCardsMap.set(oldCategoryIdx, oldCategoryCardList);
-    }
-
-    updateBoardData(newCardsMap);
-  }
-
-  /**
-   * Deletes a card from the board
-   *
-   * @param id Id of the card to delete
-   */
-  function deleteCard(id: string) {
-    let newCardsMap = new Map(cardsMap);
-    const cardsList = toCardList(cardsMap);
-    const card = cardsList.find((card) => card.id === id);
-
-    if (!card) {
-      console.error("No card found to delete");
+  function handleHistoryChange(historyChangeItem: HistoryChangeItem) {
+    if (!historyChangeItem) {
       return;
     }
 
-    const categoryIdx = card.categoryIdx;
-    const categoryCardList = cardsMap.get(categoryIdx);
-
-    if (!categoryCardList) {
-      console.error(
-        "Card wasn't assigned to the right category." +
-          "Proceeding to delete card anyway."
-      );
-      const newCardList = cardsList.filter((card) => card.id !== id);
-      newCardsMap = toCardsMap(newCardList);
-    } else {
-      let newCategoryList = categoryCardList.filter((card) => card.id !== id);
-      newCategoryList = normalizeCards(newCategoryList);
-      newCardsMap.set(categoryIdx, newCategoryList);
+    const newHistoryItem = structuredClone(boardHistory[historyIdx]);
+    if (!newHistoryItem) {
+      return;
     }
 
-    updateBoardData(newCardsMap);
+    switch (historyChangeItem.type) {
+      case "categories":
+        newHistoryItem.categories = [...historyChangeItem.value];
+        break;
+      case "cards":
+        newHistoryItem.cards = structuredClone(historyChangeItem.value);
+        break;
+      case "board":
+        newHistoryItem.categories = [...historyChangeItem.value.categories];
+        newHistoryItem.cards = structuredClone(historyChangeItem.value.cards);
+        return;
+      default:
+        console.error("Unrecognized type of history change item");
+    }
+
+    const newHistoryIdx = historyIdx + 1;
+    const pastHistory = boardHistory.slice(0, newHistoryIdx);
+    let newBoardHistory = [...pastHistory, structuredClone(newHistoryItem)];
+    // store only last 10 history actions
+    newBoardHistory = newBoardHistory.slice(-10);
+    setBoardHistory(newBoardHistory);
+    setHistoryIdx(newHistoryIdx);
   }
 
   return (
-    <CategoriesProvider initialCategories={initialCategories}>
-      <header>
-        <NewCardButton {...{ setModalState }} />
-        <HistoryControls
-          {...{ boardHistory, historyIdx }}
-          handlers={{ updateBoardData, setHistoryIdx }}
-        />
-      </header>
-      <Board
-        {...{ cardsMap }}
-        handlers={{ deleteCard, updateCard, setModalState }}
-      />
-      {modalState && (
-        <CardModal
-          key={
-            modalState.type === "edit"
-              ? modalState.cardToEdit.id
-              : modalState.type
-          }
-          {...{ modalState }}
-          handlers={{ addCard, updateCard }}
-          onClose={() => setModalState(null)}
-        />
-      )}
-      <footer>
-        <ImportSection
-          {...{
-            updateBoardData,
-          }}
-        />
-        <ExportSection {...{ lastChangedBoard }} />
-        <ThemeSelector {...{ handleThemeChange }} />
-      </footer>
+    <CategoriesProvider
+      initialCategories={initialCategories}
+      handleHistoryChange={handleHistoryChange}
+    >
+      <CardsProvider
+        initialCards={initialCards}
+        handleHistoryChange={handleHistoryChange}
+      >
+        <header>
+          <NewCardButton {...{ setModalState }} />
+          <HistoryControls
+            {...{ boardHistory, historyIdx }}
+            handlers={{ setHistoryIdx }}
+          />
+        </header>
+        <Board handlers={{ setModalState, setLastChangedBoard }} />
+        {modalState && (
+          <CardModal
+            key={
+              modalState.type === "edit"
+                ? modalState.cardToEdit.id
+                : modalState.type
+            }
+            {...{ modalState }}
+            onClose={() => setModalState(null)}
+          />
+        )}
+        <footer>
+          <ImportSection />
+          <ExportSection lastChangedBoard={lastChangedBoard} />
+          <ThemeSelector {...{ handleThemeChange }} />
+        </footer>
+      </CardsProvider>
     </CategoriesProvider>
   );
-}
-
-/**
- * Normalizes a list of cards in the following sense:
- * - sorts the list in ascending order through their `orderInCategory` value
- * - updates the `orderInCategory` value to match the position in the sorted array,
- *   starting with 0
- *
- * @param cards A list of cards to normalize
- * @returns A new list of cards
- */
-export function normalizeCards(cards: CardExtendedData[]) {
-  const sortedCards = [...cards].sort(
-    (a, b) => a.orderInCategory - b.orderInCategory
-  );
-  const normalizedCards = sortedCards.map((card, index) => ({
-    ...card,
-    orderInCategory: index,
-  }));
-
-  return normalizedCards;
-}
-
-/**
- * Converts an array of cards into a map of cards per category index
- *
- * @param cardList The array of cards to convert
- * @returns A map of cards per category index
- */
-export function toCardsMap(cardList: CardExtendedData[]): CardsMap {
-  const cardsByCategory: CardsMap = new Map();
-
-  for (const card of cardList) {
-    const cardsInCategory = cardsByCategory.get(card.categoryIdx) || [];
-    cardsInCategory.push(card);
-    cardsByCategory.set(card.categoryIdx, cardsInCategory);
-  }
-
-  for (const [categoryIdx, cardsInCategory] of cardsByCategory.entries()) {
-    cardsByCategory.set(categoryIdx, normalizeCards(cardsInCategory));
-  }
-
-  return cardsByCategory;
-}
-
-/**
- * Converts an map of cards to an array of cards
- *
- * @param cardsMap A map fo cards per category
- * @returns An array of cards
- */
-export function toCardList(cardsMap: CardsMap): CardExtendedData[] {
-  const cardList: CardExtendedData[] = [];
-
-  cardsMap.forEach((cardListInCategory) => {
-    cardList.push(...cardListInCategory);
-  });
-
-  return cardList;
 }
