@@ -1,23 +1,25 @@
 import { useContext } from "react";
+
+import { CardsDispatchContext } from "../contexts/cards";
+import { CategoriesContext } from "../contexts/categories";
+
 import type { CardExtendedData, ModalState } from "./app.types";
 import CategorySelector from "./categorySelector";
 import RichText from "./richText";
-import { CategoriesContext } from "./categoriesContext";
 
 interface CardProp {
   cardData: CardExtendedData;
   handlers: {
-    deleteCard: (id: string) => void;
-    updateCard: (cardData: CardExtendedData) => void;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
 
 export default function Card({ cardData, handlers }: CardProp) {
   const { id, title, description, categoryIdx, orderInCategory } = cardData;
-  const { deleteCard, updateCard, setModalState } = handlers;
+  const { setModalState } = handlers;
 
   const boardCategories = useContext(CategoriesContext);
+  const cardsDispatch = useContext(CardsDispatchContext);
 
   function handleEdit(event: React.MouseEvent) {
     const { target } = event;
@@ -29,18 +31,22 @@ export default function Card({ cardData, handlers }: CardProp) {
   }
 
   function handleDelete() {
-    deleteCard(id);
+    cardsDispatch({ type: "delete", cardId: id, addToHistory: true });
   }
 
   function handleCategoryChange(newValue: string) {
     const newCategoryIdx = Number(newValue);
 
-    updateCard({
-      id,
-      title,
-      description,
-      categoryIdx: newCategoryIdx,
-      orderInCategory,
+    cardsDispatch({
+      type: "update",
+      newCardData: {
+        id,
+        title,
+        description,
+        categoryIdx: newCategoryIdx,
+        orderInCategory,
+      },
+      addToHistory: true,
     });
   }
 
@@ -70,12 +76,16 @@ export default function Card({ cardData, handlers }: CardProp) {
       // handled already in the initialization of this method
     }
 
-    updateCard({
-      id,
-      title,
-      description,
-      categoryIdx,
-      orderInCategory: newOrderInCategory,
+    cardsDispatch({
+      type: "update",
+      newCardData: {
+        id,
+        title,
+        description,
+        categoryIdx,
+        orderInCategory: newOrderInCategory,
+      },
+      addToHistory: true,
     });
   }
 

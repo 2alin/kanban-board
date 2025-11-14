@@ -7,6 +7,10 @@ interface SetAction {
    * The new categories to set
    */
   categories: string[];
+  /**
+   * Whether the new state of categories should be added to history or not
+   */
+  addToHistory?: boolean;
 }
 
 /**
@@ -22,6 +26,10 @@ interface RenameAction {
    * The new name for the category
    */
   value: string;
+  /**
+   * Whether the new state of categories should be added to history or not
+   */
+  addToHistory?: boolean;
 }
 
-export type Action = SetAction | RenameAction;
+export type CategoryAction = SetAction | RenameAction;

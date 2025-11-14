@@ -1,10 +1,14 @@
-import type { CardsMap } from "./app.types";
+import { useContext } from "react";
+
+import { CardsDispatchContext } from "../contexts/cards";
+import { CategoriesDispatchContext } from "../contexts/categories";
+
+import type { BoardHistory, BoardHistoryItem } from "./app.types";
 
 interface HistoryControlsProps {
-  boardHistory: CardsMap[];
+  boardHistory: BoardHistory;
   historyIdx: number;
   handlers: {
-    updateBoardData: (newCardsMap: CardsMap, rewriteHistory: boolean) => void;
     setHistoryIdx: (newHistoryIdx: number) => void;
   };
 }
@@ -14,12 +18,13 @@ export function HistoryControls({
   historyIdx,
   handlers,
 }: HistoryControlsProps) {
-  const { updateBoardData, setHistoryIdx } = handlers;
+  const { setHistoryIdx } = handlers;
+
+  const categoriesDispatch = useContext(CategoriesDispatchContext);
+  const cardsDispatch = useContext(CardsDispatchContext);
 
   /**
    * Brings back the state of the board to a previous state in history
-   *
-   * @returns
    */
   function undoBoardState() {
     if (historyIdx <= 0) {
@@ -30,15 +35,14 @@ export function HistoryControls({
     }
 
     const newHistoryIdx = historyIdx - 1;
-    const newCardsMap = structuredClone(boardHistory[newHistoryIdx]);
-    updateBoardData(newCardsMap, false);
+    const historyItemToSet = boardHistory[newHistoryIdx];
+
+    setBoardState(historyItemToSet);
     setHistoryIdx(newHistoryIdx);
   }
 
   /**
    * Brings forth the state of the board to the next state in history
-   *
-   * @returns
    */
   function redoBoardState() {
     if (historyIdx >= boardHistory.length - 1) {
@@ -49,10 +53,33 @@ export function HistoryControls({
     }
 
     const newHistoryIdx = historyIdx + 1;
-    const newCardsMap = structuredClone(boardHistory[newHistoryIdx]);
-    updateBoardData(newCardsMap, false);
+    const historyItemToSet = structuredClone(boardHistory[newHistoryIdx]);
+
+    setBoardState(historyItemToSet);
     setHistoryIdx(newHistoryIdx);
   }
+
+  /**
+   * Updates the state of the baord to a given state in history
+   *
+   * @param historyItem
+   */
+  function setBoardState(historyItem: BoardHistoryItem) {
+    const categoriesToSet = structuredClone(historyItem.categories);
+    const cardsToSet = structuredClone(historyItem.cards);
+
+    categoriesDispatch({
+      type: "set",
+      categories: categoriesToSet,
+      addToHistory: false,
+    });
+    cardsDispatch({
+      type: "set",
+      cards: cardsToSet,
+      addToHistory: false,
+    });
+  }
+
   return (
     <div className="history-controls">
       <button

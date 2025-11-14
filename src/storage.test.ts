@@ -1,4 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, it } from "vitest";
+
 import type { BoardData_v01 } from "./storage.old.types";
 import type { BoardData } from "./storage.types";
 import { migrateData } from "./storage";
@@ -54,7 +55,7 @@ const boardDataV02: BoardData = {
 };
 
 describe("migrateData", () => {
-  test("should convert to the expected data object", () => {
+  it("should convert to the expected data object", () => {
     const newBoardData = migrateData(boardDataV01);
 
     expect(newBoardData.version).toEqual("0.2");

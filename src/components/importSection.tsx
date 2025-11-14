@@ -1,10 +1,9 @@
 import { useContext, useState } from "react";
 
-import type { CardsMap } from "./app.types";
 import storage from "../storage";
 import { getRandomId } from "../utilities";
-import { toCardsMap } from "./app";
-import { CategoriesDispatchContext } from "./categoriesContext";
+import { CategoriesDispatchContext } from "../contexts/categories";
+import { CardsDispatchContext } from "../contexts/cards";
 
 const messageClassNames = {
   none: "",
@@ -12,17 +11,14 @@ const messageClassNames = {
   success: "success",
 };
 
-interface ImportSectionProps {
-  updateBoardData: (cardsMap: CardsMap) => void;
-}
-
-export default function ImportSection({ updateBoardData }: ImportSectionProps) {
+export default function ImportSection() {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [messageClassToShow, setMessageClassToShow] = useState(
     messageClassNames.none
   );
 
   const categoriesDispatch = useContext(CategoriesDispatchContext);
+  const cardsDispatch = useContext(CardsDispatchContext);
 
   function handleImportFileChange(event: React.ChangeEvent) {
     const inputFileElement = event.target as HTMLInputElement;
@@ -79,7 +75,11 @@ export default function ImportSection({ updateBoardData }: ImportSectionProps) {
     }
 
     if (isNewBoardDataStored && newBoardData) {
-      categoriesDispatch({ type: "set", categories: newBoardData.categories });
+      categoriesDispatch({
+        type: "set",
+        categories: newBoardData.categories,
+        addToHistory: true,
+      });
       const newCardList = newBoardData.entries.map((entry) => {
         return {
           id: getRandomId(),
@@ -89,8 +89,7 @@ export default function ImportSection({ updateBoardData }: ImportSectionProps) {
           orderInCategory: entry.orderInCategory,
         };
       });
-      const newCardsMap = toCardsMap(newCardList);
-      updateBoardData(newCardsMap);
+      cardsDispatch({ type: "set", cards: newCardList, addToHistory: true });
       setMessageClassToShow(messageClassNames.success);
     } else if (oldBoardData) {
       setMessageClassToShow(messageClassNames.error);

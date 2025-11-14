@@ -1,6 +1,6 @@
 import { useContext } from "react";
+import { CategoriesContext } from "../contexts/categories";
 import CategorySelector from "./categorySelector";
-import { CategoriesContext } from "./categoriesContext";
 
 const cardFormId = "modal-card-form";
 

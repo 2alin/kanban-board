@@ -1,17 +1,17 @@
 import { useContext, useRef, useState } from "react";
+
+import { CategoriesDispatchContext } from "../contexts/categories";
+
 import type { CardExtendedData, ModalState } from "./app.types";
 import Card from "./card";
 import Menu from "./menu";
 import TitleEditForm from "./titleEditForm";
-import { CategoriesDispatchContext } from "./categoriesContext";
 
 interface ColumnProps {
   columnId: number;
   title: string;
   cards: CardExtendedData[];
   handlers: {
-    deleteCard: (id: string) => void;
-    updateCard: (cardData: CardExtendedData) => void;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
@@ -22,7 +22,7 @@ export default function Column({
   cards,
   handlers,
 }: ColumnProps) {
-  const { deleteCard, updateCard, setModalState } = handlers;
+  const { setModalState } = handlers;
 
   const [isTitleEdit, setIsTitleEdit] = useState(false);
   const columnRef = useRef<HTMLElement>(null);
@@ -72,7 +72,12 @@ export default function Column({
           <TitleEditForm
             defaultValue={title}
             handleSubmit={(value) => {
-              categoriesDispatch({ type: "rename", id: columnId, value });
+              categoriesDispatch({
+                type: "rename",
+                id: columnId,
+                value,
+                addToHistory: true,
+              });
               setIsTitleEdit(false);
             }}
             handleCancel={() => {
@@ -105,11 +110,7 @@ export default function Column({
       <ol className="card-list">
         {cards.map((card) => (
           <li key={card.id}>
-            <Card
-              key={card.id}
-              cardData={card}
-              handlers={{ deleteCard, updateCard, setModalState }}
-            />
+            <Card key={card.id} cardData={card} handlers={{ setModalState }} />
           </li>
         ))}
       </ol>
