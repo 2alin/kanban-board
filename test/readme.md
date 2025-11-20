@@ -2,11 +2,12 @@
 
 This document contains all the documentation around testings
 
-# Unit tests
+# Unit and component tests
 
-All unit tests should be located in the same directory as the related module but with their filename prefixed by `.test` before its extension file. For example `module.test.ts` should contain the unit tests of `module.ts`.
+All unit and component tests should be located in the same directory as the related module. Unit tests have `.unit.test` before its file extension and component tests have `.browser.test`. 
 
-To run all the unit tests, please use `npm run test`. Or use`npx vitest` to enter watch mode.
+
+To run all unit and component tests, please use `npm run test`. Or use`npm run test-watch` to enter watch mode.
 
 # Manual Tests
 

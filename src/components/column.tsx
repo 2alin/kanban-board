@@ -100,6 +100,7 @@ export default function Column({
                   handler: handleMenuClick,
                 },
               ]}
+              label="Column options menu"
               isIconButton={true}
               positionY="bottom"
               positionX="right"
