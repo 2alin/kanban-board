@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run --browser.headless",
-    "test-watch": "vitest"
+    "test-watch": "vitest",
+    "test-unit": "vitest run --project='unit'",
+    "test-browser": "vitest run --project='browser' --browser.headless"
   },
   "repository": {
     "type": "git",
