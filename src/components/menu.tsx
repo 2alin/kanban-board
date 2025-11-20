@@ -8,6 +8,7 @@ interface Option {
 
 interface MenuProps {
   options: Option[];
+  label?: string;
   isIconButton?: boolean;
   positionX?: string;
   positionY?: string;
@@ -15,6 +16,7 @@ interface MenuProps {
 
 export default function Menu({
   options,
+  label,
   isIconButton,
   positionX,
   positionY,
@@ -217,8 +219,10 @@ export default function Menu({
         className={`anchor ${isIconButton && "icon"}`}
         data-action="toggle-open"
         ref={anchorRef}
-        aria-haspopup={true}
+        aria-haspopup="menu"
         aria-controls={"menu" + postfixId}
+        aria-expanded={isOpen}
+        aria-label={label ? label : "menu"}
       >
         {isIconButton ? <span className="icon-img" /> : children}
       </button>
