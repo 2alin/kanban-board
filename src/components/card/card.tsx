@@ -1,3 +1,5 @@
+import "./card.css";
+
 import { useContext } from "react";
 
 import { CardsDispatchContext } from "../../contexts/cards";

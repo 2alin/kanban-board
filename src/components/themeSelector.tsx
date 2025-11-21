@@ -1,3 +1,5 @@
+import "./themeSelector.css";
+
 import { themes } from "../defaultSettings";
 
 interface ThemeSelectorProps {

@@ -1,3 +1,5 @@
+import "./importSection.css";
+
 import { useContext, useState } from "react";
 
 import storage from "../storage";

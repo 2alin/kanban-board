@@ -1,3 +1,5 @@
+import "./cardModal.css";
+
 import { useContext, useEffect, useRef, useState } from "react";
 
 import { CardsDispatchContext } from "../../contexts/cards";

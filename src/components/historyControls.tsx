@@ -1,3 +1,5 @@
+import "./historyControls.css";
+
 import { useContext } from "react";
 
 import { CardsDispatchContext } from "../contexts/cards";

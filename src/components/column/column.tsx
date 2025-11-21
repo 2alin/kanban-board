@@ -1,3 +1,5 @@
+import "./column.css";
+
 import { useContext, useRef, useState } from "react";
 
 import { CategoriesDispatchContext } from "../../contexts/categories";

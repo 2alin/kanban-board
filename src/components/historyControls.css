@@ -1,0 +1,25 @@
+.history-controls {
+  align-items: center;
+  display: flex;
+}
+
+.history-controls button:disabled {
+  visibility: hidden;
+}
+
+.history-controls button.icon {
+  --button-size: 1.75rem;
+  margin: 0.5rem 0.75rem;
+  background-color: inherit;
+}
+
+.history-controls button .icon-img {
+  background-color: var(--card-bg-color);
+}
+
+.history-controls button.undo .icon-img {
+  mask-image: url("/icons/undo.svg");
+}
+.history-controls button.redo .icon-img {
+  mask-image: url("/icons/redo.svg");
+}

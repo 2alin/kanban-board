@@ -1,3 +1,5 @@
+import "./menu.css"
+
 import React, { useEffect, useId, useRef, useState } from "react";
 
 interface Option {

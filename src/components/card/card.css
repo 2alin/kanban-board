@@ -79,27 +79,27 @@
 }
 
 .card button.move-top .icon-img {
-  mask-image: url("../icons/move-top.svg");
+  mask-image: url("/icons/move-top.svg");
 }
 
 .card button.move-up .icon-img {
-  mask-image: url("../icons/move-up.svg");
+  mask-image: url("/icons/move-up.svg");
 }
 
 .card button.move-down .icon-img {
-  mask-image: url("../icons/move-down.svg");
+  mask-image: url("/icons/move-down.svg");
 }
 
 .card button.move-bottom .icon-img {
-  mask-image: url("../icons/move-bottom.svg");
+  mask-image: url("/icons/move-bottom.svg");
 }
 
 .card button.edit .icon-img {
-  mask-image: url("../icons/edit.svg");
+  mask-image: url("/icons/edit.svg");
 }
 
 .card button.delete .icon-img {
-  mask-image: url("../icons/remove.svg");
+  mask-image: url("/icons/remove.svg");
 }
 
 /* hiding the move up and move down buttons ofr first and last cards */
