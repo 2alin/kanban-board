@@ -12,7 +12,7 @@ import { CardsProvider } from "../contexts/cards";
 import { CategoriesProvider } from "../contexts/categories";
 
 import Board from "./board";
-import CardModal from "./cardModal/cardModal";
+import CardModal from "./cardModal";
 import ExportSection from "./exportSection";
 import { HistoryControls } from "./historyControls";
 import NewCardButton from "./newCardButton";

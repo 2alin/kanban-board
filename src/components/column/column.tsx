@@ -3,7 +3,7 @@ import { useContext, useRef, useState } from "react";
 import { CategoriesDispatchContext } from "../../contexts/categories";
 
 import type { CardExtendedData, ModalState } from "../app.types";
-import Card from "../card/card";
+import Card from "../card";
 import Menu from "../shared/menu";
 import TitleEditForm from "./titleEditForm";
 
