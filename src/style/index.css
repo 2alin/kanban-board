@@ -47,11 +47,8 @@ main {
   overflow: auto;
   margin: 1rem 0;
 }
-body.show-modal #board {
-  display: none;
-}
 
-@media screen and (width <= 640px) {
+@media screen and (width <= 780px) {
   main {
     margin: 0;
   }
@@ -63,10 +60,6 @@ body.show-modal #board {
 main > header {
   display: flex;
   justify-content: space-between;
-}
-
-body.show-modal header {
-  display: none;
 }
 
 #new-card-button {
@@ -116,9 +109,6 @@ main > footer {
   background-color: var(--column-bg-color);
   color: var(--column-text-color);
   border-radius: 0.5rem;
-}
-body.show-modal main > footer {
-  display: none;
 }
 
 main > footer section {
