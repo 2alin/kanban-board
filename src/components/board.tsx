@@ -4,7 +4,7 @@ import { CardsContext, toCardsMap } from "../contexts/cards";
 import { CategoriesContext } from "../contexts/categories";
 
 import type { ModalState } from "./app.types";
-import Column from "./column";
+import Column from "./column/column";
 import { getISODate } from "../utilities";
 
 interface BoardProps {

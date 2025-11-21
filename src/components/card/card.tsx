@@ -1,10 +1,10 @@
 import { useContext } from "react";
 
-import { CardsDispatchContext } from "../contexts/cards";
-import { CategoriesContext } from "../contexts/categories";
+import { CardsDispatchContext } from "../../contexts/cards";
+import { CategoriesContext } from "../../contexts/categories";
 
-import type { CardExtendedData, ModalState } from "./app.types";
-import CategorySelector from "./categorySelector";
+import type { CardExtendedData, ModalState } from "../app.types";
+import CategorySelector from "../shared/categorySelector";
 import RichText from "./richText";
 
 interface CardProp {

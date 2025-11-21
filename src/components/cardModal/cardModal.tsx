@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 
-import { CardsDispatchContext } from "../contexts/cards";
+import { CardsDispatchContext } from "../../contexts/cards";
 
-import type { ModalState } from "./app.types";
+import type { ModalState } from "../app.types";
 import CardForm, { type CardFormData } from "./cardForm";
 
 const modalTitle = new Map([
