@@ -16,6 +16,7 @@ export default function TitleEditForm({
         const title = formData.get("title") || defaultValue;
         handleSubmit(title.toString());
       }}
+      onKeyDown={(event) => event.key === "Escape" && handleCancel()}
     >
       <input
         type="text"

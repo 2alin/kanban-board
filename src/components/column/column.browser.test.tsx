@@ -1,8 +1,8 @@
-import { describe, expect, it} from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import Column from "./column";
 import type { CardExtendedData } from "../app.types";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { cards } from "../../../test/data/extendedCards";
 
 const columnId = 0;
@@ -45,7 +45,7 @@ async function exitEditTitleMode() {
 
 describe("Column component", () => {
   it("should render column header", async () => {
-    renderColumn([]);
+    await renderColumn([]);
 
     const header = page.getByRole("heading", { name: columnTitle });
     await expect.element(header).toBeInTheDocument();
@@ -57,7 +57,7 @@ describe("Column component", () => {
   });
 
   it("shouldn't render cards when no cards are given", async () => {
-    renderColumn([]);
+    await renderColumn([]);
 
     const cardsList = page.getByRole("list");
     await expect
@@ -66,7 +66,7 @@ describe("Column component", () => {
   });
 
   it("should render cards when cards are given", async () => {
-    renderColumn(columnCards);
+    await renderColumn(columnCards);
 
     const cardItems = page.getByRole("listitem").elements();
     expect(cardItems.length).toBe(columnCards.length);
@@ -78,11 +78,10 @@ describe("Column component", () => {
   });
 
   it("should allow title to enter and quit edit mode", async () => {
-    renderColumn([]);
-    enterEditTitleMode();
+    await renderColumn([]);
 
     // edit mode
-
+    await enterEditTitleMode();
     await expect
       .element(page.getByRole("textbox", { name: "Column title" }))
       .toBeInTheDocument();
@@ -90,10 +89,18 @@ describe("Column component", () => {
       .element(page.getByRole("heading", { name: columnTitle }))
       .not.toBeInTheDocument();
 
-    exitEditTitleMode();
+    // exit mode through 'cancel' button
+    await exitEditTitleMode();
+    await expect
+      .element(page.getByRole("textbox", { name: "Column title" }))
+      .not.toBeInTheDocument();
+    await expect
+      .element(page.getByRole("heading", { name: columnTitle }))
+      .toBeInTheDocument();
 
-    // exit mode
-
+    // test exit mode through 'escape' key
+    await enterEditTitleMode();
+    await userEvent.keyboard("{Escape}");
     await expect
       .element(page.getByRole("textbox", { name: "Column title" }))
       .not.toBeInTheDocument();
