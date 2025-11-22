@@ -3,7 +3,7 @@ import { render } from "vitest-browser-react";
 import Menu from "./menu";
 import { page } from "vitest/browser";
 
-describe("Menu", () => {
+describe("Menu component", () => {
   it("shows text anchor", async () => {
     await render(<Menu options={[]}>Test menu</Menu>);
 
