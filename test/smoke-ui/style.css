@@ -1,17 +1,47 @@
-@import url("../../src/style/themes.css");
-@import url("../../src/style/inbuilt-overrides.css");
-@import url("../../src/style/menu.css");
-
 header {
   text-align: center;
 }
 
-article  {
+article {
   display: inline-block;
   margin: 0 1rem;
   border: 1px solid green;
 }
 
-.menu-component .options.list{
+.menu-component .container .options.list {
   --background-menu-list: #eee;
+}
+
+/* ----------------- */
+/* INBUILT OVERRIDES */
+/* ----------------- */
+
+button,
+input[type="file"] {
+  padding: 0.3rem;
+}
+
+button:hover,
+button:focus {
+  filter: brightness(1.15);
+}
+
+select {
+  padding: 0.2rem;
+}
+
+button,
+input,
+select,
+textarea {
+  border: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration-line: none;
+  border-bottom: 1px dotted;
 }

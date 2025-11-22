@@ -1,8 +1,10 @@
-import { useContext, useState } from "react";
+import "./cardModal.css";
 
-import { CardsDispatchContext } from "../contexts/cards";
+import { useContext, useEffect, useRef, useState } from "react";
 
-import type { ModalState } from "./app.types";
+import { CardsDispatchContext } from "../../contexts/cards";
+
+import type { ModalState } from "../app.types";
 import CardForm, { type CardFormData } from "./cardForm";
 
 const modalTitle = new Map([
@@ -16,11 +18,15 @@ const submitButtonText = new Map([
 
 interface CardModalProps {
   modalState: ModalState;
-  onClose: () => void;
+  setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
 }
 
-export default function CardModal({ modalState, onClose }: CardModalProps) {
+export default function CardModal({
+  modalState,
+  setModalState,
+}: CardModalProps) {
   const cardsDispatch = useContext(CardsDispatchContext);
+  const modalRef = useRef<null | HTMLDialogElement>(null);
 
   if (!modalState) {
     return;
@@ -47,10 +53,10 @@ export default function CardModal({ modalState, onClose }: CardModalProps) {
     setFormData({ ...initialFormData });
   }
 
-  function handleClose() {
-    document.body.classList.toggle("show-modal", false);
+  function cleanDialog() {
     clearFormData();
-    onClose();
+
+    setModalState(null);
 
     if (modalState?.origin) {
       modalState.origin.focus();
@@ -85,27 +91,26 @@ export default function CardModal({ modalState, onClose }: CardModalProps) {
         console.error("Card modal type not recognized");
     }
 
-    handleClose();
+    modalRef.current?.close();
   }
 
   function handleChange(newFormData: CardFormData) {
     setFormData({ ...newFormData });
   }
 
-  function handleKeyDown(event: React.KeyboardEvent) {
-    const { key } = event;
-
-    switch (key) {
-      case "Escape":
-        handleClose();
-        break;
-      default:
-      // nothing to do here
+  /**
+   * Syncs opening/closing dialog with its component state
+   */
+  useEffect(() => {
+    if (modalState) {
+      modalRef.current?.showModal();
+    } else {
+      modalRef.current?.close();
     }
-  }
+  }, [modalState]);
 
   return (
-    <aside className="modal" onKeyDown={handleKeyDown}>
+    <dialog className="modal" ref={modalRef} onClose={cleanDialog}>
       <section className="form-container">
         <h2 className="title">{modalTitle.get(modalState.type) || ""}</h2>
 
@@ -116,7 +121,10 @@ export default function CardModal({ modalState, onClose }: CardModalProps) {
         />
 
         <footer>
-          <button id="cancel-modal-card-button" onClick={handleClose}>
+          <button
+            id="cancel-modal-card-button"
+            onClick={() => modalRef.current?.close()}
+          >
             cancel
           </button>
           <button id="submit-card-button" onClick={handleSubmit}>
@@ -124,6 +132,6 @@ export default function CardModal({ modalState, onClose }: CardModalProps) {
           </button>
         </footer>
       </section>
-    </aside>
+    </dialog>
   );
 }

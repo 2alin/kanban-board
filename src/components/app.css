@@ -1,0 +1,67 @@
+main {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  max-width: 1920px;
+  min-width: 350px;
+}
+
+#board {
+  align-self: stretch;
+  display: flex;
+  /* we may have too many columns */
+  overflow: auto;
+  margin: 1rem 0;
+}
+
+@media screen and (width <= 780px) {
+  main {
+    margin: 0;
+  }
+  #board {
+    flex-direction: column;
+  }
+}
+
+main > header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#new-card-button {
+  --button-size: 2.5rem;
+  border-radius: 4px;
+  background-color: var(--column-bg-color);
+}
+
+#new-card-button .icon-img {
+  mask-image: url("/icons/add.svg");
+  background-color: var(--card-bg-color);
+}
+
+/* --------------------- */
+/*       FOOTER          */
+/* --------------------- */
+
+main > footer {
+  margin-top: 1rem;
+  padding: 0 1rem;
+  background-color: var(--column-bg-color);
+  color: var(--column-text-color);
+  border-radius: 0.5rem;
+}
+
+main > footer section {
+  margin: 1rem 0;
+}
+
+main > footer button,
+main > footer input {
+  margin: 0.5rem;
+  background-color: var(--card-text-color);
+  color: var(--card-bg-color);
+  border: 0;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}

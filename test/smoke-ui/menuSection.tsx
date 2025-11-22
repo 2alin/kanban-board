@@ -1,4 +1,4 @@
-import Menu from "../../src/components/menu";
+import Menu from "../../src/components/shared/menu";
 
 interface MenuSectionProps {
   printTo: (text: string, target: EventTarget) => void;

@@ -1,3 +1,5 @@
+import "./app.css"
+
 import { useState } from "react";
 
 import type {
@@ -98,7 +100,15 @@ export default function App({
             handlers={{ setHistoryIdx }}
           />
         </header>
+
         <Board handlers={{ setModalState, setLastChangedBoard }} />
+
+        <footer>
+          <ImportSection />
+          <ExportSection lastChangedBoard={lastChangedBoard} />
+          <ThemeSelector {...{ handleThemeChange }} />
+        </footer>
+
         {modalState && (
           <CardModal
             key={
@@ -106,15 +116,9 @@ export default function App({
                 ? modalState.cardToEdit.id
                 : modalState.type
             }
-            {...{ modalState }}
-            onClose={() => setModalState(null)}
+            {...{ modalState, setModalState }}
           />
         )}
-        <footer>
-          <ImportSection />
-          <ExportSection lastChangedBoard={lastChangedBoard} />
-          <ThemeSelector {...{ handleThemeChange }} />
-        </footer>
       </CardsProvider>
     </CategoriesProvider>
   );

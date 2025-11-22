@@ -14,7 +14,7 @@
   margin-left: 0rem;
 }
 
-@media screen and (width <= 640px) {
+@media screen and (width <= 780px) {
   .column {
     flex: auto;
     margin-left: 0;
@@ -75,12 +75,12 @@
 }
 
 .column > header .edit.form .cancel .icon-img {
-  mask-image: url("../icons/close.svg");
+  mask-image: url("/icons/close.svg");
   background-color: var(--column-text-color);
 }
 
 .column > header .edit.form .submit .icon-img {
-  mask-image: url("../icons/check.svg");
+  mask-image: url("/icons/check.svg");
   background-color: var(--column-text-color);
 }
 
@@ -91,7 +91,7 @@
 }
 
 .column > header .menu-component .icon-img {
-  mask-image: url("../icons/menu.svg");
+  mask-image: url("/icons/menu.svg");
   background-color: var(--column-text-color);
 }
 

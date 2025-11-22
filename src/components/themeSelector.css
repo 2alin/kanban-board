@@ -1,0 +1,33 @@
+.theme-selector {
+  display: flex;
+}
+
+.theme-selector button {
+  border: none;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0;
+  background: none;
+  display: grid;
+  align-self: center;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  margin-left: 1rem;
+}
+
+.theme-selector .color-sample {
+  width: 1rem;
+  height: 1rem;
+}
+.theme-selector .color-sample:nth-child(1) {
+  background-color: var(--column-bg-color);
+}
+.theme-selector .color-sample:nth-child(2) {
+  background-color: var(--column-text-color);
+}
+.theme-selector .color-sample:nth-child(3) {
+  background-color: var(--card-bg-color);
+}
+.theme-selector .color-sample:nth-child(4) {
+  background-color: var(--card-text-color);
+}
