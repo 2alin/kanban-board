@@ -9,7 +9,7 @@ function renderNewCardModal() {
   );
 }
 
-describe("CardModal", () => {
+describe("CardModal component", () => {
   it("shouldn't render on state 'null'", async () => {
     render(<CardModal modalState={null} setModalState={() => {}} />);
 
