@@ -24,17 +24,18 @@ export default function TitleEditForm({
         autoFocus={true}
         autoComplete="off"
         defaultValue={defaultValue}
+        aria-label="Column title"
       />
       <button
         className="icon submit"
-        aria-description="submit title edition"
+        aria-label="submit title edition"
         type="submit"
       >
         <span className="icon-img" />
       </button>
       <button
         className="icon cancel"
-        aria-description="cancel title edition"
+        aria-label="cancel title edition"
         formAction={handleCancel}
       >
         <span className="icon-img" />

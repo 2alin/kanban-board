@@ -1,5 +1,8 @@
 import type { CardExtendedData } from "../../src/components/app.types";
 
+/**
+ * Card memory data used by the app
+ */
 export const cards: CardExtendedData[] = [
   {
     id: "card-1",
