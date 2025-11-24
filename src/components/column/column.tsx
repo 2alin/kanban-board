@@ -146,17 +146,17 @@ export default function Column({
               options={[
                 {
                   key: "edit-column-name",
-                  text: "Edit Title",
+                  text: "Edit Column Title",
                   handler: handleMenuClick,
                 },
                 {
                   key: "add-column-right",
-                  text: "Add Column to the right",
+                  text: "Add Column to the Right",
                   handler: handleMenuClick,
                 },
                 {
                   key: "add-column-left",
-                  text: "Add Column to the left",
+                  text: "Add Column to the Left",
                   handler: handleMenuClick,
                 },
                 {
