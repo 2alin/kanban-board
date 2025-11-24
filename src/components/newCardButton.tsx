@@ -11,7 +11,6 @@ export default function NewCardButton({ setModalState }: NewCardButtonProps) {
     const origin = target instanceof HTMLElement ? target : undefined;
 
     setModalState({ type: "new", origin });
-    document.body.classList.toggle("show-modal", true);
   }
 
   return (

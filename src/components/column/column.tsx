@@ -59,7 +59,6 @@ export default function Column({
             categoryIdx: columnId,
             origin,
           });
-          document.body.classList.toggle("show-modal", true);
         }
         break;
       default:
