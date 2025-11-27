@@ -31,7 +31,7 @@ async function enterEditTitleMode() {
   await columnMenuButton.click();
 
   const editColumnTitleButton = page.getByRole("menuitem", {
-    name: "Edit Title",
+    name: "Edit Column Title",
   });
   await editColumnTitleButton.click();
 }
