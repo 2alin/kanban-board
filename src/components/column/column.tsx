@@ -151,12 +151,12 @@ export default function Column({
                 },
                 {
                   key: "add-column-right",
-                  text: "Add Column to the Right",
+                  text: "Add Column Ahead",
                   handler: handleMenuClick,
                 },
                 {
                   key: "add-column-left",
-                  text: "Add Column to the Left",
+                  text: "Add Column Behind",
                   handler: handleMenuClick,
                 },
                 {
