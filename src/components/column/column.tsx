@@ -1,6 +1,6 @@
 import "./column.css";
 
-import { useContext, useRef, useState } from "react";
+import { useContext, useId, useRef, useState } from "react";
 
 import {
   CategoriesContext,
@@ -32,6 +32,7 @@ export default function Column({
 
   const [isTitleEdit, setIsTitleEdit] = useState(false);
   const columnRef = useRef<HTMLElement>(null);
+  const headerId = useId();
 
   const categories = useContext(CategoriesContext);
   const categoriesDispatch = useContext(CategoriesDispatchContext);
@@ -121,7 +122,7 @@ export default function Column({
   }
 
   return (
-    <section className="column" ref={columnRef}>
+    <section className="column" ref={columnRef} aria-labelledby={headerId}>
       <header>
         {isTitleEdit ? (
           <TitleEditForm
@@ -141,7 +142,9 @@ export default function Column({
           />
         ) : (
           <>
-            <h2 className="show title">{title}</h2>
+            <h2 className="show title" id={headerId}>
+              {title}
+            </h2>
             <Menu
               options={[
                 {
