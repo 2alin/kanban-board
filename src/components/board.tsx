@@ -25,7 +25,7 @@ export default function Board({ handlers }: BoardProps) {
   }, [categories, cards]);
 
   return (
-    <section id="board">
+    <main id="board">
       {categories.map((category, index) => {
         const cardsMap = toCardsMap(cards);
         const cardsInCategory = cardsMap.get(index) || [];
@@ -42,6 +42,6 @@ export default function Board({ handlers }: BoardProps) {
           />
         );
       })}
-    </section>
+    </main>
   );
 }

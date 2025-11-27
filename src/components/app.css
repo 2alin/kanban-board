@@ -1,4 +1,4 @@
-main {
+#root {
   display: flex;
   flex-direction: column;
   margin: 1rem;
@@ -15,7 +15,7 @@ main {
 }
 
 @media screen and (width <= 780px) {
-  main {
+  #root {
     margin: 0;
   }
   #board {
@@ -23,7 +23,7 @@ main {
   }
 }
 
-main > header {
+#root > header {
   display: flex;
   justify-content: space-between;
 }
@@ -43,7 +43,7 @@ main > header {
 /*       FOOTER          */
 /* --------------------- */
 
-main > footer {
+#root > footer {
   margin-top: 1rem;
   padding: 0 1rem;
   background-color: var(--column-bg-color);
@@ -51,12 +51,12 @@ main > footer {
   border-radius: 0.5rem;
 }
 
-main > footer section {
+#root > footer section {
   margin: 1rem 0;
 }
 
-main > footer button,
-main > footer input {
+#root > footer button,
+#root > footer input {
   margin: 0.5rem;
   background-color: var(--card-text-color);
   color: var(--card-bg-color);
