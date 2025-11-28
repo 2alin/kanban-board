@@ -10,6 +10,7 @@ This projects creates a simple kanban board that is persistant across sessions.
 Currently it supports the following:
 
 - ✅ Adding, removing and editing cards
+- ✅ Adding, removing and editing columns
 - ✅ Moving cards in the same column
 - ✅ Moving cards to other columns
 - ✅ Basic rich text in card content description (see details bellow)

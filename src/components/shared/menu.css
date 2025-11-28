@@ -8,7 +8,7 @@
 }
 
 .menu-component .options.list[hidden] {
-  display: none;  
+  display: none;
 }
 
 .menu-component .options.list {
@@ -25,9 +25,9 @@
 }
 
 .menu-component[data-position-y="top"] {
-  position: relative; 
+  position: relative;
 }
-.menu-component[data-position-y="top"] .options.container{
+.menu-component[data-position-y="top"] .options.container {
   position: static;
 }
 .menu-component[data-position-y="top"] .options.list {
@@ -44,7 +44,9 @@
 }
 
 .menu-component .option button {
-  background: var(--background-menu-list);
-  margin: 0.25rem;
   border-radius: 4px;
+  width: 100%;
+  padding: 0.5rem;
+  text-align: left;
+  background: var(--background-menu-list);
 }

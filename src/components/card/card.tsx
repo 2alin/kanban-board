@@ -29,7 +29,6 @@ export default function Card({ cardData, handlers }: CardProp) {
     const origin = target instanceof HTMLElement ? target : undefined;
 
     setModalState({ type: "edit", cardToEdit: cardData, origin });
-    document.body.classList.toggle("show-modal", true);
   }
 
   function handleDelete() {
