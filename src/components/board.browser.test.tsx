@@ -21,15 +21,13 @@ vi.mock("../storage", () => {
   };
 });
 
-const cardFirstcolumn = cards[0];
+const cardFirstColumn = cards[0];
+const cardsSecondColumn = [cards[1], cards[2]];
 
-function renderBoardWithColumn(
-  columnTitle: string,
-  cards: CardExtendedData[] = []
-) {
+function renderBoard(columns: string[], cards: CardExtendedData[] = []) {
   return render(
     <CategoriesProvider
-      initialCategories={[columnTitle]}
+      initialCategories={columns}
       handleHistoryChange={() => {}}
     >
       <CardsProvider initialCards={cards} handleHistoryChange={() => {}}>
@@ -47,7 +45,7 @@ function renderBoardWithColumn(
 
 describe("Board Component", () => {
   it("should create a new column ahead", async () => {
-    await renderBoardWithColumn("Test Column");
+    await renderBoard(["Test Column"]);
 
     const columns = page.getByRole("region", { name: "column" });
     expect(columns.elements().length).toBe(1);
@@ -72,7 +70,7 @@ describe("Board Component", () => {
   });
 
   it("should create a new column behind", async () => {
-    await renderBoardWithColumn("Test Column");
+    await renderBoard(["Test Column"]);
 
     const columns = page.getByRole("region", { name: "column" });
     expect(columns.elements().length).toBe(1);
@@ -97,9 +95,7 @@ describe("Board Component", () => {
   });
 
   it("should move cards when adding a column", async () => {
-    await renderBoardWithColumn("Test Column", [
-      structuredClone(cardFirstcolumn),
-    ]);
+    await renderBoard(["Test Column"], [structuredClone(cardFirstColumn)]);
 
     const columnMenuButton = page.getByRole("button", {
       name: "Column options menu",
@@ -118,8 +114,79 @@ describe("Board Component", () => {
       .not.toBeInTheDocument();
     await expect
       .element(
-        columns.nth(1).getByRole("listitem", { hasText: cardFirstcolumn.title })
+        columns.nth(1).getByRole("listitem", { hasText: cardFirstColumn.title })
       )
       .toBeInTheDocument();
+  });
+
+  it("should delete a column", async () => {
+    await renderBoard(["First Column", "Second Column"]);
+
+    const columns = page.getByRole("region", { name: "column" });
+    expect(columns.elements().length).toBe(2);
+
+    // removing first column
+    const columnMenuButton = columns.nth(0).getByRole("button", {
+      name: "Column options menu",
+    });
+    await columnMenuButton.click();
+    const deleteColumnButton = columns.nth(0).getByRole("menuitem", {
+      name: "Remove column",
+    });
+    await deleteColumnButton.click();
+
+    expect(columns.elements().length).toBe(1);
+    await expect
+      .element(columns.getByText("Second Column"))
+      .toBeInTheDocument();
+  });
+
+  it("should move cards when deleting a column", async () => {
+    await renderBoard(["First Column", "Second Column"], cardsSecondColumn);
+
+    const columns = page.getByRole("region", { name: "column" });
+
+    //removing first column
+    const columnMenuButton = columns.nth(0).getByRole("button", {
+      name: "Column options menu",
+    });
+    await columnMenuButton.click();
+    const deleteColumnButton = columns.nth(0).getByRole("menuitem", {
+      name: "Remove column",
+    });
+    await deleteColumnButton.click();
+
+    await expect.element(columns.nth(0)).toHaveAccessibleName("Second Column");
+    await expect
+      .element(
+        columns
+          .nth(0)
+          .getByRole("heading", { name: cardsSecondColumn[0].title })
+      )
+      .toBeInTheDocument();
+    await expect
+      .element(
+        columns
+          .nth(0)
+          .getByRole("heading", { name: cardsSecondColumn[1].title })
+      )
+      .toBeInTheDocument();
+  });
+
+  it("shouldn't allow to remove an alone column", async () => {
+    await renderBoard(["Test Column"]);
+
+    const columnMenuButton = page.getByRole("button", {
+      name: "Column options menu",
+    });
+    await columnMenuButton.click();
+
+    await expect
+      .element(
+        page.getByRole("menuitem", {
+          name: "Remove column",
+        })
+      )
+      .not.toBeInTheDocument();
   });
 });
