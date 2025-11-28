@@ -7,7 +7,7 @@
   color: var(--column-text-color);
   border-radius: 0.5rem;
   overflow: hidden;
-  min-height: 160px;
+  min-height: 120px;
 }
 
 .column:first-child {
@@ -19,6 +19,7 @@
     flex: auto;
     margin-left: 0;
     margin-top: 1.75rem;
+    overflow: visible;
   }
 
   .column:first-child {
