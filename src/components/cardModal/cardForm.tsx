@@ -28,7 +28,10 @@ export default function CardForm({
       name="modal-card-form"
       target="_self"
       id={cardFormId}
-      onSubmit={onSubmit}
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSubmit(event);
+      }}
     >
       <label htmlFor="modal-card-title">Title: </label>
       <input
