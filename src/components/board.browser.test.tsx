@@ -6,20 +6,23 @@ import { CategoriesProvider } from "../contexts/categories";
 import { CardsProvider } from "../contexts/cards";
 import type { CardExtendedData } from "./app.types";
 import { cards } from "../../test/data/extendedCards";
+import storage from "../storage";
 
-vi.mock("../storage", () => {
-  return {
-    default: {
-      board: {
-        get: () => null,
-        set: () => {},
-        entries: {
-          set: () => {},
-        },
-      },
-    },
-  };
-});
+// vi.ock(storage, () => {
+//   return {
+//     board: {
+//       get: () => null,
+//       set: () => {},
+//       entries: {
+//         set: () => {},
+//       },
+//     },
+//   };
+// });
+
+vi.spyOn(storage.board, "get").mockImplementation(() => null);
+vi.spyOn(storage.board, "set").mockImplementation(() => true);
+vi.spyOn(storage.board.entries, "set").mockImplementation(() => true);
 
 const cardFirstColumn = cards[0];
 const cardsSecondColumn = [cards[1], cards[2]];
