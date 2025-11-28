@@ -6,6 +6,7 @@ import storage from "../storage";
 import { getRandomId } from "../utilities";
 import { CategoriesDispatchContext } from "../contexts/categories";
 import { CardsDispatchContext } from "../contexts/cards";
+import type { HistoryChangeItem } from "./app.types";
 
 const messageClassNames = {
   none: "",
@@ -13,7 +14,13 @@ const messageClassNames = {
   success: "success",
 };
 
-export default function ImportSection() {
+interface ImportSectionProps {
+  handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
+}
+
+export default function ImportSection({
+  handleHistoryChange,
+}: ImportSectionProps) {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [messageClassToShow, setMessageClassToShow] = useState(
     messageClassNames.none
@@ -80,7 +87,6 @@ export default function ImportSection() {
       categoriesDispatch({
         type: "set",
         categories: newBoardData.categories,
-        addToHistory: true,
       });
       const newCardList = newBoardData.entries.map((entry) => {
         return {
@@ -91,7 +97,14 @@ export default function ImportSection() {
           orderInCategory: entry.orderInCategory,
         };
       });
-      cardsDispatch({ type: "set", cards: newCardList, addToHistory: true });
+      cardsDispatch({ type: "set", cards: newCardList });
+      handleHistoryChange({
+        type: "board",
+        value: {
+          categories: structuredClone(newBoardData.categories),
+          cards: structuredClone(newCardList),
+        },
+      });
       setMessageClassToShow(messageClassNames.success);
     } else if (oldBoardData) {
       setMessageClassToShow(messageClassNames.error);

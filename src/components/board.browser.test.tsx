@@ -27,7 +27,11 @@ function renderEmptyColumn(columnTitle: string) {
     >
       <CardsProvider initialCards={[]} handleHistoryChange={() => {}}>
         <Board
-          handlers={{ setModalState: () => {}, setLastChangedBoard: () => {} }}
+          handlers={{
+            setModalState: () => {},
+            setLastChangedBoard: () => {},
+            handleHistoryChange: () => {},
+          }}
         />
       </CardsProvider>
     </CategoriesProvider>

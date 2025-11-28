@@ -1,4 +1,4 @@
-import "./app.css"
+import "./app.css";
 
 import { useState } from "react";
 
@@ -70,7 +70,7 @@ export default function App({
       case "board":
         newHistoryItem.categories = [...historyChangeItem.value.categories];
         newHistoryItem.cards = structuredClone(historyChangeItem.value.cards);
-        return;
+        break;
       default:
         console.error("Unrecognized type of history change item");
     }
@@ -101,10 +101,12 @@ export default function App({
           />
         </header>
 
-        <Board handlers={{ setModalState, setLastChangedBoard }} />
+        <Board
+          handlers={{ setModalState, setLastChangedBoard, handleHistoryChange }}
+        />
 
         <footer>
-          <ImportSection />
+          <ImportSection handleHistoryChange={handleHistoryChange} />
           <ExportSection lastChangedBoard={lastChangedBoard} />
           <ThemeSelector {...{ handleThemeChange }} />
         </footer>

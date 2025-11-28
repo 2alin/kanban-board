@@ -7,7 +7,11 @@ import {
   CategoriesDispatchContext,
 } from "../../contexts/categories";
 
-import type { CardExtendedData, ModalState } from "../app.types";
+import type {
+  CardExtendedData,
+  HistoryChangeItem,
+  ModalState,
+} from "../app.types";
 import Card from "../card";
 import Menu from "../shared/menu";
 import TitleEditForm from "./titleEditForm";
@@ -19,6 +23,7 @@ interface ColumnProps {
   cards: CardExtendedData[];
   handlers: {
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
+    handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
   };
 }
 
@@ -28,7 +33,7 @@ export default function Column({
   cards,
   handlers,
 }: ColumnProps) {
-  const { setModalState } = handlers;
+  const { setModalState, handleHistoryChange } = handlers;
 
   const [isTitleEdit, setIsTitleEdit] = useState(false);
   const columnRef = useRef<HTMLElement>(null);
@@ -39,6 +44,44 @@ export default function Column({
 
   const boardCards = useContext(CardsContext);
   const cardsDispatch = useContext(CardsDispatchContext);
+
+  function getMenuOptions() {
+    const options = [
+      {
+        key: "edit-column-name",
+        text: "Edit Column Title",
+        handler: handleMenuClick,
+      },
+      {
+        key: "add-column-right",
+        text: "Add Column Ahead",
+        handler: handleMenuClick,
+      },
+      {
+        key: "add-column-left",
+        text: "Add Column Behind",
+        handler: handleMenuClick,
+      },
+      {
+        key: "add-card",
+        text: "Add Card",
+        handler: handleMenuClick,
+      },
+    ];
+
+    // we shouldn't allow removal columns if there's only one column left
+    if (categories.length >= 2) {
+      const deleteOption = {
+        key: "remove-column",
+        text: "Remove Column",
+        handler: handleMenuClick,
+      };
+
+      options.splice(3, 0, deleteOption);
+    }
+
+    return options;
+  }
 
   function handleMenuClick(event: React.MouseEvent) {
     const { target } = event;
@@ -71,50 +114,101 @@ export default function Column({
         break;
       case "add-column-right":
       case "add-column-left":
-        // positiion is "right" or "left"
-        const newColumnPosition = key.replace("add-column-", "");
-        let newColumnIdx: number;
+        {
+          // position is "right" or "left"
+          const newColumnPosition = key.replace("add-column-", "");
+          let newColumnIdx: number;
 
-        if (newColumnPosition === "right") {
-          newColumnIdx = columnId + 1;
-        } else if (newColumnPosition === "left") {
-          newColumnIdx = columnId - 1;
-        } else {
-          console.error(
-            "[add column] Unrecognized new column position: ",
-            newColumnPosition
-          );
-          break;
-        }
+          if (newColumnPosition === "right") {
+            newColumnIdx = columnId + 1;
+          } else if (newColumnPosition === "left") {
+            newColumnIdx = columnId - 1;
+          } else {
+            console.error(
+              "[add column] Unrecognized new column position: ",
+              newColumnPosition
+            );
+            break;
+          }
 
-        if (newColumnIdx < 0) {
-          // minimum index should be zero
-          newColumnIdx = 0;
-        } else if (newColumnIdx > categories.length) {
-          // maximum index should be a unit increment on the current list of columns
-          newColumnIdx = categories.length;
-        }
+          if (newColumnIdx < 0) {
+            // minimum index should be zero
+            newColumnIdx = 0;
+          } else if (newColumnIdx > categories.length) {
+            // maximum index should be a unit increment on the current list of columns
+            newColumnIdx = categories.length;
+          }
 
-        const newColumnTitle = "New Column";
-        const newCategories = [...categories];
-        newCategories.splice(newColumnIdx, 0, newColumnTitle);
-        categoriesDispatch({ type: "set", categories: newCategories });
-
-        if (newColumnIdx < categories.length && boardCards.length > 0) {
-          // we need to move cards of categories that will change
-          const newBoardCards: CardExtendedData[] = boardCards.map((card) => {
-            const newCard = structuredClone(card);
-
-            if (newCard.categoryIdx >= newColumnIdx) {
-              newCard.categoryIdx++;
-            }
-
-            return newCard;
+          const newColumnTitle = "New Column";
+          const newCategories = [...categories];
+          newCategories.splice(newColumnIdx, 0, newColumnTitle);
+          categoriesDispatch({
+            type: "set",
+            categories: newCategories,
           });
 
-          cardsDispatch({ type: "set", cards: newBoardCards });
-        }
+          if (newColumnIdx < categories.length && boardCards.length > 0) {
+            // we need to move cards of categories that will change
+            const newBoardCards: CardExtendedData[] = boardCards.map((card) => {
+              const newCard = structuredClone(card);
 
+              if (newCard.categoryIdx >= newColumnIdx) {
+                newCard.categoryIdx++;
+              }
+
+              return newCard;
+            });
+
+            cardsDispatch({
+              type: "set",
+              cards: newBoardCards,
+            });
+
+            handleHistoryChange({
+              type: "board",
+              value: {
+                categories: structuredClone(newCategories),
+                cards: structuredClone(newBoardCards),
+              },
+            });
+          } else {
+            handleHistoryChange({
+              type: "categories",
+              value: structuredClone(newCategories),
+            });
+          }
+        }
+        break;
+      case "remove-column":
+        {
+          const newCategories = categories.filter(
+            (_, index) => index !== columnId
+          );
+          categoriesDispatch({
+            type: "set",
+            categories: newCategories,
+          });
+
+          // removing column cards
+          const newCards = boardCards.filter(
+            (card) => card.categoryIdx !== columnId
+          );
+          // adjusting column idx for remaining cards
+          newCards.forEach((card) => {
+            if (card.categoryIdx > columnId) {
+              card.categoryIdx--;
+            }
+          });
+          cardsDispatch({ type: "set", cards: newCards });
+
+          handleHistoryChange({
+            type: "board",
+            value: {
+              categories: structuredClone(newCategories),
+              cards: structuredClone(newCards),
+            },
+          });
+        }
         break;
       default:
       // nothing to do here
@@ -146,28 +240,7 @@ export default function Column({
               {title}
             </h2>
             <Menu
-              options={[
-                {
-                  key: "edit-column-name",
-                  text: "Edit Column Title",
-                  handler: handleMenuClick,
-                },
-                {
-                  key: "add-column-right",
-                  text: "Add Column Ahead",
-                  handler: handleMenuClick,
-                },
-                {
-                  key: "add-column-left",
-                  text: "Add Column Behind",
-                  handler: handleMenuClick,
-                },
-                {
-                  key: "add-card",
-                  text: "Add Card",
-                  handler: handleMenuClick,
-                },
-              ]}
+              options={getMenuOptions()}
               label="Column options menu"
               isIconButton={true}
               positionY="bottom"

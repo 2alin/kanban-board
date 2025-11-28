@@ -14,7 +14,7 @@ function renderColumn(cards: CardExtendedData[]) {
       columnId={columnId}
       title={columnTitle}
       cards={cards}
-      handlers={{ setModalState: () => {} }}
+      handlers={{ setModalState: () => {}, handleHistoryChange: () => {} }}
     />
   );
 }

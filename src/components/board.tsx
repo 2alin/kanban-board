@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { CardsContext, toCardsMap } from "../contexts/cards";
 import { CategoriesContext } from "../contexts/categories";
 
-import type { ModalState } from "./app.types";
+import type { HistoryChangeItem, ModalState } from "./app.types";
 import Column from "./column";
 import { getISODate } from "../utilities";
 
@@ -11,11 +11,12 @@ interface BoardProps {
   handlers: {
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
     setLastChangedBoard: React.Dispatch<React.SetStateAction<string>>;
+    handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
   };
 }
 
 export default function Board({ handlers }: BoardProps) {
-  const { setModalState, setLastChangedBoard } = handlers;
+  const { setModalState, setLastChangedBoard, handleHistoryChange } = handlers;
 
   const categories = useContext(CategoriesContext);
   const cards = useContext(CardsContext);
@@ -38,6 +39,7 @@ export default function Board({ handlers }: BoardProps) {
             cards={cardsInCategory}
             handlers={{
               setModalState,
+              handleHistoryChange
             }}
           />
         );
