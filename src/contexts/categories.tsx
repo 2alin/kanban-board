@@ -29,7 +29,6 @@ export function CategoriesProvider({
     const boardData = storage.board.get();
 
     if (!boardData) {
-      console.error("[boardData.sync] No local stored board data found");
       return;
     }
 

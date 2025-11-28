@@ -8,18 +8,6 @@ import type { CardExtendedData } from "./app.types";
 import { cards } from "../../test/data/extendedCards";
 import storage from "../storage";
 
-// vi.ock(storage, () => {
-//   return {
-//     board: {
-//       get: () => null,
-//       set: () => {},
-//       entries: {
-//         set: () => {},
-//       },
-//     },
-//   };
-// });
-
 vi.spyOn(storage.board, "get").mockImplementation(() => null);
 vi.spyOn(storage.board, "set").mockImplementation(() => true);
 vi.spyOn(storage.board.entries, "set").mockImplementation(() => true);
