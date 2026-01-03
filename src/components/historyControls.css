@@ -1,6 +1,7 @@
 .history-controls {
   align-items: center;
   display: flex;
+  gap: 1.5rem;
 }
 
 .history-controls button:disabled {
@@ -8,13 +9,14 @@
 }
 
 .history-controls button.icon {
-  --button-size: 1.75rem;
-  margin: 0.5rem 0.75rem;
-  background-color: inherit;
+  --button-size: 2.5rem;
+  border-radius: 4px;
+  padding: 0.25rem;
+  background-color: var(--theme-lighter-color);
 }
 
 .history-controls button .icon-img {
-  background-color: var(--card-bg-color);
+  background-color: var(--theme-dark-color);
 }
 
 .history-controls button.undo .icon-img {

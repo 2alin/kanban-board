@@ -1,5 +1,6 @@
 .theme-selector {
   display: flex;
+  align-items: center;
 }
 
 .theme-selector button {
@@ -19,15 +20,20 @@
   width: 1rem;
   height: 1rem;
 }
+
+/**
+ * Let's highlight the main theme color, assigning it
+ * to two right mini squares (children 2 and 4)
+ */
 .theme-selector .color-sample:nth-child(1) {
-  background-color: var(--column-bg-color);
+  background-color: var(--theme-light-color);
 }
 .theme-selector .color-sample:nth-child(2) {
-  background-color: var(--column-text-color);
+  background-color: var(--theme-color);
 }
 .theme-selector .color-sample:nth-child(3) {
-  background-color: var(--card-bg-color);
+  background-color: var(--theme-dark-color);
 }
 .theme-selector .color-sample:nth-child(4) {
-  background-color: var(--card-text-color);
+  background-color: var(--theme-color);
 }

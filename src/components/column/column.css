@@ -3,8 +3,8 @@
   flex-shrink: 0;
   flex-basis: 420px;
   margin-left: 1.75rem;
-  background-color: var(--column-bg-color);
-  color: var(--column-text-color);
+  background-color: var(--theme-lighter-color);
+  color: var(--theme-dark-color);
   border-radius: 0.5rem;
   overflow: hidden;
   min-height: 120px;
@@ -50,9 +50,9 @@
 .column > header .menu-component .options.list {
   font-size: 0.9rem;
   border-radius: 4px;
-  border: 1px solid var(--card-text-color);
-  --background-menu-list: var(--card-bg-color);
-  color: var(--card-text-color);
+  border: 1px solid var(--theme-text-color);
+  --background-menu-list: var(--theme-dark-color);
+  color: var(--theme-text-color);
   overflow: hidden;
 }
 
@@ -75,29 +75,29 @@
 .column > header .edit.form button.icon {
   --button-size: 1.5rem;
   border-radius: 4px;
-  background-color: var(--column-bg-color);
+  background-color: var(--theme-lighter-color);
   margin: 0 0.5rem;
 }
 
 .column > header .edit.form .cancel .icon-img {
   mask-image: url("/icons/close.svg");
-  background-color: var(--column-text-color);
+  background-color: var(--theme-dark-color);
 }
 
 .column > header .edit.form .submit .icon-img {
   mask-image: url("/icons/check.svg");
-  background-color: var(--column-text-color);
+  background-color: var(--theme-dark-color);
 }
 
 .column > header .menu-component button.icon {
   --button-size: 1.25rem;
   border-radius: 4px;
-  background-color: var(--column-bg-color);
+  background-color: var(--theme-lighter-color);
 }
 
 .column > header .menu-component .icon-img {
   mask-image: url("/icons/menu.svg");
-  background-color: var(--column-text-color);
+  background-color: var(--theme-dark-color);
 }
 
 .column .card-list {
