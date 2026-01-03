@@ -48,6 +48,7 @@
   margin-top: 1rem;
   padding: 0 1rem;
   background-color: var(--theme-lighter-color);
+  font-weight: 600;
   color: var(--theme-darker-color);
   border-radius: 0.5rem;
 }
