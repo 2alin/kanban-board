@@ -4,6 +4,7 @@
 
 body {
   margin: 0;
+  background-color: var(--theme-lightest-color);
 }
 
 /* ----------------- */
@@ -64,34 +65,68 @@ button.icon .icon-img {
 /* ------ */
 
 body,
+.theme-selector button {
+  --theme-color: hsl(
+    var(--theme-color-h),
+    var(--theme-color-s),
+    var(--theme-color-l)
+  );
+  --theme-dark-color: hsl(
+    calc(var(--theme-color-h) + 1),
+    calc(var(--theme-color-s)),
+    calc(var(--theme-color-l) - 10%)
+  );
+  --theme-darker-color: hsl(
+    calc(var(--theme-color-h) + 1),
+    calc(var(--theme-color-s) + 30%),
+    calc(var(--theme-color-l) - 25%)
+  );
+  --theme-light-color: hsl(
+    calc(var(--theme-color-h) - 1),
+    calc(var(--theme-color-s)),
+    calc(var(--theme-color-l) + 15%)
+  );
+  --theme-lighter-color: hsl(
+    calc(var(--theme-color-h) - 1),
+    calc(var(--theme-color-s) + 15%),
+    calc(var(--theme-color-l) + 45%)
+  );
+  --theme-lightest-color: hsl(
+    calc(var(--theme-color-h) - 1),
+    calc(var(--theme-color-s) + 20%),
+    calc(var(--theme-color-l) + 58%)
+  );
+}
+
+body,
 body[data-theme="color-1"],
 .theme-selector button[data-theme="color-1"] {
-  --column-bg-color: #dde6ed;
-  --column-text-color: #27374d;
-  --card-bg-color: #455b6e;
-  --card-text-color: #fff;
+  --theme-color-h: 208;
+  --theme-color-s: 23%;
+  --theme-color-l: 35%;
+  --theme-text-color: hsl(0 100% 100%);
 }
 
-body[data-theme="blackwhite"],
-.theme-selector button[data-theme="blackwhite"] {
-  --column-bg-color: #dedede;
-  --column-text-color: #1c1c1c;
-  --card-bg-color: #4f4f4f;
-  --card-text-color: #fff;
+body[data-theme="color-2"],
+.theme-selector button[data-theme="color-2"] {
+  --theme-color-h: 240;
+  --theme-color-s: 15%;
+  --theme-color-l: 38%;
+  --theme-text-color: hsl(0 100% 100%);
 }
 
-body[data-theme="color-am-1"],
-.theme-selector button[data-theme="color-am-1"] {
-  --column-bg-color: #d5ebe7;
-  --column-text-color: #2c3333;
-  --card-bg-color: #395b64;
-  --card-text-color: #fafafa;
+body[data-theme="color-3"],
+.theme-selector button[data-theme="color-3"] {
+  --theme-color-h: 214;
+  --theme-color-s: 25%;
+  --theme-color-l: 35%;
+  --theme-text-color: hsl(0 100% 100%);
 }
 
-body[data-theme="color-am-2"],
-.theme-selector button[data-theme="color-am-2"] {
-  --column-bg-color: #ededed;
-  --column-text-color: #9d0b32;
-  --card-bg-color: #52526f;
-  --card-text-color: #fafafa;
+body[data-theme="color-4"],
+.theme-selector button[data-theme="color-4"] {
+  --theme-color-h: 270;
+  --theme-color-s: 25%;
+  --theme-color-l: 40%;
+  --theme-text-color: hsl(0 100% 100%);
 }
