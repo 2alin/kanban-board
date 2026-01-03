@@ -1,25 +1,21 @@
- # Description
+# Kanban Board
 
 This projects creates a simple kanban board that is persistant across sessions.
 
 <img width="1736" height="841" alt="image" src="https://github.com/user-attachments/assets/fefa6f95-98e1-4e78-b4d5-9c8c580cea6a" />
 
-
 ## Features
 
 Currently it supports the following:
 
-- ✅ Adding, removing and editing cards
-- ✅ Adding, removing and editing columns
-- ✅ Moving cards in the same column
-- ✅ Moving cards to other columns
+- ✅ Adding, removing and editing cards and columns
+- ✅ Moving cards across the board through card buttons
 - ✅ Basic rich text in card content description (see details bellow)
 - ✅ Undo and redo changes to the board data
 - ✅ Import and exporting board data
 - ✅ Theme selection
 
 For features to come or for suggesting features please check the [project's issues section](https://github.com/2alin/kanban-board/issues).
-
 
 ## Try it out
 
@@ -37,9 +33,29 @@ Card description support rich text:
 
 - ✨ For links, just write the full URL of the link: `https://example.com` will be shown as https://example.com
 
+## Development
 
-# Acknowledgements
+### Requirements
 
-## Icons
+- Node v22.20+
+- Playwright (for testing only)
+  - `npx playwright install --with-deps`
+
+### Project setup
+
+- Run `npm i` to install npm dependencies.
+
+### Testing and building
+
+- Run `npm run lint` to check project linting with eslint.
+- Run `npm run test` to run all tests (unit and component) in headless browser mode.
+  - Alternatively run `npm run test-unit` for unit tests or `npm run test-browser` for component tests.
+- Run `npm run dev` to start a local web server with the project in development mode.
+- Run `npm run build` to build the project in the`dist/` directory.
+
+
+## Acknowledgements
+
+### Icons
 
 The icons used in this project have been taken from the Lucide open-source code library. Please consider contributing to [their project](https://github.com/lucide-icons/lucide).
