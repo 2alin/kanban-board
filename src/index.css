@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-bg-color);
 }
 
 /* ----------------- */
@@ -106,6 +106,7 @@ body[data-theme="color-1"],
   /* Defining theme variables to be used */
   --theme-main-color: var(--theme-color);
   --theme-section-bg-color: var(--theme-light-color);
+  --theme-bg-color: var(--theme-lighter-color);
   --theme-text-color: hsl(0 100% 100%);
 }
 

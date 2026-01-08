@@ -3,7 +3,7 @@
   padding: var(--modal-padding);
   border-radius: 0.5rem;
   border: 2px solid var(--theme-main-color);
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-bg-color);
 }
 
 @media screen and (width <= 780px) {
