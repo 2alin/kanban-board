@@ -44,7 +44,7 @@
 /*       FOOTER          */
 /* --------------------- */
 
-#root > footer {
+#main-footer {
   margin-top: 1rem;
   padding: 0 1rem;
   background-color: var(--theme-section-bg-color);
@@ -53,12 +53,12 @@
   border-radius: 0.5rem;
 }
 
-#root > footer section {
+#main-footer section {
   margin: 1rem 0;
 }
 
-#root > footer button,
-#root > footer input {
+#main-footer button,
+#main-footer input {
   margin: 0.5rem;
   background-color: var(--theme-cta-bg-color);
   color: var(--theme-text-color);

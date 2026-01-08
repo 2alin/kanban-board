@@ -65,8 +65,8 @@ button.icon .icon-img {
 /* ------ */
 
 body,
-.theme-selector button {
-  /* Generating a shades of the theme color */
+#theme-select-section button {
+  /* Generating shades of theme color */
 
   --theme-color: hsl(
     var(--theme-color-h),
@@ -97,12 +97,39 @@ body,
 
 body,
 body[data-theme="color-1"],
-.theme-selector button[data-theme="color-1"] {
-  /* Defining the values for the theme colod */
+#theme-select-section button[data-theme="color-1"] {
+  /* Defining the values for the theme color */
   --theme-color-h: 208;
   --theme-color-s: 23%;
   --theme-color-l: 35%;
+}
 
+body[data-theme="color-2"],
+#theme-select-section button[data-theme="color-2"] {
+  /* Defining the values for the theme color */
+  --theme-color-h: 240;
+  --theme-color-s: 15%;
+  --theme-color-l: 38%;
+}
+
+body[data-theme="color-3"],
+#theme-select-section button[data-theme="color-3"] {
+  /* Defining the values for the theme color */
+  --theme-color-h: 214;
+  --theme-color-s: 25%;
+  --theme-color-l: 35%;
+}
+
+body[data-theme="color-4"],
+#theme-select-section button[data-theme="color-4"] {
+  /* Defining the values for the theme color */
+  --theme-color-h: 270;
+  --theme-color-s: 25%;
+  --theme-color-l: 40%;
+}
+
+body[data-theme^="color"],
+#theme-select-section button[data-theme^="color"] {
   /* Defining theme variables to be used */
   --theme-main-color: var(--theme-color);
   --theme-section-bg-color: var(--theme-light-color);
@@ -111,29 +138,5 @@ body[data-theme="color-1"],
   --theme-cta-bg-color: var(--theme-color);
   --theme-cta-bold-bg-color: var(--theme-dark-color);
   --theme-bg-color: var(--theme-lighter-color);
-  --theme-text-color: hsl(0 100% 100%);
-}
-
-body[data-theme="color-2"],
-.theme-selector button[data-theme="color-2"] {
-  --theme-color-h: 240;
-  --theme-color-s: 15%;
-  --theme-color-l: 38%;
-  --theme-text-color: hsl(0 100% 100%);
-}
-
-body[data-theme="color-3"],
-.theme-selector button[data-theme="color-3"] {
-  --theme-color-h: 214;
-  --theme-color-s: 25%;
-  --theme-color-l: 35%;
-  --theme-text-color: hsl(0 100% 100%);
-}
-
-body[data-theme="color-4"],
-.theme-selector button[data-theme="color-4"] {
-  --theme-color-h: 270;
-  --theme-color-s: 25%;
-  --theme-color-l: 40%;
   --theme-text-color: hsl(0 100% 100%);
 }

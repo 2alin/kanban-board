@@ -8,7 +8,7 @@ export const themes = ["color-1", "color-2", "color-3", "color-4"];
 /**
  * Default theme value
  */
-export const defaultTheme = themes[1];
+export const defaultTheme = themes[0];
 
 /**
  * Default board data
