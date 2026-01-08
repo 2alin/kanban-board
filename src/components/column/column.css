@@ -3,7 +3,7 @@
   flex-shrink: 0;
   flex-basis: 420px;
   margin-left: 1.75rem;
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-section-bg-color);
   color: var(--theme-dark-color);
   border-radius: 0.5rem;
   overflow: hidden;
@@ -75,7 +75,7 @@
 .column > header .edit.form button.icon {
   --button-size: 1.5rem;
   border-radius: 4px;
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-section-bg-color);
   margin: 0 0.5rem;
 }
 
@@ -92,7 +92,7 @@
 .column > header .menu-component button.icon {
   --button-size: 1.25rem;
   border-radius: 4px;
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-section-bg-color);
 }
 
 .column > header .menu-component .icon-img {

@@ -26,7 +26,7 @@
  * to two right mini squares (children 2 and 4)
  */
 .theme-selector .color-sample:nth-child(1) {
-  background-color: var(--theme-light-color);
+  background-color: var(--theme-section-bg-color);
 }
 .theme-selector .color-sample:nth-child(2) {
   background-color: var(--theme-main-color);

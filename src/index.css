@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  background-color: var(--theme-lightest-color);
+  background-color: var(--theme-lighter-color);
 }
 
 /* ----------------- */
@@ -66,7 +66,8 @@ button.icon .icon-img {
 
 body,
 .theme-selector button {
-  /* generating a shades of the theme color */
+  /* Generating a shades of the theme color */
+
   --theme-color: hsl(
     var(--theme-color-h),
     var(--theme-color-s),
@@ -84,15 +85,10 @@ body,
   );
   --theme-light-color: hsl(
     calc(var(--theme-color-h) - 1),
-    calc(var(--theme-color-s)),
-    calc(var(--theme-color-l) + 15%)
-  );
-  --theme-lighter-color: hsl(
-    calc(var(--theme-color-h) - 1),
     calc(var(--theme-color-s) + 15%),
     calc(var(--theme-color-l) + 45%)
   );
-  --theme-lightest-color: hsl(
+  --theme-lighter-color: hsl(
     calc(var(--theme-color-h) - 1),
     calc(var(--theme-color-s) + 20%),
     calc(var(--theme-color-l) + 58%)
@@ -102,10 +98,14 @@ body,
 body,
 body[data-theme="color-1"],
 .theme-selector button[data-theme="color-1"] {
+  /* Defining the values for the theme colod */
   --theme-color-h: 208;
   --theme-color-s: 23%;
   --theme-color-l: 35%;
+
+  /* Defining theme variables to be used */
   --theme-main-color: var(--theme-color);
+  --theme-section-bg-color: var(--theme-light-color);
   --theme-text-color: hsl(0 100% 100%);
 }
 
