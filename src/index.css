@@ -66,6 +66,7 @@ button.icon .icon-img {
 
 body,
 .theme-selector button {
+  /* generating a shades of the theme color */
   --theme-color: hsl(
     var(--theme-color-h),
     var(--theme-color-s),
@@ -104,6 +105,7 @@ body[data-theme="color-1"],
   --theme-color-h: 208;
   --theme-color-s: 23%;
   --theme-color-l: 35%;
+  --theme-main-color: var(--theme-color);
   --theme-text-color: hsl(0 100% 100%);
 }
 

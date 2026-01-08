@@ -1,6 +1,6 @@
 .card {
   color: var(--theme-text-color);
-  background-color: var(--theme-color);
+  background-color: var(--theme-main-color);
   margin-bottom: 1rem;
   padding: 0.75rem;
   border-radius: 0.5rem;
@@ -30,12 +30,12 @@
 
 .card select {
   max-width: 160px;
-  background-color: var(--theme-color);
+  background-color: var(--theme-main-color);
   color: var(--theme-text-color);
   border: 0;
   font-size: 0.9rem;
   font-weight: 400;
-  box-shadow: 0 1px var(--theme-color), 0 2px var(--theme-text-color);
+  box-shadow: 0 1px var(--theme-main-color), 0 2px var(--theme-text-color);
 }
 
 .card footer > * {
@@ -71,7 +71,7 @@
 
 .card button.icon {
   --button-size: 1.25rem;
-  background-color: var(--theme-color);
+  background-color: var(--theme-main-color);
 }
 
 .card button .icon-img {
