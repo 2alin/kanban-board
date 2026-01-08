@@ -108,6 +108,7 @@ body[data-theme="color-1"],
   --theme-section-bg-color: var(--theme-light-color);
   --theme-section-text-color: var(--theme-darker-color);
   --theme-section-outline-color: var(--theme-dark-color);
+  --theme-cta-bg-color: var(--theme-color);
   --theme-cta-bold-bg-color: var(--theme-dark-color);
   --theme-bg-color: var(--theme-lighter-color);
   --theme-text-color: hsl(0 100% 100%);

@@ -12,7 +12,7 @@
   --button-size: 2.5rem;
   border-radius: 4px;
   padding: 0.25rem;
-  background-color: var(--theme-main-color);
+  background-color: var(--theme-cta-bg-color);
 }
 
 .history-controls button .icon-img {
