@@ -66,6 +66,8 @@
   width: 50%;
   flex: 1 1 auto;
   border-radius: 4px;
+  background-color: var(--theme-section-bg-color);
+  
 }
 
 .column > header .edit.form button {
