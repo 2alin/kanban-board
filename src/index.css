@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  background-color: var(--theme-lightest-color);
+  background-color: var(--theme-bg-color);
 }
 
 /* ----------------- */
@@ -65,7 +65,9 @@ button.icon .icon-img {
 /* ------ */
 
 body,
-.theme-selector button {
+#theme-select-section button .color-sample {
+  /* Generating shades of theme color */
+
   --theme-color: hsl(
     var(--theme-color-h),
     var(--theme-color-s),
@@ -83,50 +85,90 @@ body,
   );
   --theme-light-color: hsl(
     calc(var(--theme-color-h) - 1),
-    calc(var(--theme-color-s)),
-    calc(var(--theme-color-l) + 15%)
-  );
-  --theme-lighter-color: hsl(
-    calc(var(--theme-color-h) - 1),
     calc(var(--theme-color-s) + 15%),
     calc(var(--theme-color-l) + 45%)
   );
-  --theme-lightest-color: hsl(
+  --theme-lighter-color: hsl(
     calc(var(--theme-color-h) - 1),
     calc(var(--theme-color-s) + 20%),
     calc(var(--theme-color-l) + 58%)
   );
 }
 
+/* ------------ */
+/* COLOR THEMES */
+
 body,
 body[data-theme="color-1"],
-.theme-selector button[data-theme="color-1"] {
+#theme-select-section button[data-theme="color-1"] .color-sample {
+  /* Defining the values for the theme color */
   --theme-color-h: 208;
   --theme-color-s: 23%;
   --theme-color-l: 35%;
-  --theme-text-color: hsl(0 100% 100%);
 }
 
 body[data-theme="color-2"],
-.theme-selector button[data-theme="color-2"] {
+#theme-select-section button[data-theme="color-2"] .color-sample {
+  /* Defining the values for the theme color */
   --theme-color-h: 240;
   --theme-color-s: 15%;
   --theme-color-l: 38%;
-  --theme-text-color: hsl(0 100% 100%);
 }
 
 body[data-theme="color-3"],
-.theme-selector button[data-theme="color-3"] {
+#theme-select-section button[data-theme="color-3"] .color-sample {
+  /* Defining the values for the theme color */
   --theme-color-h: 214;
   --theme-color-s: 25%;
   --theme-color-l: 35%;
-  --theme-text-color: hsl(0 100% 100%);
 }
 
 body[data-theme="color-4"],
-.theme-selector button[data-theme="color-4"] {
+#theme-select-section button[data-theme="color-4"] .color-sample {
+  /* Defining the values for the theme color */
   --theme-color-h: 270;
   --theme-color-s: 25%;
   --theme-color-l: 40%;
+}
+
+body[data-theme^="color"],
+#theme-select-section button[data-theme^="color"] .color-sample {
+  /* Defining theme variables to be used */
+  --theme-main-color: var(--theme-color);
+  --theme-section-bg-color: var(--theme-light-color);
+  --theme-section-text-color: var(--theme-darker-color);
+  --theme-section-outline-color: var(--theme-dark-color);
+  --theme-cta-bg-color: var(--theme-color);
+  --theme-cta-bold-bg-color: var(--theme-dark-color);
+  --theme-bg-color: var(--theme-lighter-color);
   --theme-text-color: hsl(0 100% 100%);
+}
+
+body[data-theme^="color"] {
+  color-scheme: dark;
+}
+
+/* ------------ */
+/* LIGHT THEMES */
+
+body[data-theme^="light"],
+#theme-select-section button[data-theme^="light"] .color-sample {
+  /* Defining the values for the theme color */
+  --theme-color-h: 208;
+  --theme-color-s: 23%;
+  --theme-color-l: 35%;
+
+  /* Defining theme variables to be used */
+  --theme-main-color: var(--theme-light-color);
+  --theme-section-bg-color: var(--theme-lighter-color);
+  --theme-section-text-color: var(--theme-dark-color);
+  --theme-section-outline-color: var(--theme-color);
+  --theme-cta-bg-color: var(--theme-light-color);
+  --theme-cta-bold-bg-color: var(--theme-light-color);
+  --theme-bg-color: hsl(0 100% 100%);
+  --theme-text-color: var(--theme-darker-color);
+}
+
+body[data-theme^="light"] {
+  color-scheme: light;
 }

@@ -105,7 +105,7 @@ export default function App({
           handlers={{ setModalState, setLastChangedBoard, handleHistoryChange }}
         />
 
-        <footer>
+        <footer id="main-footer">
           <ImportSection handleHistoryChange={handleHistoryChange} />
           <ExportSection lastChangedBoard={lastChangedBoard} />
           <ThemeSelector {...{ handleThemeChange }} />

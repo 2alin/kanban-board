@@ -32,7 +32,7 @@
   --button-size: 2.5rem;
   border-radius: 4px;
   padding: 0.25rem;
-  background-color: var(--theme-color);
+  background-color: var(--theme-cta-bg-color);
 }
 
 #new-card-button .icon-img {
@@ -44,23 +44,23 @@
 /*       FOOTER          */
 /* --------------------- */
 
-#root > footer {
+#main-footer {
   margin-top: 1rem;
   padding: 0 1rem;
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-section-bg-color);
   font-weight: 600;
-  color: var(--theme-darker-color);
+  color: var(--theme-section-text-color);
   border-radius: 0.5rem;
 }
 
-#root > footer section {
+#main-footer section {
   margin: 1rem 0;
 }
 
-#root > footer button,
-#root > footer input {
+#main-footer button,
+#main-footer input {
   margin: 0.5rem;
-  background-color: var(--theme-color);
+  background-color: var(--theme-cta-bg-color);
   color: var(--theme-text-color);
   border: 0;
   border-radius: 4px;

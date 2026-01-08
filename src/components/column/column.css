@@ -3,8 +3,8 @@
   flex-shrink: 0;
   flex-basis: 420px;
   margin-left: 1.75rem;
-  background-color: var(--theme-lighter-color);
-  color: var(--theme-dark-color);
+  background-color: var(--theme-section-bg-color);
+  color: var(--theme-section-text-color);
   border-radius: 0.5rem;
   overflow: hidden;
   min-height: 120px;
@@ -51,7 +51,7 @@
   font-size: 0.9rem;
   border-radius: 4px;
   border: 1px solid var(--theme-text-color);
-  --background-menu-list: var(--theme-dark-color);
+  --background-menu-list: var(--theme-cta-bold-bg-color);
   color: var(--theme-text-color);
   overflow: hidden;
 }
@@ -66,6 +66,8 @@
   width: 50%;
   flex: 1 1 auto;
   border-radius: 4px;
+  background-color: var(--theme-section-bg-color);
+  
 }
 
 .column > header .edit.form button {
@@ -75,29 +77,29 @@
 .column > header .edit.form button.icon {
   --button-size: 1.5rem;
   border-radius: 4px;
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-section-bg-color);
   margin: 0 0.5rem;
 }
 
 .column > header .edit.form .cancel .icon-img {
   mask-image: url("/icons/close.svg");
-  background-color: var(--theme-dark-color);
+  background-color: var(--theme-section-text-color);
 }
 
 .column > header .edit.form .submit .icon-img {
   mask-image: url("/icons/check.svg");
-  background-color: var(--theme-dark-color);
+  background-color: var(--theme-section-text-color);
 }
 
 .column > header .menu-component button.icon {
   --button-size: 1.25rem;
   border-radius: 4px;
-  background-color: var(--theme-lighter-color);
+  background-color: var(--theme-section-bg-color);
 }
 
 .column > header .menu-component .icon-img {
   mask-image: url("/icons/menu.svg");
-  background-color: var(--theme-dark-color);
+  background-color: var(--theme-section-text-color);
 }
 
 .column .card-list {
