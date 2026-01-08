@@ -3,12 +3,12 @@ import type { BoardData } from "./storage.types";
 /**
  * Valid theme values
  */
-export const themes = ["color-1", "color-2", "color-3", "color-4"];
+export const themes = ["light-1", "color-1", "color-2", "color-3", "color-4"];
 
 /**
  * Default theme value
  */
-export const defaultTheme = themes[0];
+export const defaultTheme = themes[1];
 
 /**
  * Default board data
