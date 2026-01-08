@@ -49,7 +49,7 @@
   padding: 0 1rem;
   background-color: var(--theme-section-bg-color);
   font-weight: 600;
-  color: var(--theme-darker-color);
+  color: var(--theme-section-text-color);
   border-radius: 0.5rem;
 }
 

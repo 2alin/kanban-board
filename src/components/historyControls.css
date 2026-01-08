@@ -12,11 +12,11 @@
   --button-size: 2.5rem;
   border-radius: 4px;
   padding: 0.25rem;
-  background-color: var(--theme-section-bg-color);
+  background-color: var(--theme-main-color);
 }
 
 .history-controls button .icon-img {
-  background-color: var(--theme-dark-color);
+  background-color: var(--theme-text-color);
 }
 
 .history-controls button.undo .icon-img {

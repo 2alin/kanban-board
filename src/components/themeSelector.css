@@ -32,7 +32,7 @@
   background-color: var(--theme-main-color);
 }
 .theme-selector .color-sample:nth-child(3) {
-  background-color: var(--theme-dark-color);
+  background-color: var(--theme-section-outline-color);
 }
 .theme-selector .color-sample:nth-child(4) {
   background-color: var(--theme-main-color);

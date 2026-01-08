@@ -15,9 +15,9 @@
 
 .modal .form-container {
   width: 640px;
-  background-color: var(--theme-main-color);
+  background-color: var(--theme-section-bg-color);
   padding: 1rem;
-  color: var(--theme-text-color);
+  color: var(--theme-section-text-color);
   border-radius: 0.5rem;
 }
 
@@ -48,13 +48,15 @@
 .modal form label {
   justify-self: end;
   align-self: center;
+  font-weight: 600;
 }
 
 .modal form label + * {
   justify-self: start;
   align-self: center;
-  color: var(--theme-dark-color);
-  font-weight: 600;
+  background-color: var(--theme-main-color);
+  color: var(--theme-text-color);
+  font-weight: 400;
 }
 
 @media screen and (width <= 780px) {
@@ -103,7 +105,7 @@
 }
 
 .modal footer button {
-  background-color: var(--theme-dark-color);
+  background-color: var(--theme-cta-bold-bg-color);
   color: var(--theme-text-color);
   border: 0;
   border-radius: 4px;
