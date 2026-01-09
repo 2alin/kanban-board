@@ -6,7 +6,7 @@
   background-color: var(--theme-section-bg-color);
   color: var(--theme-section-text-color);
   border-radius: 0.5rem;
-  overflow: hidden;
+  overflow: auto;
   min-height: 120px;
 }
 
