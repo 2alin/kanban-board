@@ -10,10 +10,15 @@
 .card header {
   margin-bottom: 1rem;
   overflow: hidden;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .card .title {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .card p {

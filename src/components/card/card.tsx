@@ -90,10 +90,36 @@ export default function Card({ cardData, handlers }: CardProp) {
     });
   }
 
+  function handleDragStart(event: React.DragEvent<HTMLElement>) {
+    const { target } = event;
+    if (!target || !(target instanceof HTMLElement)) {
+      return;
+    }
+    const cardElement = target.closest("section.card");
+
+    if (!cardElement) {
+      return;
+    }
+
+    event.dataTransfer.effectAllowed = "move";
+    // dataTransfer specs are not forcing us to use MIME types,
+    // but the type should be lower case, hence using snake case
+    // instead of camel case for card id
+    event.dataTransfer.setData("card_id", id);
+
+    // creating drag feedback image
+    const xOffset = event.clientX - cardElement.getBoundingClientRect().x;
+    const yOffset = event.clientY - cardElement.getBoundingClientRect().y;
+    event.dataTransfer.setDragImage(cardElement, xOffset, yOffset);
+  }
+
   return (
     <section className="card" data-title={title}>
       <header>
         <h3 className="title">{title}</h3>
+        <button className="drag" onDragStart={handleDragStart} draggable={true}>
+          Drag
+        </button>
       </header>
       <div className="description">
         <RichText text={description} />

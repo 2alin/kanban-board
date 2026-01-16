@@ -215,8 +215,25 @@ export default function Column({
     }
   }
 
+  function handleDragOver(event: React.DragEvent<HTMLElement>) {
+    if (event.dataTransfer.types.includes("card_id")) {
+      event.preventDefault();
+    }
+  }
+
+  function handleDropEvent(event: React.DragEvent<HTMLElement>) {
+    const cardId = event.dataTransfer.getData("card_id");
+    console.log("card droppped, cardId: ", cardId);
+  }
+
   return (
-    <section className="column" ref={columnRef} aria-labelledby={headerId}>
+    <section
+      className="column"
+      ref={columnRef}
+      aria-labelledby={headerId}
+      onDragOver={handleDragOver}
+      onDrop={handleDropEvent}
+    >
       <header>
         {isTitleEdit ? (
           <TitleEditForm
