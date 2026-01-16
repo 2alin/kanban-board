@@ -29,6 +29,13 @@ export const cards: CardExtendedData[] = [
     id: "card-4",
     title: "Card 4",
     description: "Description of Card 4",
+    categoryIdx: 1,
+    orderInCategory: 2,
+  },
+  {
+    id: "card-5",
+    title: "Card 5",
+    description: "Description of Card 5",
     categoryIdx: 2,
     orderInCategory: 0,
   },
