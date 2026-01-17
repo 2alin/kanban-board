@@ -16,6 +16,10 @@
   gap: 0.5rem;
 }
 
+.card header button {
+  flex-shrink: 0;
+}
+
 .card .title {
   margin: 0;
   overflow-wrap: anywhere;
