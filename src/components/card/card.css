@@ -83,6 +83,10 @@
   background-color: var(--theme-text-color);
 }
 
+.card button.drag .icon-img {
+  mask-image: url("/icons/drag.svg");
+}
+
 .card button.move-top .icon-img {
   mask-image: url("/icons/move-top.svg");
 }

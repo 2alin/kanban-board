@@ -117,8 +117,13 @@ export default function Card({ cardData, handlers }: CardProp) {
     <section className="card" data-title={title}>
       <header>
         <h3 className="title">{title}</h3>
-        <button className="drag" onDragStart={handleDragStart} draggable={true}>
-          Drag
+        <button
+          className="drag icon"
+          onDragStart={handleDragStart}
+          draggable={true}
+          aria-description="drags the card to a new position in the board"
+        >
+          <span className="icon-img"></span>
         </button>
       </header>
       <div className="description">
