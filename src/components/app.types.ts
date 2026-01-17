@@ -113,3 +113,26 @@ interface ModalStateEdit {
  * The modal state: type and data associated to it.
  */
 export type ModalState = ModalStateNew | ModalStateEdit | null;
+
+/**
+ * A card is being dragged
+ */
+type CardDragStateOn = {
+  /**
+   * The card being dragged
+   */
+  card: CardExtendedData;
+  /**
+   * Candidate category where the card can be dropped
+   */
+  newCategoryIdx: number;
+  /**
+   * Candidate order in a category where the card can be dropped
+   */
+  newOrderInCategory: number;
+};
+
+/**
+ * Indicates if a card is currently being dragged
+ */
+export type CardDragState = null | CardDragStateOn;

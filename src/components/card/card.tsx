@@ -5,20 +5,21 @@ import { useContext } from "react";
 import { CardsDispatchContext } from "../../contexts/cards";
 import { CategoriesContext } from "../../contexts/categories";
 
-import type { CardExtendedData, ModalState } from "../app.types";
+import type { CardDragState, CardExtendedData, ModalState } from "../app.types";
 import CategorySelector from "../shared/categorySelector";
 import RichText from "./richText";
 
 interface CardProp {
   cardData: CardExtendedData;
   handlers: {
+    setCardDragState: React.Dispatch<React.SetStateAction<CardDragState>>;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
   };
 }
 
 export default function Card({ cardData, handlers }: CardProp) {
   const { id, title, description, categoryIdx, orderInCategory } = cardData;
-  const { setModalState } = handlers;
+  const { setCardDragState, setModalState } = handlers;
 
   const boardCategories = useContext(CategoriesContext);
   const cardsDispatch = useContext(CardsDispatchContext);
@@ -106,6 +107,11 @@ export default function Card({ cardData, handlers }: CardProp) {
     // but the type should be lower case, hence using snake case
     // instead of camel case for card id
     event.dataTransfer.setData("card_id", id);
+    setCardDragState({
+      card: cardData,
+      newCategoryIdx: cardData.categoryIdx,
+      newOrderInCategory: cardData.orderInCategory,
+    });
 
     // creating drag feedback image
     const xOffset = event.clientX - cardElement.getBoundingClientRect().x;
