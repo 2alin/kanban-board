@@ -10,6 +10,7 @@ Currently it supports the following:
 
 - ✅ Adding, removing and editing cards and columns
 - ✅ Moving cards across the board through card buttons
+- ✅ Drag and drop cards across the board
 - ✅ Basic rich text in card content description (see details bellow)
 - ✅ Undo and redo changes to the board data
 - ✅ Import and exporting board data
