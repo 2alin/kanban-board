@@ -16,8 +16,13 @@
   gap: 0.5rem;
 }
 
-.card header button {
+.card header button.drag {
   flex-shrink: 0;
+  cursor: grab;
+}
+
+.card header button.drag:active {
+  cursor: grabbing;
 }
 
 .card .title {
