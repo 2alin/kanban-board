@@ -285,6 +285,7 @@ export default function Column({
         categoryIdx: newCategoryIdx,
         orderInCategory: newOrderInCategory,
       },
+      addToHistory: true,
     });
     setCardDragState({ isDragged: false });
   }
