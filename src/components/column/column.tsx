@@ -16,6 +16,7 @@ import Card from "../card";
 import Menu from "../shared/menu";
 import TitleEditForm from "./titleEditForm";
 import { CardsContext, CardsDispatchContext } from "../../contexts/cards";
+import type { cardDragState } from "./column.types";
 
 interface ColumnProps {
   columnId: number;
@@ -36,6 +37,9 @@ export default function Column({
   const { setModalState, handleHistoryChange } = handlers;
 
   const [isTitleEdit, setIsTitleEdit] = useState(false);
+  const [cardDragState, setCardDragState] = useState<cardDragState>({
+    isDragged: false,
+  });
   const columnRef = useRef<HTMLElement>(null);
   const headerId = useId();
 
@@ -219,11 +223,70 @@ export default function Column({
     if (event.dataTransfer.types.includes("card_id")) {
       event.preventDefault();
     }
+
+    const cardId = event.dataTransfer.getData("card_id");
+    const card = boardCards.find((card) => card.id === cardId);
+    if (!card) {
+      setCardDragState({ isDragged: false });
+      return;
+    }
+
+    let placeholderPosition = cards.length;
+    const cardElementsInColumn =
+      columnRef.current?.querySelectorAll(".card") || [];
+
+    for (const [idx, cardElement] of cardElementsInColumn.entries()) {
+      const cardLowestBoundary =
+        cardElement.getBoundingClientRect().bottom -
+        0.5 * cardElement.getBoundingClientRect().height;
+
+      if (cardLowestBoundary >= event.clientY) {
+        placeholderPosition = idx;
+        break;
+      }
+    }
+
+    const isDragNewPosition =
+      card.categoryIdx !== columnId ||
+      (card.orderInCategory !== placeholderPosition &&
+        card.orderInCategory !== placeholderPosition - 1);
+
+    setCardDragState({
+      isDragged: true,
+      position: placeholderPosition,
+      isNew: isDragNewPosition,
+    });
   }
 
   function handleDropEvent(event: React.DragEvent<HTMLElement>) {
+    if (!cardDragState.isDragged) {
+      return;
+    }
+
+    if (!cardDragState.isNew) {
+      setCardDragState({ isDragged: false });
+      return;
+    }
+
     const cardId = event.dataTransfer.getData("card_id");
-    console.log("card droppped, cardId: ", cardId);
+
+    const card = boardCards.find((card) => card.id === cardId);
+    if (!card) {
+      setCardDragState({ isDragged: false });
+      return;
+    }
+
+    const newCategoryIdx = columnId;
+    const newOrderInCategory = cardDragState.position - 0.5;
+    cardsDispatch({
+      type: "update",
+      newCardData: {
+        ...card,
+        categoryIdx: newCategoryIdx,
+        orderInCategory: newOrderInCategory,
+      },
+    });
+    setCardDragState({ isDragged: false });
   }
 
   return (
@@ -233,6 +296,8 @@ export default function Column({
       aria-labelledby={headerId}
       onDragOver={handleDragOver}
       onDrop={handleDropEvent}
+      onDragLeave={() => setCardDragState({ isDragged: false })}
+      onDragEnd={() => setCardDragState({ isDragged: false })}
     >
       <header>
         {isTitleEdit ? (
@@ -266,13 +331,39 @@ export default function Column({
           </>
         )}
       </header>
-      <ol className="card-list">
-        {cards.map((card) => (
+      {getCardsList(cards, cardDragState, setModalState)}
+    </section>
+  );
+}
+
+function getCardsList(
+  cards: CardExtendedData[],
+  cardDragState: cardDragState,
+  setModalState: React.Dispatch<React.SetStateAction<ModalState>>
+) {
+  return (
+    <ol className="card-list">
+      {cards.map((card) => (
+        <>
+          {cardDragState.isDragged &&
+            cardDragState.isNew &&
+            cardDragState.position === card.orderInCategory && (
+              <li>
+                <span className="drop placeholder">Drop card</span>
+              </li>
+            )}
           <li key={card.id}>
             <Card key={card.id} cardData={card} handlers={{ setModalState }} />
           </li>
-        ))}
-      </ol>
-    </section>
+        </>
+      ))}
+      {cardDragState.isDragged &&
+        cardDragState.isNew &&
+        cardDragState.position === cards.length && (
+          <li>
+            <span className="drop placeholder"> Drop card</span>
+          </li>
+        )}
+    </ol>
   );
 }
