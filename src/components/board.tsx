@@ -1,9 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { CardsContext, toCardsMap } from "../contexts/cards";
 import { CategoriesContext } from "../contexts/categories";
 
-import type { HistoryChangeItem, ModalState } from "./app.types";
+import type { CardDragState, HistoryChangeItem, ModalState } from "./app.types";
 import Column from "./column";
 import { getISODate } from "../utilities";
 
@@ -17,6 +17,8 @@ interface BoardProps {
 
 export default function Board({ handlers }: BoardProps) {
   const { setModalState, setLastChangedBoard, handleHistoryChange } = handlers;
+
+  const [cardDragState, setCardDragState] = useState<CardDragState>(null);
 
   const categories = useContext(CategoriesContext);
   const cards = useContext(CardsContext);
@@ -37,9 +39,11 @@ export default function Board({ handlers }: BoardProps) {
             columnId={index}
             title={category}
             cards={cardsInCategory}
+            cardDragState = {cardDragState}
             handlers={{
+              setCardDragState,
               setModalState,
-              handleHistoryChange
+              handleHistoryChange,
             }}
           />
         );

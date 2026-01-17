@@ -8,6 +8,7 @@ import {
 } from "../../contexts/categories";
 
 import type {
+  CardDragState,
   CardExtendedData,
   HistoryChangeItem,
   ModalState,
@@ -16,13 +17,14 @@ import Card from "../card";
 import Menu from "../shared/menu";
 import TitleEditForm from "./titleEditForm";
 import { CardsContext, CardsDispatchContext } from "../../contexts/cards";
-import type { cardDragState } from "./column.types";
 
 interface ColumnProps {
   columnId: number;
   title: string;
   cards: CardExtendedData[];
+  cardDragState: CardDragState;
   handlers: {
+    setCardDragState: React.Dispatch<React.SetStateAction<CardDragState>>;
     setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
     handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
   };
@@ -32,14 +34,13 @@ export default function Column({
   columnId,
   title,
   cards,
+  cardDragState,
   handlers,
 }: ColumnProps) {
-  const { setModalState, handleHistoryChange } = handlers;
+  const { setCardDragState, setModalState, handleHistoryChange } = handlers;
 
   const [isTitleEdit, setIsTitleEdit] = useState(false);
-  const [cardDragState, setCardDragState] = useState<cardDragState>({
-    isDragged: false,
-  });
+
   const columnRef = useRef<HTMLElement>(null);
   const headerId = useId();
 
@@ -130,7 +131,7 @@ export default function Column({
           } else {
             console.error(
               "[add column] Unrecognized new column position: ",
-              newColumnPosition
+              newColumnPosition,
             );
             break;
           }
@@ -186,7 +187,7 @@ export default function Column({
       case "remove-column":
         {
           const newCategories = categories.filter(
-            (_, index) => index !== columnId
+            (_, index) => index !== columnId,
           );
           categoriesDispatch({
             type: "set",
@@ -195,7 +196,7 @@ export default function Column({
 
           // removing column cards
           const newCards = boardCards.filter(
-            (card) => card.categoryIdx !== columnId
+            (card) => card.categoryIdx !== columnId,
           );
           // adjusting column idx for remaining cards
           newCards.forEach((card) => {
@@ -220,16 +221,15 @@ export default function Column({
   }
 
   function handleDragOver(event: React.DragEvent<HTMLElement>) {
-    if (event.dataTransfer.types.includes("card_id")) {
-      event.preventDefault();
-    }
-
-    const cardId = event.dataTransfer.getData("card_id");
-    const card = boardCards.find((card) => card.id === cardId);
-    if (!card) {
-      setCardDragState({ isDragged: false });
+    if (!cardDragState) {
       return;
     }
+    if (!event.dataTransfer.types.includes("card_id")) {
+      setCardDragState(null);
+      return;
+    }
+
+    event.preventDefault();
 
     let placeholderPosition = cards.length;
     const cardElementsInColumn =
@@ -246,48 +246,40 @@ export default function Column({
       }
     }
 
-    const isDragNewPosition =
-      card.categoryIdx !== columnId ||
-      (card.orderInCategory !== placeholderPosition &&
-        card.orderInCategory !== placeholderPosition - 1);
-
     setCardDragState({
-      isDragged: true,
-      position: placeholderPosition,
-      isNew: isDragNewPosition,
+      card: cardDragState.card,
+      newCategoryIdx: columnId,
+      newOrderInCategory: placeholderPosition,
     });
   }
 
   function handleDropEvent(event: React.DragEvent<HTMLElement>) {
-    if (!cardDragState.isDragged) {
+    if (!cardDragState) {
       return;
     }
 
-    if (!cardDragState.isNew) {
-      setCardDragState({ isDragged: false });
+    const { card, newCategoryIdx, newOrderInCategory } = cardDragState;
+
+    const isNewPosition =
+      card.categoryIdx !== newCategoryIdx ||
+      (card.orderInCategory !== newOrderInCategory &&
+        card.orderInCategory !== newOrderInCategory - 1);
+
+    if (!isNewPosition) {
+      setCardDragState(null);
       return;
     }
 
-    const cardId = event.dataTransfer.getData("card_id");
-
-    const card = boardCards.find((card) => card.id === cardId);
-    if (!card) {
-      setCardDragState({ isDragged: false });
-      return;
-    }
-
-    const newCategoryIdx = columnId;
-    const newOrderInCategory = cardDragState.position - 0.5;
     cardsDispatch({
       type: "update",
       newCardData: {
         ...card,
         categoryIdx: newCategoryIdx,
-        orderInCategory: newOrderInCategory,
+        orderInCategory: newOrderInCategory - 0.5,
       },
       addToHistory: true,
     });
-    setCardDragState({ isDragged: false });
+    setCardDragState(null);
   }
 
   return (
@@ -297,8 +289,9 @@ export default function Column({
       aria-labelledby={headerId}
       onDragOver={handleDragOver}
       onDrop={handleDropEvent}
-      onDragLeave={() => setCardDragState({ isDragged: false })}
-      onDragEnd={() => setCardDragState({ isDragged: false })}
+      onDragEnd={() => {
+        setCardDragState(null);
+      }}
     >
       <header>
         {isTitleEdit ? (
@@ -332,36 +325,57 @@ export default function Column({
           </>
         )}
       </header>
-      {getCardsList(cards, cardDragState, setModalState)}
+      {getCardsList(
+        cards,
+        columnId,
+        cardDragState,
+        setCardDragState,
+        setModalState,
+      )}
     </section>
   );
 }
 
 function getCardsList(
   cards: CardExtendedData[],
-  cardDragState: cardDragState,
-  setModalState: React.Dispatch<React.SetStateAction<ModalState>>
+  columnId: number,
+  cardDragState: CardDragState,
+  setCardDragState: React.Dispatch<React.SetStateAction<CardDragState>>,
+  setModalState: React.Dispatch<React.SetStateAction<ModalState>>,
 ) {
+  let isDragNewPosition = false;
+
+  if (cardDragState) {
+    const {
+      card: cardDragged,
+      newCategoryIdx,
+      newOrderInCategory,
+    } = cardDragState;
+
+    isDragNewPosition =
+      cardDragged.categoryIdx !== newCategoryIdx ||
+      (cardDragged.orderInCategory !== newOrderInCategory &&
+        cardDragged.orderInCategory !== newOrderInCategory - 1);
+  }
+
   return (
     <ol className="card-list">
-      {cards.map((card) => (
-        <>
-          {cardDragState.isDragged &&
-            cardDragState.isNew &&
-            cardDragState.position === card.orderInCategory && (
-              <li>
-                <span className="drop placeholder">Drop card</span>
-              </li>
-            )}
-          <li key={card.id}>
-            <Card key={card.id} cardData={card} handlers={{ setModalState }} />
-          </li>
-        </>
+      {cards.map((card, idx) => (
+        <li key={card.id} style={{ order: idx }}>
+          <Card
+            key={card.id}
+            cardData={card}
+            handlers={{ setCardDragState, setModalState }}
+          />
+        </li>
       ))}
-      {cardDragState.isDragged &&
-        cardDragState.isNew &&
-        cardDragState.position === cards.length && (
-          <li>
+      {cardDragState &&
+        cardDragState.newCategoryIdx === columnId &&
+        isDragNewPosition && (
+          <li
+            key={"placeholder"}
+            style={{ order: cardDragState.newOrderInCategory - 1 }}
+          >
             <span className="drop placeholder"> Drop card</span>
           </li>
         )}

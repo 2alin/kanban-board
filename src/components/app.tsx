@@ -75,11 +75,16 @@ export default function App({
         console.error("Unrecognized type of history change item");
     }
 
-    const newHistoryIdx = historyIdx + 1;
+    let newHistoryIdx = historyIdx + 1;
     const pastHistory = boardHistory.slice(0, newHistoryIdx);
     let newBoardHistory = [...pastHistory, structuredClone(newHistoryItem)];
+
     // store only last 10 history actions
-    newBoardHistory = newBoardHistory.slice(-10);
+    if (newBoardHistory.length > 10) {
+      newBoardHistory = newBoardHistory.slice(-10);
+      newHistoryIdx = newBoardHistory.length - 1;
+    }
+
     setBoardHistory(newBoardHistory);
     setHistoryIdx(newHistoryIdx);
   }
