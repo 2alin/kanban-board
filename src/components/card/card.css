@@ -10,10 +10,24 @@
 .card header {
   margin-bottom: 1rem;
   overflow: hidden;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.card header button.drag {
+  flex-shrink: 0;
+  cursor: grab;
+}
+
+.card header button.drag:active {
+  cursor: grabbing;
 }
 
 .card .title {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .card p {
@@ -76,6 +90,10 @@
 
 .card button .icon-img {
   background-color: var(--theme-text-color);
+}
+
+.card button.drag .icon-img {
+  mask-image: url("/icons/drag.svg");
 }
 
 .card button.move-top .icon-img {

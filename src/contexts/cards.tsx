@@ -138,7 +138,7 @@ function addCard(
  * @param newCardData The new data for the card to update
  * @returns A list of cards with the card updated
  */
-function updateCard(
+export function updateCard(
   cards: CardExtendedData[],
   newCardData: CardExtendedData
 ): CardExtendedData[] {
@@ -162,19 +162,21 @@ function updateCard(
   const newCategoryIdx = newCardData.categoryIdx;
 
   if (oldCategoryIdx !== newCategoryIdx) {
-    // updating new category list and sending card to the end of it
-    const newCategoryCardList = cardsMap.get(newCategoryIdx) || [];
-    const orderInCategory = newCategoryCardList.length;
+    // updating new category list and sending card to the end of it,
+    // adjustment of card position in the new category will happen
+    // on 'normalization' later on
+    let newCategoryCardList = cardsMap.get(newCategoryIdx) || [];
     newCategoryCardList.push({
       ...newCardData,
-      orderInCategory,
     });
 
     // removing from old category list
     oldCategoryCardList = oldCategoryCardList.filter(
       (card) => card.id !== newCardData.id
     );
-    // only the category where the card was removed needs to be normalized
+
+    // normalizing old and new category lists
+    newCategoryCardList = normalizeCards(newCategoryCardList);
     oldCategoryCardList = normalizeCards(oldCategoryCardList);
 
     // updating cards map with the new category lists
