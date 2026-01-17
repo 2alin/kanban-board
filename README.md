@@ -2,7 +2,7 @@
 
 This projects creates a simple kanban board that is persistant across sessions.
 
-<img width="1867" height="957" alt="Screenshot of the Kanban Board app dispaying a set of multiple cards assigned to different columns" src="https://github.com/user-attachments/assets/03996590-093e-4ec3-baf9-a410db63f0e8" />
+<img width="1823" height="963" alt="Screenshot of the Kanban Board app dispaying a set of multiple cards assigned to different columns"  src="https://github.com/user-attachments/assets/2c7f72c7-4b99-400a-bab7-c5edb76fd78f" />
 
 ## Features
 
