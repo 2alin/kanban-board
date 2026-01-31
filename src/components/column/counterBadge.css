@@ -1,0 +1,12 @@
+.column .badge {
+  align-self: center;
+  text-align: center;
+  min-width: 1rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--theme-text-color);
+  background-color: var(--theme-main-color);
+  overflow: hidden;
+}
