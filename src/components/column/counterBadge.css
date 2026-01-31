@@ -10,3 +10,7 @@
   background-color: var(--theme-main-color);
   overflow: hidden;
 }
+
+.column .badge.empty {
+  visibility: hidden;
+}
