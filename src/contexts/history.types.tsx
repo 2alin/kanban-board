@@ -48,21 +48,40 @@ export interface BoardHistoryItem {
  */
 export type BoardHistory = BoardHistoryItem[];
 
+/**
+ * Represents the list of board history states as well as
+ * the current moment of history being shown to user
+ */
 export interface BoardHistoryWithIdx {
+  /**
+   * List of board history items that the board can use to update its data
+   */
   boardHistory: BoardHistory;
+  /**
+   * Indicates the current moment in history that is being displayed to the user
+   */
   historyIdx: number;
 }
 
+/**
+ * History dispatch action to replace the list of items
+ */
 interface SetAction {
   type: "set";
   historyItems: BoardHistory;
 }
 
+/**
+ * History dispatch action to add a new item
+ */
 interface AddAction {
   type: "add";
   changeItem: HistoryChangeItem;
 }
 
+/**
+ * History dispatch action to update the current history index
+ */
 interface UpdateIdxAction {
   type: "updateIdx";
   newIdx: number;
