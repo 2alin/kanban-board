@@ -3,7 +3,7 @@ import { render } from "vitest-browser-react";
 import Column from "./column";
 import type { CardExtendedData } from "../app.types";
 import { page, userEvent } from "vitest/browser";
-import { cards } from "../../../test/data/extendedCards";
+import { cards } from "../../../test/data/board";
 
 const columnId = 0;
 const columnTitle = "Test column";

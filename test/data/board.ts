@@ -1,6 +1,12 @@
 import type { CardExtendedData } from "../../src/components/app.types";
 
 /**
+ * Category names used to create columns
+ */
+
+export const categories: string[] = ["Category 1", "Category 2", "Category 3"];
+
+/**
  * Card memory data used by the app
  */
 export const cards: CardExtendedData[] = [

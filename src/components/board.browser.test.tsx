@@ -5,7 +5,7 @@ import Board from "./board";
 import { CategoriesProvider } from "../contexts/categories";
 import { CardsProvider } from "../contexts/cards";
 import type { CardExtendedData } from "./app.types";
-import { cards } from "../../test/data/extendedCards";
+import { cards } from "../../test/data/board";
 import storage from "../storage";
 
 vi.spyOn(storage.board, "get").mockImplementation(() => null);

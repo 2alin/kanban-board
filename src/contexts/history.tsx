@@ -12,6 +12,9 @@ import type {
   HistoryChangeItem,
 } from "./history.types";
 
+// Maximum amount of history items that can be stored
+export const maxHistoryAmount = 10;
+
 export const HistoryContext = createContext<BoardHistory>([]);
 export const HistoryIndexContext = createContext<number>(-1);
 export const HistoryDispatchContext = createContext<
@@ -58,8 +61,8 @@ function historyReducer(
     }
     case "add": {
       const newBoardHistory = addChangeItem(
-        action.changeItem,
         boardHistoryWithIdx,
+        action.changeItem,
       );
       return newBoardHistory;
     }
@@ -77,13 +80,13 @@ function historyReducer(
 /**
  * Adds board changes to the history and updates history index
  *
- * @param changeItem A board history change
  * @param boardHistoryWithIdx An object containing board history and index
+ * @param changeItem A board history change
  * @returns A new object containing updated board history and index
  */
-function addChangeItem(
-  changeItem: HistoryChangeItem,
+export function addChangeItem(
   boardHistoryWithIdx: BoardHistoryWithIdx,
+  changeItem: HistoryChangeItem,
 ): BoardHistoryWithIdx {
   const { boardHistory, historyIdx } = boardHistoryWithIdx;
 
@@ -116,8 +119,8 @@ function addChangeItem(
   let newBoardHistory = [...pastHistory, structuredClone(newHistoryItem)];
 
   // store only last 10 history actions
-  if (newBoardHistory.length > 10) {
-    newBoardHistory = newBoardHistory.slice(-10);
+  if (newBoardHistory.length > maxHistoryAmount) {
+    newBoardHistory = newBoardHistory.slice(-1 * maxHistoryAmount);
     newHistoryIdx = newBoardHistory.length - 1;
   }
 
