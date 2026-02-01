@@ -6,7 +6,8 @@ import storage from "../storage";
 import { getRandomId } from "../utilities";
 import { CategoriesDispatchContext } from "../contexts/categories";
 import { CardsDispatchContext } from "../contexts/cards";
-import type { HistoryChangeItem } from "./app.types";
+import { HistoryDispatchContext } from "../contexts/history";
+import type { HistoryChangeItem } from "../contexts/history.types";
 
 const messageClassNames = {
   none: "",
@@ -14,16 +15,12 @@ const messageClassNames = {
   success: "success",
 };
 
-interface ImportSectionProps {
-  handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
-}
+export default function ImportSection() {
+  const historyDispatch = useContext(HistoryDispatchContext);
 
-export default function ImportSection({
-  handleHistoryChange,
-}: ImportSectionProps) {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [messageClassToShow, setMessageClassToShow] = useState(
-    messageClassNames.none
+    messageClassNames.none,
   );
 
   const categoriesDispatch = useContext(CategoriesDispatchContext);
@@ -47,12 +44,12 @@ export default function ImportSection({
 
   async function handleLoadFileClick() {
     const importFileInput = document.querySelector(
-      "#import-file"
+      "#import-file",
     ) as HTMLInputElement;
 
     if (!importFileInput.files) {
       console.error(
-        "[load-file]: No 'files' property found in the input element"
+        "[load-file]: No 'files' property found in the input element",
       );
       setIsFileSelected(false);
       return;
@@ -78,7 +75,7 @@ export default function ImportSection({
     } catch (error) {
       console.error(
         "[load-file]: Error while trying to import the data",
-        error
+        error,
       );
       storage.board.set(oldBoardData);
     }
@@ -98,13 +95,17 @@ export default function ImportSection({
         };
       });
       cardsDispatch({ type: "set", cards: newCardList });
-      handleHistoryChange({
+
+      const historyChangeItem: HistoryChangeItem = {
         type: "board",
         value: {
           categories: structuredClone(newBoardData.categories),
           cards: structuredClone(newCardList),
         },
-      });
+      };
+
+      historyDispatch({ type: "add", changeItem: historyChangeItem });
+
       setMessageClassToShow(messageClassNames.success);
     } else if (oldBoardData) {
       setMessageClassToShow(messageClassNames.error);

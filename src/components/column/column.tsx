@@ -1,13 +1,14 @@
 import "./column.css";
 
-import { useContext, useId, useRef } from "react";
+import {
+  useContext,
+  useId,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
-import type {
-  CardDragState,
-  CardExtendedData,
-  HistoryChangeItem,
-  ModalState,
-} from "../app.types";
+import type { CardDragState, CardExtendedData, ModalState } from "../app.types";
 import Card from "../card";
 import { CardsDispatchContext } from "../../contexts/cards";
 import ColumnHeader from "./columnHeader";
@@ -17,11 +18,8 @@ interface ColumnProps {
   title: string;
   cards: CardExtendedData[];
   cardDragState: CardDragState;
-  handlers: {
-    setCardDragState: React.Dispatch<React.SetStateAction<CardDragState>>;
-    setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
-    handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
-  };
+  setCardDragState: Dispatch<SetStateAction<CardDragState>>;
+  setModalState: Dispatch<SetStateAction<ModalState>>;
 }
 
 export default function Column({
@@ -29,10 +27,9 @@ export default function Column({
   title,
   cards,
   cardDragState,
-  handlers,
+  setCardDragState,
+  setModalState,
 }: ColumnProps) {
-  const { setCardDragState, setModalState, handleHistoryChange } = handlers;
-
   const columnRef = useRef<HTMLElement>(null);
   const headerId = useId();
 
@@ -118,7 +115,6 @@ export default function Column({
           columnId,
           columnRef,
           setModalState,
-          handleHistoryChange,
         }}
         cardsAmount={cards.length}
       />

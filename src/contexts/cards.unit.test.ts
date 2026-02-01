@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { toCardsMap, updateCard } from "./cards.tsx";
 import type { CardExtendedData } from "../components/app.types";
 
-import { cards } from "../../test/data/extendedCards.ts";
+import { cards } from "../../test/data/board.ts";
 
 describe("toCardsMap", () => {
   it("should return an empty map when the cards list is empty", () => {

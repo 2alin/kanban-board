@@ -6,12 +6,10 @@ import {
   CategoriesDispatchContext,
 } from "../../contexts/categories";
 import { CardsContext, CardsDispatchContext } from "../../contexts/cards";
-import type {
-  CardExtendedData,
-  HistoryChangeItem,
-  ModalState,
-} from "../app.types";
+import type { CardExtendedData, ModalState } from "../app.types";
 import CounterBadge from "./counterBadge";
+import { HistoryDispatchContext } from "../../contexts/history";
+import type { HistoryChangeItem } from "../../contexts/history.types";
 
 interface ColumnHeaderProps {
   title: string;
@@ -20,7 +18,6 @@ interface ColumnHeaderProps {
   columnRef: React.RefObject<HTMLElement | null>;
   cardsAmount: number;
   setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
-  handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
 }
 
 export default function ColumnHeader({
@@ -30,11 +27,10 @@ export default function ColumnHeader({
   columnRef,
   cardsAmount,
   setModalState,
-  handleHistoryChange,
 }: ColumnHeaderProps) {
+  const historyDispatch = useContext(HistoryDispatchContext);
   const categories = useContext(CategoriesContext);
   const categoriesDispatch = useContext(CategoriesDispatchContext);
-
   const boardCards = useContext(CardsContext);
   const cardsDispatch = useContext(CardsDispatchContext);
 
@@ -154,7 +150,7 @@ export default function ColumnHeader({
           });
 
           if (newColumnIdx < categories.length && boardCards.length > 0) {
-            // we need to move cards of categories that will change
+            // updating cards that are affected by column changes
             const newBoardCards: CardExtendedData[] = boardCards.map((card) => {
               const newCard = structuredClone(card);
 
@@ -164,24 +160,28 @@ export default function ColumnHeader({
 
               return newCard;
             });
-
             cardsDispatch({
               type: "set",
               cards: newBoardCards,
             });
 
-            handleHistoryChange({
+            // registering board history changes
+            const historyChangeItem: HistoryChangeItem = {
               type: "board",
               value: {
                 categories: structuredClone(newCategories),
                 cards: structuredClone(newBoardCards),
               },
-            });
+            };
+            historyDispatch({ type: "add", changeItem: historyChangeItem });
           } else {
-            handleHistoryChange({
+            // no need to update cards if there was no affected ones
+            // but we sill need to register board history changes
+            const historyChangeItem: HistoryChangeItem = {
               type: "categories",
               value: structuredClone(newCategories),
-            });
+            };
+            historyDispatch({ type: "add", changeItem: historyChangeItem });
           }
         }
         break;
@@ -207,13 +207,14 @@ export default function ColumnHeader({
           });
           cardsDispatch({ type: "set", cards: newCards });
 
-          handleHistoryChange({
+          const historyChangeItem: HistoryChangeItem = {
             type: "board",
             value: {
               categories: structuredClone(newCategories),
               cards: structuredClone(newCards),
             },
-          });
+          };
+          historyDispatch({ type: "add", changeItem: historyChangeItem });
         }
         break;
       default:
