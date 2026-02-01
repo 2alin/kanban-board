@@ -17,20 +17,17 @@ const cardsSecondColumn = [cards[1], cards[2]];
 
 function renderBoard(columns: string[], cards: CardExtendedData[] = []) {
   return render(
-    <CategoriesProvider
-      initialCategories={columns}
-      handleHistoryChange={() => {}}
-    >
-      <CardsProvider initialCards={cards} handleHistoryChange={() => {}}>
+    <CategoriesProvider initialCategories={columns}>
+      <CardsProvider initialCards={cards}>
         <Board
-          handlers={{
+          {...{
             setModalState: () => {},
             setLastChangedBoard: () => {},
             handleHistoryChange: () => {},
           }}
         />
       </CardsProvider>
-    </CategoriesProvider>
+    </CategoriesProvider>,
   );
 }
 
@@ -105,7 +102,9 @@ describe("Board Component", () => {
       .not.toBeInTheDocument();
     await expect
       .element(
-        columns.nth(1).getByRole("listitem", { hasText: cardFirstColumn.title })
+        columns
+          .nth(1)
+          .getByRole("listitem", { hasText: cardFirstColumn.title }),
       )
       .toBeInTheDocument();
   });
@@ -152,14 +151,14 @@ describe("Board Component", () => {
       .element(
         columns
           .nth(0)
-          .getByRole("heading", { name: cardsSecondColumn[0].title })
+          .getByRole("heading", { name: cardsSecondColumn[0].title }),
       )
       .toBeInTheDocument();
     await expect
       .element(
         columns
           .nth(0)
-          .getByRole("heading", { name: cardsSecondColumn[1].title })
+          .getByRole("heading", { name: cardsSecondColumn[1].title }),
       )
       .toBeInTheDocument();
   });
@@ -176,7 +175,7 @@ describe("Board Component", () => {
       .element(
         page.getByRole("menuitem", {
           name: "Remove column",
-        })
+        }),
       )
       .not.toBeInTheDocument();
   });

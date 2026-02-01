@@ -5,22 +5,17 @@ import { useContext } from "react";
 import { CardsDispatchContext } from "../contexts/cards";
 import { CategoriesDispatchContext } from "../contexts/categories";
 
-import type { BoardHistory, BoardHistoryItem } from "./app.types";
+import type { BoardHistoryItem } from "./app.types";
+import {
+  HistoryContext,
+  HistoryDispatchContext,
+  HistoryIndexContext,
+} from "../contexts/history";
 
-interface HistoryControlsProps {
-  boardHistory: BoardHistory;
-  historyIdx: number;
-  handlers: {
-    setHistoryIdx: (newHistoryIdx: number) => void;
-  };
-}
-
-export function HistoryControls({
-  boardHistory,
-  historyIdx,
-  handlers,
-}: HistoryControlsProps) {
-  const { setHistoryIdx } = handlers;
+export function HistoryControls() {
+  const boardHistory = useContext(HistoryContext);
+  const historyIdx = useContext(HistoryIndexContext);
+  const historyDispatch = useContext(HistoryDispatchContext);
 
   const categoriesDispatch = useContext(CategoriesDispatchContext);
   const cardsDispatch = useContext(CardsDispatchContext);
@@ -31,7 +26,7 @@ export function HistoryControls({
   function undoBoardState() {
     if (historyIdx <= 0) {
       console.error(
-        "Undo action can't be done. There's no previous board data stored"
+        "Undo action can't be done. There's no previous board data stored",
       );
       return;
     }
@@ -40,7 +35,10 @@ export function HistoryControls({
     const historyItemToSet = boardHistory[newHistoryIdx];
 
     setBoardState(historyItemToSet);
-    setHistoryIdx(newHistoryIdx);
+    historyDispatch({
+      type: "updateIdx",
+      newIdx: newHistoryIdx,
+    });
   }
 
   /**
@@ -49,7 +47,7 @@ export function HistoryControls({
   function redoBoardState() {
     if (historyIdx >= boardHistory.length - 1) {
       console.error(
-        "Redo action can't be done. There's no next board data stored"
+        "Redo action can't be done. There's no next board data stored",
       );
       return;
     }
@@ -58,7 +56,10 @@ export function HistoryControls({
     const historyItemToSet = structuredClone(boardHistory[newHistoryIdx]);
 
     setBoardState(historyItemToSet);
-    setHistoryIdx(newHistoryIdx);
+    historyDispatch({
+      type: "updateIdx",
+      newIdx: newHistoryIdx,
+    });
   }
 
   /**

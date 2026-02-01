@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 import type {
   CardBaseData,
@@ -9,6 +9,8 @@ import type {
 import type { CardsAction } from "./cards.types";
 import { getRandomId } from "../utilities";
 import storage from "../storage";
+import { HistoryDispatchContext } from "./history";
+import type { HistoryAction } from "./history.types";
 
 export const CardsContext = createContext<CardExtendedData[]>([]);
 export const CardsDispatchContext = createContext<
@@ -17,17 +19,17 @@ export const CardsDispatchContext = createContext<
 
 interface CardsProviderProps {
   initialCards: CardExtendedData[];
-  handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
 }
 
 export function CardsProvider({
   initialCards,
-  handleHistoryChange,
   children,
 }: React.PropsWithChildren<CardsProviderProps>) {
+  const historyDispatch = useContext(HistoryDispatchContext);
+
   const [cards, dispatch] = useReducer(
-    (cards, action) => cardsReducer(cards, action, handleHistoryChange),
-    initialCards
+    (cards, action) => cardsReducer(cards, action, historyDispatch),
+    initialCards,
   );
 
   useEffect(() => {
@@ -46,13 +48,13 @@ export function CardsProvider({
  *
  * @param cards The current list of cards
  * @param action The action to execute
- * * @param handleHistoryChange Handle when the new state should be added to history
+ * @param historyDispatch Handler history change actions
  * @returns The new categories after the action executed
  */
 function cardsReducer(
   cards: CardExtendedData[],
   action: CardsAction,
-  handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void
+  historyDispatch: React.ActionDispatch<[action: HistoryAction]>,
 ): CardExtendedData[] {
   let newCards: CardExtendedData[] = [];
 
@@ -75,12 +77,12 @@ function cardsReducer(
 
   const { addToHistory } = action;
   if (addToHistory) {
-    const historyChangeItem: HistoryChangeItem = {
+    const changeItem: HistoryChangeItem = {
       type: "cards",
       value: structuredClone(newCards),
     };
-    // workaround to update history after context render
-    setTimeout(() => handleHistoryChange(historyChangeItem), 0);
+    // Update history after context render
+    setTimeout(() => historyDispatch({ type: "add", changeItem }), 0);
   }
 
   return newCards;
@@ -96,7 +98,7 @@ function cardsReducer(
 
 function addCard(
   cards: CardExtendedData[],
-  cardBaseData: CardBaseData
+  cardBaseData: CardBaseData,
 ): CardExtendedData[] {
   const cardsMap = toCardsMap(cards);
 
@@ -120,7 +122,7 @@ function addCard(
   let newCardsInCategory = [...cardsInCategory, newCard];
   newCardsInCategory = normalizeCards(newCardsInCategory);
   const normalizedNewCard = newCardsInCategory.find(
-    (card) => card.id === newCard.id
+    (card) => card.id === newCard.id,
   );
 
   if (!normalizedNewCard) {
@@ -140,7 +142,7 @@ function addCard(
  */
 export function updateCard(
   cards: CardExtendedData[],
-  newCardData: CardExtendedData
+  newCardData: CardExtendedData,
 ): CardExtendedData[] {
   let oldCategoryCardList: CardExtendedData[] = [];
   let oldCategoryIdx = -1;
@@ -172,7 +174,7 @@ export function updateCard(
 
     // removing from old category list
     oldCategoryCardList = oldCategoryCardList.filter(
-      (card) => card.id !== newCardData.id
+      (card) => card.id !== newCardData.id,
     );
 
     // normalizing old and new category lists
@@ -185,7 +187,7 @@ export function updateCard(
   } else {
     // card stays in the same category
     oldCategoryCardList = oldCategoryCardList.map((card) =>
-      card.id === newCardData.id ? newCardData : card
+      card.id === newCardData.id ? newCardData : card,
     );
     // normalizing as we allow floating numbers to change position in a card
     oldCategoryCardList = normalizeCards(oldCategoryCardList);
@@ -219,7 +221,7 @@ function deleteCard(cards: CardExtendedData[], id: string): CardExtendedData[] {
   if (!categoryCardList) {
     console.error(
       "Card wasn't assigned to the right category." +
-        "Proceeding to delete card anyway."
+        "Proceeding to delete card anyway.",
     );
     newCardsList = cards.filter((card) => card.id !== id);
   } else {
@@ -281,7 +283,7 @@ export function toCardList(cardsMap: CardsMap): CardExtendedData[] {
  */
 export function normalizeCards(cards: CardExtendedData[]) {
   const sortedCards = [...cards].sort(
-    (a, b) => a.orderInCategory - b.orderInCategory
+    (a, b) => a.orderInCategory - b.orderInCategory,
   );
   const normalizedCards = sortedCards.map((card, index) => ({
     ...card,

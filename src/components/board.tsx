@@ -1,23 +1,27 @@
-import { useContext, useEffect, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
 import { CardsContext, toCardsMap } from "../contexts/cards";
 import { CategoriesContext } from "../contexts/categories";
 
-import type { CardDragState, HistoryChangeItem, ModalState } from "./app.types";
+import type { CardDragState, ModalState } from "./app.types";
 import Column from "./column";
 import { getISODate } from "../utilities";
 
 interface BoardProps {
-  handlers: {
-    setModalState: React.Dispatch<React.SetStateAction<ModalState>>;
-    setLastChangedBoard: React.Dispatch<React.SetStateAction<string>>;
-    handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
-  };
+  setModalState: Dispatch<SetStateAction<ModalState>>;
+  setLastChangedBoard: Dispatch<SetStateAction<string>>;
 }
 
-export default function Board({ handlers }: BoardProps) {
-  const { setModalState, setLastChangedBoard, handleHistoryChange } = handlers;
-
+export default function Board({
+  setModalState,
+  setLastChangedBoard,
+}: BoardProps) {
   const [cardDragState, setCardDragState] = useState<CardDragState>(null);
 
   const categories = useContext(CategoriesContext);
@@ -39,12 +43,7 @@ export default function Board({ handlers }: BoardProps) {
             columnId={index}
             title={category}
             cards={cardsInCategory}
-            cardDragState = {cardDragState}
-            handlers={{
-              setCardDragState,
-              setModalState,
-              handleHistoryChange,
-            }}
+            {...{ cardDragState, setCardDragState, setModalState }}
           />
         );
       })}

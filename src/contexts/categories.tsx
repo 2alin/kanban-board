@@ -1,8 +1,10 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 import type { HistoryChangeItem } from "../components/app.types";
 import type { CategoryAction } from "./categories.types";
 import storage from "../storage";
+import { HistoryDispatchContext } from "./history";
+import type { HistoryAction } from "./history.types";
 
 export const CategoriesContext = createContext<string[]>([]);
 export const CategoriesDispatchContext = createContext<
@@ -11,18 +13,18 @@ export const CategoriesDispatchContext = createContext<
 
 interface CategoriesProviderProps {
   initialCategories: string[];
-  handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void;
 }
 
 export function CategoriesProvider({
   initialCategories,
-  handleHistoryChange,
   children,
 }: React.PropsWithChildren<CategoriesProviderProps>) {
+  const historyDispatch = useContext(HistoryDispatchContext);
+
   const [categories, dispatch] = useReducer(
     (categories, action) =>
-      categoriesReducer(categories, action, handleHistoryChange),
-    initialCategories
+      categoriesReducer(categories, action, historyDispatch),
+    initialCategories,
   );
 
   useEffect(() => {
@@ -50,13 +52,13 @@ export function CategoriesProvider({
  *
  * @param categories The current list of categories
  * @param action The action to execute
- * @param handleHistoryChange Handle when the new state should be added to history
+ * @param historyDispatch Handler history change actions
  * @returns The new categories after the action executed
  */
 function categoriesReducer(
   categories: string[],
   action: CategoryAction,
-  handleHistoryChange: (historyChangeItem: HistoryChangeItem) => void
+  historyDispatch: React.ActionDispatch<[action: HistoryAction]>,
 ): string[] {
   let newCategories: string[] = [];
 
@@ -74,12 +76,12 @@ function categoriesReducer(
 
   const { addToHistory } = action;
   if (addToHistory) {
-    const historyChangeItem: HistoryChangeItem = {
+    const changeItem: HistoryChangeItem = {
       type: "categories",
       value: [...newCategories],
     };
-    // workaround to update history after context render
-    setTimeout(() => handleHistoryChange(historyChangeItem), 0);
+    // Update history after context render
+    setTimeout(() => historyDispatch({ type: "add", changeItem }), 0);
   }
 
   return newCategories;

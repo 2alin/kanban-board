@@ -3,10 +3,8 @@ import "./app.css";
 import { useState } from "react";
 
 import type {
-  BoardHistory,
   BoardHistoryItem,
   CardExtendedData,
-  HistoryChangeItem,
   ModalState,
 } from "./app.types";
 
@@ -20,6 +18,8 @@ import { HistoryControls } from "./historyControls";
 import NewCardButton from "./newCardButton";
 import ImportSection from "./importSection";
 import ThemeSelector from "./themeSelector";
+import { HistoryProvider } from "../contexts/history";
+import type { BoardHistoryWithIdx } from "../contexts/history.types";
 
 interface AppProps {
   initialCategories: string[];
@@ -40,93 +40,46 @@ export default function App({
     categories: [...initialCategories],
     cards: structuredClone(initialCards),
   };
-  const [boardHistory, setBoardHistory] = useState<BoardHistory>([
-    initialHistoryItem,
-  ]);
-  const [historyIdx, setHistoryIdx] = useState(0);
 
-  /**
-   * Adds board changes to the history
-   *
-   * @param historyChangeItem A board history change
-   */
-  function handleHistoryChange(historyChangeItem: HistoryChangeItem) {
-    if (!historyChangeItem) {
-      return;
-    }
-
-    const newHistoryItem = structuredClone(boardHistory[historyIdx]);
-    if (!newHistoryItem) {
-      return;
-    }
-
-    switch (historyChangeItem.type) {
-      case "categories":
-        newHistoryItem.categories = [...historyChangeItem.value];
-        break;
-      case "cards":
-        newHistoryItem.cards = structuredClone(historyChangeItem.value);
-        break;
-      case "board":
-        newHistoryItem.categories = [...historyChangeItem.value.categories];
-        newHistoryItem.cards = structuredClone(historyChangeItem.value.cards);
-        break;
-      default:
-        console.error("Unrecognized type of history change item");
-    }
-
-    let newHistoryIdx = historyIdx + 1;
-    const pastHistory = boardHistory.slice(0, newHistoryIdx);
-    let newBoardHistory = [...pastHistory, structuredClone(newHistoryItem)];
-
-    // store only last 10 history actions
-    if (newBoardHistory.length > 10) {
-      newBoardHistory = newBoardHistory.slice(-10);
-      newHistoryIdx = newBoardHistory.length - 1;
-    }
-
-    setBoardHistory(newBoardHistory);
-    setHistoryIdx(newHistoryIdx);
-  }
+  const initBoardHistoryWithIdx: BoardHistoryWithIdx = {
+    boardHistory: [initialHistoryItem],
+    historyIdx: 0,
+  };
 
   return (
-    <CategoriesProvider
-      initialCategories={initialCategories}
-      handleHistoryChange={handleHistoryChange}
-    >
-      <CardsProvider
-        initialCards={initialCards}
-        handleHistoryChange={handleHistoryChange}
-      >
-        <header>
-          <NewCardButton {...{ setModalState }} />
-          <HistoryControls
-            {...{ boardHistory, historyIdx }}
-            handlers={{ setHistoryIdx }}
+    <HistoryProvider {...{ initBoardHistoryWithIdx }}>
+      <CategoriesProvider {...{ initialCategories }}>
+        <CardsProvider {...{ initialCards }}>
+          <header>
+            <NewCardButton {...{ setModalState }} />
+            <HistoryControls />
+          </header>
+
+          <Board
+            {...{
+              setModalState,
+              setLastChangedBoard,
+            }}
           />
-        </header>
 
-        <Board
-          handlers={{ setModalState, setLastChangedBoard, handleHistoryChange }}
-        />
+          <footer id="main-footer">
+            <ImportSection />
+            <ExportSection lastChangedBoard={lastChangedBoard} />
+            <ThemeSelector {...{ handleThemeChange }} />
+          </footer>
 
-        <footer id="main-footer">
-          <ImportSection handleHistoryChange={handleHistoryChange} />
-          <ExportSection lastChangedBoard={lastChangedBoard} />
-          <ThemeSelector {...{ handleThemeChange }} />
-        </footer>
-
-        {modalState && (
-          <CardModal
-            key={
-              modalState.type === "edit"
-                ? modalState.cardToEdit.id
-                : modalState.type
-            }
-            {...{ modalState, setModalState }}
-          />
-        )}
-      </CardsProvider>
-    </CategoriesProvider>
+          {modalState && (
+            <CardModal
+              key={
+                modalState.type === "edit"
+                  ? modalState.cardToEdit.id
+                  : modalState.type
+              }
+              {...{ modalState, setModalState }}
+            />
+          )}
+        </CardsProvider>
+      </CategoriesProvider>
+    </HistoryProvider>
   );
 }
