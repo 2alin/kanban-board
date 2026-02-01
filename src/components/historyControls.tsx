@@ -5,12 +5,12 @@ import { useContext } from "react";
 import { CardsDispatchContext } from "../contexts/cards";
 import { CategoriesDispatchContext } from "../contexts/categories";
 
-import type { BoardHistoryItem } from "./app.types";
 import {
   HistoryContext,
   HistoryDispatchContext,
   HistoryIndexContext,
 } from "../contexts/history";
+import type { BoardHistoryItem } from "../contexts/history.types";
 
 export function HistoryControls() {
   const boardHistory = useContext(HistoryContext);

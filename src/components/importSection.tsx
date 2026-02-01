@@ -7,7 +7,7 @@ import { getRandomId } from "../utilities";
 import { CategoriesDispatchContext } from "../contexts/categories";
 import { CardsDispatchContext } from "../contexts/cards";
 import { HistoryDispatchContext } from "../contexts/history";
-import type { HistoryChangeItem } from "./app.types";
+import type { HistoryChangeItem } from "../contexts/history.types";
 
 const messageClassNames = {
   none: "",

@@ -1,10 +1,9 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 
-import type { HistoryChangeItem } from "../components/app.types";
 import type { CategoryAction } from "./categories.types";
 import storage from "../storage";
 import { HistoryDispatchContext } from "./history";
-import type { HistoryAction } from "./history.types";
+import type { HistoryAction, HistoryChangeItem } from "./history.types";
 
 export const CategoriesContext = createContext<string[]>([]);
 export const CategoriesDispatchContext = createContext<

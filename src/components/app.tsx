@@ -2,11 +2,7 @@ import "./app.css";
 
 import { useState } from "react";
 
-import type {
-  BoardHistoryItem,
-  CardExtendedData,
-  ModalState,
-} from "./app.types";
+import type { CardExtendedData, ModalState } from "./app.types";
 
 import { CardsProvider } from "../contexts/cards";
 import { CategoriesProvider } from "../contexts/categories";
@@ -19,7 +15,10 @@ import NewCardButton from "./newCardButton";
 import ImportSection from "./importSection";
 import ThemeSelector from "./themeSelector";
 import { HistoryProvider } from "../contexts/history";
-import type { BoardHistoryWithIdx } from "../contexts/history.types";
+import type {
+  BoardHistoryItem,
+  BoardHistoryWithIdx,
+} from "../contexts/history.types";
 
 interface AppProps {
   initialCategories: string[];

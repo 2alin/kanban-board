@@ -4,11 +4,13 @@ import {
   type ActionDispatch,
   type PropsWithChildren,
 } from "react";
-import {
-  type BoardHistory,
-  type HistoryChangeItem,
-} from "../components/app.types";
-import type { BoardHistoryWithIdx, HistoryAction } from "./history.types";
+import {} from "../components/app.types";
+import type {
+  BoardHistory,
+  BoardHistoryWithIdx,
+  HistoryAction,
+  HistoryChangeItem,
+} from "./history.types";
 
 export const HistoryContext = createContext<BoardHistory>([]);
 export const HistoryIndexContext = createContext<number>(-1);

@@ -4,13 +4,12 @@ import type {
   CardBaseData,
   CardExtendedData,
   CardsMap,
-  HistoryChangeItem,
 } from "../components/app.types";
 import type { CardsAction } from "./cards.types";
 import { getRandomId } from "../utilities";
 import storage from "../storage";
 import { HistoryDispatchContext } from "./history";
-import type { HistoryAction } from "./history.types";
+import type { HistoryAction, HistoryChangeItem } from "./history.types";
 
 export const CardsContext = createContext<CardExtendedData[]>([]);
 export const CardsDispatchContext = createContext<

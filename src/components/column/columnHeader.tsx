@@ -6,13 +6,10 @@ import {
   CategoriesDispatchContext,
 } from "../../contexts/categories";
 import { CardsContext, CardsDispatchContext } from "../../contexts/cards";
-import type {
-  CardExtendedData,
-  HistoryChangeItem,
-  ModalState,
-} from "../app.types";
+import type { CardExtendedData, ModalState } from "../app.types";
 import CounterBadge from "./counterBadge";
 import { HistoryDispatchContext } from "../../contexts/history";
+import type { HistoryChangeItem } from "../../contexts/history.types";
 
 interface ColumnHeaderProps {
   title: string;
