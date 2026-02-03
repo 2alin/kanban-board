@@ -33,12 +33,14 @@ function renderBoard(columns: string[], cards: CardExtendedData[] = []) {
 
 describe("Board Component", () => {
   it("should create a new column ahead", async () => {
-    await renderBoard(["Test Column"]);
+    await renderBoard(["Test Column 1", "Test Column 2"]);
 
     const columns = page.getByRole("region", { name: "column" });
-    expect(columns.elements().length).toBe(1);
+    expect(columns.elements().length).toBe(2);
 
-    const columnMenuButton = page.getByRole("button", {
+    const firstColumn = columns.nth(0);
+
+    const columnMenuButton = firstColumn.getByRole("button", {
       name: "Column options menu",
     });
     await columnMenuButton.click();
@@ -48,22 +50,27 @@ describe("Board Component", () => {
     });
     await addColumnRightButton.click();
 
-    expect(columns.elements().length).toBe(2);
+    expect(columns.elements().length).toBe(3);
     await expect
-      .element(columns.nth(0).getByText("Test Column"))
+      .element(columns.nth(0).getByText("Test Column 1"))
       .toBeInTheDocument();
     await expect
       .element(columns.nth(1).getByText("New Column"))
       .toBeInTheDocument();
+    await expect
+      .element(columns.nth(2).getByText("Test Column 2"))
+      .toBeInTheDocument();
   });
 
   it("should create a new column behind", async () => {
-    await renderBoard(["Test Column"]);
+    await renderBoard(["Test Column 1", "Test Column 2"]);
 
     const columns = page.getByRole("region", { name: "column" });
-    expect(columns.elements().length).toBe(1);
+    expect(columns.elements().length).toBe(2);
 
-    const columnMenuButton = page.getByRole("button", {
+    const lastColumn = columns.nth(1);
+
+    const columnMenuButton = lastColumn.getByRole("button", {
       name: "Column options menu",
     });
     await columnMenuButton.click();
@@ -73,12 +80,15 @@ describe("Board Component", () => {
     });
     await addColumnRightButton.click();
 
-    expect(columns.elements().length).toBe(2);
+    expect(columns.elements().length).toBe(3);
     await expect
-      .element(columns.nth(0).getByText("New Column"))
+      .element(columns.nth(0).getByText("Test Column 1"))
       .toBeInTheDocument();
     await expect
-      .element(columns.nth(1).getByText("Test Column"))
+      .element(columns.nth(1).getByText("New Column"))
+      .toBeInTheDocument();
+    await expect
+      .element(columns.nth(2).getByText("Test Column 2"))
       .toBeInTheDocument();
   });
 
