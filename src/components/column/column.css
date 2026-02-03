@@ -121,3 +121,25 @@
   color: var(--theme-text-color);
   filter: opacity(0.5);
 }
+
+/* Collapse columns */
+.column.collapsed {
+  flex: auto;
+  flex-grow: 0;
+}
+
+.column.collapsed header {
+  flex-direction: column;
+  gap: 0.8rem;  
+}
+
+.column.collapsed .show.title {
+  writing-mode: vertical-lr;
+  width: auto;
+  margin: 0;
+}
+
+.column.collapsed .menu-component,
+.column.collapsed .card-list {
+  display: none;
+}
