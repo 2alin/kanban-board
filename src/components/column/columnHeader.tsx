@@ -124,7 +124,7 @@ export default function ColumnHeader({
           if (newColumnPosition === "right") {
             newColumnIdx = columnId + 1;
           } else if (newColumnPosition === "left") {
-            newColumnIdx = columnId - 1;
+            newColumnIdx = columnId;
           } else {
             console.error(
               "[add column] Unrecognized new column position: ",
