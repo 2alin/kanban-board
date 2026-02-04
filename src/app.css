@@ -9,6 +9,7 @@
 #board {
   align-self: stretch;
   display: flex;
+  justify-content: center;
   /* we may have too many columns */
   overflow: auto;
   margin: 1rem 0;
