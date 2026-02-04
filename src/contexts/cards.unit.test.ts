@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { toCardsMap, updateCard } from "./cards.tsx";
-import type { CardExtendedData } from "../components/app.types";
+import type { CardExtendedData } from "../app.types.ts";
 
 import { cards } from "../../test/data/board.ts";
 

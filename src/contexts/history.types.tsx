@@ -1,11 +1,12 @@
-import type { CardExtendedData } from "../components/app.types";
+import type { CardExtendedData, CategoryData } from "../app.types";
+
 
 /**
  * A categories change in history
  */
 export interface CategoriesHistoryChangeItem {
   type: "categories";
-  value: string[];
+  value: CategoryData[];
 }
 
 /**
@@ -22,7 +23,7 @@ export interface CardsHistoryChangeItem {
 export interface FullHistoryChangeItem {
   type: "board";
   value: {
-    categories: string[];
+    categories: CategoryData[];
     cards: CardExtendedData[];
   };
 }
@@ -39,7 +40,7 @@ export type HistoryChangeItem =
  * The state of the board in a specific time in history
  */
 export interface BoardHistoryItem {
-  categories: string[];
+  categories: CategoryData[];
   cards: CardExtendedData[];
 }
 

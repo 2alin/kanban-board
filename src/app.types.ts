@@ -1,4 +1,19 @@
 /**
+ * Data required to render a category in the board
+ */
+
+export interface CategoryData {
+  /**
+   * Whether the category should be displayed as collapsed or not
+   */
+  isCollapsed?: boolean;
+  /**
+   * The title that should be displayed for the category
+   */
+  title: string;
+}
+
+/**
  * Initial card data needed by the app
  */
 export interface CardBaseData {

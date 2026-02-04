@@ -2,26 +2,26 @@ import "./app.css";
 
 import { useState } from "react";
 
-import type { CardExtendedData, ModalState } from "./app.types";
+import type { CardExtendedData, CategoryData, ModalState } from "./app.types";
 
-import { CardsProvider } from "../contexts/cards";
-import { CategoriesProvider } from "../contexts/categories";
+import { CardsProvider } from "./contexts/cards";
+import { CategoriesProvider } from "./contexts/categories";
 
-import Board from "./board";
-import CardModal from "./cardModal";
-import ExportSection from "./exportSection";
-import { HistoryControls } from "./historyControls";
-import NewCardButton from "./newCardButton";
-import ImportSection from "./importSection";
-import ThemeSelector from "./themeSelector";
-import { HistoryProvider } from "../contexts/history";
+import Board from "./components/board";
+import CardModal from "./components/cardModal";
+import ExportSection from "./components/exportSection";
+import { HistoryControls } from "./components/historyControls";
+import NewCardButton from "./components/newCardButton";
+import ImportSection from "./components/importSection";
+import ThemeSelector from "./components/themeSelector";
+import { HistoryProvider } from "./contexts/history";
 import type {
   BoardHistoryItem,
   BoardHistoryWithIdx,
-} from "../contexts/history.types";
+} from "./contexts/history.types";
 
 interface AppProps {
-  initialCategories: string[];
+  initialCategories: CategoryData[];
   initialCards: CardExtendedData[];
   handleThemeChange: React.MouseEventHandler;
 }

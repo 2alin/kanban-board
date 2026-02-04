@@ -1,17 +1,18 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
+import storage from "../storage";
 
 import type { CategoryAction } from "./categories.types";
-import storage from "../storage";
 import { HistoryDispatchContext } from "./history";
 import type { HistoryAction, HistoryChangeItem } from "./history.types";
+import type { CategoryData } from "../app.types";
 
-export const CategoriesContext = createContext<string[]>([]);
+export const CategoriesContext = createContext<CategoryData[]>([]);
 export const CategoriesDispatchContext = createContext<
   React.ActionDispatch<[action: CategoryAction]>
 >(() => {});
 
 interface CategoriesProviderProps {
-  initialCategories: string[];
+  initialCategories: CategoryData[];
 }
 
 export function CategoriesProvider({
@@ -33,7 +34,10 @@ export function CategoriesProvider({
       return;
     }
 
-    boardData.categories = [...categories];
+    boardData.categories = categories.map((category) => ({
+      isCollapsed: category.isCollapsed || false,
+      title: category.title,
+    }));
     storage.board.set(boardData);
   }, [categories]);
 
@@ -55,29 +59,33 @@ export function CategoriesProvider({
  * @returns The new categories after the action executed
  */
 function categoriesReducer(
-  categories: string[],
+  categories: CategoryData[],
   action: CategoryAction,
   historyDispatch: React.ActionDispatch<[action: HistoryAction]>,
-): string[] {
-  let newCategories: string[] = [];
+): CategoryData[] {
+  let newCategories: CategoryData[] = [];
 
   switch (action.type) {
     case "set":
-      newCategories = [...action.categories];
+      newCategories = structuredClone(action.categories);
       break;
     case "rename":
-      newCategories = [...categories];
-      newCategories[action.id] = action.value.trim();
+      newCategories = structuredClone(categories);
+      newCategories[action.id].title = action.value.trim();
+      break;
+    case "collapse":
+      newCategories = structuredClone(categories);
+      newCategories[action.id].isCollapsed = action.value;
       break;
     default:
-      newCategories = [...categories];
+      newCategories = structuredClone(categories);
   }
 
   const { addToHistory } = action;
   if (addToHistory) {
     const changeItem: HistoryChangeItem = {
       type: "categories",
-      value: [...newCategories],
+      value: structuredClone(newCategories),
     };
     // Update history after context render
     setTimeout(() => historyDispatch({ type: "add", changeItem }), 0);

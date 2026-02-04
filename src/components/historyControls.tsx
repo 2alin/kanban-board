@@ -12,6 +12,8 @@ import {
 } from "../contexts/history";
 import type { BoardHistoryItem } from "../contexts/history.types";
 
+import IconButton from "./shared/iconButton";
+
 export function HistoryControls() {
   const boardHistory = useContext(HistoryContext);
   const historyIdx = useContext(HistoryIndexContext);
@@ -85,22 +87,18 @@ export function HistoryControls() {
 
   return (
     <div className="history-controls">
-      <button
-        className="undo icon"
-        aria-description="Undo board history"
+      <IconButton
+        label="Undo board history"
+        className="undo"
         onClick={undoBoardState}
         disabled={historyIdx <= 0}
-      >
-        <span className="icon-img"></span>
-      </button>
-      <button
-        className="redo icon"
-        aria-description="Redo board history"
+      />
+      <IconButton
+        className="redo"
+        label="Redo board history"
         onClick={redoBoardState}
         disabled={historyIdx >= boardHistory.length - 1}
-      >
-        <span className="icon-img"></span>
-      </button>
+      />
     </div>
   );
 }

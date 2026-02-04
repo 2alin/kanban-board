@@ -6,7 +6,7 @@
   background-color: var(--theme-bg-color);
 }
 
-@media screen and (width <= 780px) {
+@media screen and (width <= 580px) {
   .modal {
     width: 100%;
     --modal-padding: 0.5rem;
@@ -21,7 +21,7 @@
   border-radius: 0.5rem;
 }
 
-@media screen and (width <= 780px) {
+@media screen and (width <= 580px) {
   .modal .form-container {
     width: auto;
   }
@@ -39,7 +39,7 @@
   gap: 1rem;
 }
 
-@media screen and (width <= 780px) {
+@media screen and (width <= 580px) {
   .modal form {
     gap: 0.5rem;
   }
@@ -59,7 +59,7 @@
   font-weight: 400;
 }
 
-@media screen and (width <= 780px) {
+@media screen and (width <= 580px) {
   .modal form {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, auto);

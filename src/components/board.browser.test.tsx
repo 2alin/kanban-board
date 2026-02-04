@@ -1,12 +1,15 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { page } from "vitest/browser";
+
 import Board from "./board";
+import storage from "../storage";
+
 import { CategoriesProvider } from "../contexts/categories";
 import { CardsProvider } from "../contexts/cards";
-import type { CardExtendedData } from "./app.types";
+
+import type { CardExtendedData, CategoryData } from "../app.types";
 import { cards } from "../../test/data/board";
-import storage from "../storage";
 
 vi.spyOn(storage.board, "get").mockImplementation(() => null);
 vi.spyOn(storage.board, "set").mockImplementation(() => true);
@@ -15,9 +18,11 @@ vi.spyOn(storage.board.entries, "set").mockImplementation(() => true);
 const cardFirstColumn = cards[0];
 const cardsSecondColumn = [cards[1], cards[2]];
 
-function renderBoard(columns: string[], cards: CardExtendedData[] = []) {
+function renderBoard(columnTitles: string[], cards: CardExtendedData[] = []) {
+  const categories: CategoryData[] = columnTitles.map((title) => ({ title }));
+
   return render(
-    <CategoriesProvider initialCategories={columns}>
+    <CategoriesProvider initialCategories={categories}>
       <CardsProvider initialCards={cards}>
         <Board
           {...{

@@ -1,10 +1,9 @@
-import { defaultBoardData, themes } from "./defaultSettings";
-import type { BoardData_v01 } from "./storage.old.types";
-import type { BoardData, CardEntry } from "./storage.types";
-import { hasPropertyPrimitiveTypes } from "./utilities";
+import { defaultBoardData } from "../defaultSettings";
+import type { BoardData_v02 } from "./board.old.types";
+import type { BoardData, CardEntry, CategoryEntry } from "./board.types";
+import { hasPropertyPrimitiveTypes } from "../utilities";
 
 const localStorageKey = "boardData";
-const themeStorageKey = "theme";
 
 /**
  * Checks if a candidate is of Card Entry type
@@ -17,6 +16,29 @@ function isCardEntry(candidate: unknown): candidate is CardEntry {
     { name: "categoryIdx", type: "number" },
     { name: "title", type: "string" },
     { name: "orderInCategory", type: "number" },
+  ];
+
+  if (
+    typeof candidate !== "object" ||
+    candidate === null ||
+    !hasPropertyPrimitiveTypes(candidate, propertyPrimitives)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Checks if a candidate is of Category type
+ *
+ * @param candidate The candidate to check
+ * @returns Whether a candidate is of Catetory type or not
+ */
+function isCategoryEntry(candidate: unknown): candidate is CategoryEntry {
+  const propertyPrimitives = [
+    { name: "isCollapsed", type: "boolean" },
+    { name: "title", type: "string" },
   ];
 
   if (
@@ -52,8 +74,8 @@ function isBoardData(candidate: unknown): candidate is BoardData {
     return false;
   }
   for (const category of candidate.categories) {
-    if (typeof category !== "string") {
-      console.error("Category is not of type 'string'");
+    if (!isCategoryEntry(category)) {
+      console.error("Entry is not of type 'CategoryEntry'");
       return false;
     }
   }
@@ -75,38 +97,27 @@ function isBoardData(candidate: unknown): candidate is BoardData {
 /**
  * Historically board data types
  */
-type AnyVersionBoardData = BoardData | BoardData_v01;
+type AnyVersionBoardData = BoardData | BoardData_v02;
 
 /**
- * Migrates board data from v0.1 to v0.2
+ * Migrates board data from v0.2 to v0.3
  *
- * @param oldBoardData Board data v0.1
- * @returns A converted board data v0.2
+ * @param oldBoardData Board data v0.2
+ * @returns A converted board data v0.3
  */
-function migrateDataV01toV02(oldBoardData: BoardData_v01): BoardData {
-  const newBoardData = JSON.parse(JSON.stringify(oldBoardData));
+function migrateDataV02toV03(oldBoardData: BoardData_v02): BoardData {
+  const newCategories: CategoryEntry[] = oldBoardData.categories.map(
+    (value) => ({
+      isCollapsed: false,
+      title: value,
+    }),
+  );
 
-  const newEntries: CardEntry[] = oldBoardData.entries.map((entry) => {
-    let newCategoryIdx = oldBoardData.categories.findIndex(
-      (category) => category === entry.category
-    );
-    // if no category found we will assign the entry to the first category
-    if (newCategoryIdx < 0 && oldBoardData.categories.length) {
-      newCategoryIdx = 0;
-    }
-
-    const newEntry = {
-      categoryIdx: newCategoryIdx,
-      title: entry.title,
-      description: entry.description,
-      orderInCategory: entry.categoryIdx,
-    };
-
-    return newEntry;
-  });
-
-  newBoardData.entries = newEntries;
-  newBoardData.version = "0.2";
+  const newBoardData: BoardData = {
+    entries: structuredClone(oldBoardData.entries),
+    categories: newCategories,
+    version: "0.3",
+  };
 
   return newBoardData;
 }
@@ -118,9 +129,9 @@ export function migrateData(boardData: AnyVersionBoardData): BoardData {
   let newBoardData = JSON.parse(JSON.stringify(boardData));
 
   // ---------------------------
-  // migrating from v0.1 to v0.2
-  if (newBoardData.version === "0.1") {
-    newBoardData = migrateDataV01toV02(newBoardData as BoardData_v01);
+  // migrating from v0.2 to v0.3
+  if (newBoardData.version === "0.2") {
+    newBoardData = migrateDataV02toV03(newBoardData as BoardData_v02);
   }
 
   if (!isBoardData(newBoardData)) {
@@ -159,7 +170,7 @@ function getBoardData(): BoardData | null {
   } catch (error) {
     console.error(
       "[storage.board.get] Couldn't get the stored board data",
-      error
+      error,
     );
     // there's possibilities that the data stored can't be parsed
     // fall back to a safe value that can be used for initialization
@@ -236,58 +247,10 @@ function setCardEntries(cardEntries: CardEntry[]) {
   return true;
 }
 
-/**
- * Gets the theme locally stored
- *
- * @returns The theme locally stored
- */
-function getTheme(): string | null {
-  let storedTheme;
-
-  try {
-    storedTheme = localStorage.getItem(themeStorageKey);
-  } catch (error) {
-    console.error(
-      "[storage.theme.get] Couldn't retrieve the stored theme",
-      error
-    );
-    storedTheme = null;
-  }
-
-  return storedTheme;
-}
-
-/**
- * Stores the theme in local storage
- *
- * @param theme The theme to store
- * @returns Wheter the theme was successfully stored or not
- */
-function setTheme(theme: string): boolean {
-  try {
-    if (!themes.includes(theme)) {
-      throw new Error("Theme value received is not supported");
-    }
-
-    localStorage.setItem(themeStorageKey, theme);
-  } catch (error) {
-    console.error("[storage.theme.set] Couldn't store the theme", error);
-    return false;
-  }
-
-  return true;
-}
-
 export default {
-  board: {
-    get: getBoardData,
-    set: setBoardData,
-    entries: {
-      set: setCardEntries,
-    },
-  },
-  theme: {
-    get: getTheme,
-    set: setTheme,
+  get: getBoardData,
+  set: setBoardData,
+  entries: {
+    set: setCardEntries,
   },
 };

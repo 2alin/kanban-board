@@ -2,6 +2,7 @@
   flex-grow: 1;
   flex-shrink: 0;
   flex-basis: 420px;
+  max-width: 580px;
   margin-left: 1.75rem;
   background-color: var(--theme-section-bg-color);
   color: var(--theme-section-text-color);
@@ -14,7 +15,7 @@
   margin-left: 0rem;
 }
 
-@media screen and (width <= 780px) {
+@media screen and (width <= 580px) {
   .column {
     flex: auto;
     margin-left: 0;
@@ -55,6 +56,10 @@
   --background-menu-list: var(--theme-cta-bold-bg-color);
   color: var(--theme-text-color);
   overflow: hidden;
+}
+
+.column > header .menu-component .option button {
+  text-transform: capitalize;
 }
 
 .column > header .edit.form {
@@ -120,4 +125,50 @@
   background-color: var(--theme-main-color);
   color: var(--theme-text-color);
   filter: opacity(0.5);
+}
+
+/* ----------------- */
+/* Collapsed columns */
+
+.column.collapsed button.expand {
+  --button-size: 1.5rem;
+  background-color: var(--theme-section-bg-color);
+  order: 1;
+}
+
+.column.collapsed button.expand .icon-img {
+  mask-image: url("/icons/expand.svg");
+  background-color: var(--theme-section-text-color);
+}
+
+.column.collapsed .menu-component,
+.column.collapsed .card-list {
+  display: none;
+}
+
+.column.column.collapsed {
+  min-height: auto;
+}
+
+@media screen and (width > 580px) {
+  .column.collapsed {
+    flex-grow: 0;
+    flex-basis: auto;
+  }
+
+  .column.collapsed header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.05rem;
+  }
+
+  .column.collapsed button.expand {
+    order: 0;
+  }
+
+  .column.collapsed .show.title {
+    writing-mode: vertical-lr;
+    width: auto;
+    margin: 0;
+  }
 }

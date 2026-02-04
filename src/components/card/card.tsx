@@ -5,9 +5,10 @@ import { useContext } from "react";
 import { CardsDispatchContext } from "../../contexts/cards";
 import { CategoriesContext } from "../../contexts/categories";
 
-import type { CardDragState, CardExtendedData, ModalState } from "../app.types";
+import type { CardDragState, CardExtendedData, ModalState } from "../../app.types";
 import CategorySelector from "../shared/categorySelector";
 import RichText from "./richText";
+import IconButton from "../shared/iconButton";
 
 interface CardProp {
   cardData: CardExtendedData;
@@ -123,14 +124,12 @@ export default function Card({ cardData, handlers }: CardProp) {
     <section className="card" data-title={title}>
       <header>
         <h3 className="title">{title}</h3>
-        <button
-          className="drag icon"
+        <IconButton
+          label="Drag card"
+          className="drag"
           onDragStart={handleDragStart}
           draggable={true}
-          aria-description="drags the card to a new position in the board"
-        >
-          <span className="icon-img"></span>
-        </button>
+        />
       </header>
       <div className="description">
         <RichText text={description} />
@@ -142,50 +141,35 @@ export default function Card({ cardData, handlers }: CardProp) {
           onChange={handleCategoryChange}
         />
         <div className="buttons middle container">
-          <button
-            className="move-top icon"
-            aria-description="move card to the top"
+          <IconButton
+            label="move card to top of column"
+            className="move-top"
             onClick={() => moveCard("top")}
-          >
-            <span className="icon-img"></span>
-          </button>
-          <button
-            className="move-up icon"
-            aria-description="move card upwards"
+          />
+          <IconButton
+            label="move card upwards"
+            className="move-up"
             onClick={() => moveCard("up")}
-          >
-            <span className="icon-img"></span>
-          </button>
-          <button
-            className="move-down icon"
-            aria-description="move card downwards"
+          />
+          <IconButton
+            label="move card downwards"
+            className="move-down"
             onClick={() => moveCard("down")}
-          >
-            <span className="icon-img"></span>
-          </button>
-          <button
-            className="move-bottom icon"
-            aria-description="move card to the bottom"
+          />
+
+          <IconButton
+            label="move card to bottom of column"
+            className="move-bottom"
             onClick={() => moveCard("bottom")}
-          >
-            <span className="icon-img"></span>
-          </button>
+          />
         </div>
         <div className="buttons right container">
-          <button
-            className="edit icon"
-            aria-description="edits card"
-            onClick={handleEdit}
-          >
-            <span className="icon-img"></span>
-          </button>
-          <button
-            className="delete icon"
-            aria-description="deletes card"
+          <IconButton label="edit card" className="edit" onClick={handleEdit} />
+          <IconButton
+            label="delete card"
+            className="delete"
             onClick={handleDelete}
-          >
-            <span className="icon-img"></span>
-          </button>
+          />
         </div>
       </footer>
     </section>

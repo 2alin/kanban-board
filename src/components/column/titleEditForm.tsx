@@ -1,3 +1,5 @@
+import IconButton from "../shared/iconButton";
+
 interface TitleEditProps {
   defaultValue: string;
   handleSubmit: (value: string) => void;
@@ -27,20 +29,17 @@ export default function TitleEditForm({
         defaultValue={defaultValue}
         aria-label="Column title"
       />
-      <button
-        className="icon submit"
-        aria-label="submit title edition"
+
+      <IconButton
+        label="submit title edition"
+        className="submit"
         type="submit"
-      >
-        <span className="icon-img" />
-      </button>
-      <button
+      />
+      <IconButton
+        label="cancel title edition"
         className="icon cancel"
-        aria-label="cancel title edition"
         formAction={handleCancel}
-      >
-        <span className="icon-img" />
-      </button>
+      />
     </form>
   );
 }

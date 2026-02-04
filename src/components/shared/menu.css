@@ -3,6 +3,21 @@
   flex-direction: column;
 }
 
+.menu-component button.icon {
+  width: var(--button-size);
+  height: var(--button-size);
+  border: 0;
+  padding: 0;
+  display: flex;
+}
+
+.menu-component button.icon .icon-img {
+  width: 100%;
+  height: 100%;
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+}
+
 .menu-component .options.container {
   position: relative;
 }

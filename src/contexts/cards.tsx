@@ -1,13 +1,9 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 
-import type {
-  CardBaseData,
-  CardExtendedData,
-  CardsMap,
-} from "../components/app.types";
+import type { CardBaseData, CardExtendedData, CardsMap } from "../app.types";
 import type { CardsAction } from "./cards.types";
-import { getRandomId } from "../utilities";
 import storage from "../storage";
+import { getRandomId } from "../utilities";
 import { HistoryDispatchContext } from "./history";
 import type { HistoryAction, HistoryChangeItem } from "./history.types";
 
