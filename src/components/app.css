@@ -14,7 +14,7 @@
   margin: 1rem 0;
 }
 
-@media screen and (width <= 780px) {
+@media screen and (width <= 580px) {
   #root {
     margin: 0;
   }

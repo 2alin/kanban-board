@@ -15,7 +15,7 @@
   margin-left: 0rem;
 }
 
-@media screen and (width <= 780px) {
+@media screen and (width <= 580px) {
   .column {
     flex: auto;
     margin-left: 0;
