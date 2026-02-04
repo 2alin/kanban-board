@@ -2,7 +2,7 @@ import "./menu.css";
 
 import React, { useEffect, useId, useRef, useState } from "react";
 
-interface Option {
+export interface Option {
   key: string;
   text: string;
   handler: (event: React.MouseEvent) => void;
@@ -95,7 +95,7 @@ export default function Menu({
 
     const buttons = optionsList.querySelectorAll(".option button");
     const currentFocusIdx = [...buttons].findIndex(
-      (button) => button === activeElement
+      (button) => button === activeElement,
     );
 
     const nextFocusIdx = (currentFocusIdx + 1) % buttons.length;
@@ -121,7 +121,7 @@ export default function Menu({
 
     const buttons = optionsList.querySelectorAll(".option button");
     const currentFocusIdx = [...buttons].findIndex(
-      (button) => button === activeElement
+      (button) => button === activeElement,
     );
 
     const prevFocusIdx =

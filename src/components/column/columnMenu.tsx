@@ -4,7 +4,7 @@ import {
   CategoriesDispatchContext,
 } from "../../contexts/categories";
 import { HistoryDispatchContext } from "../../contexts/history";
-import Menu from "../shared/menu";
+import Menu, { type Option as MenuOption } from "../shared/menu";
 import { CardsContext, CardsDispatchContext } from "../../contexts/cards";
 import type { CardExtendedData, ModalState } from "../app.types";
 import type { HistoryChangeItem } from "../../contexts/history.types";
@@ -35,46 +35,111 @@ export default function ColumnMenu({
    *
    * @returns An options object
    */
-  function getMenuOptions() {
-    const options = [
+  function getMenuOptions(): MenuOption[] {
+    const baseOptions = [
       {
         key: "collapse-column",
         text: "Minimize column",
-        handler: handleMenuClick
       },
       {
         key: "edit-column-name",
         text: "Edit column title",
-        handler: handleMenuClick,
       },
       {
-        key: "add-column-right",
+        key: "add-column-ahead",
         text: "Add column ahead",
-        handler: handleMenuClick,
       },
       {
-        key: "add-column-left",
+        key: "add-column-behind",
         text: "Add column behind",
-        handler: handleMenuClick,
       },
     ];
 
     // we shouldn't allow removal columns if there's only one column left
     if (categories.length >= 2) {
-      options.push({
+      baseOptions.push({
         key: "remove-column",
         text: "Remove column",
-        handler: handleMenuClick,
       });
     }
 
-    options.push({
+    baseOptions.push({
       key: "add-card",
       text: "Add card",
-      handler: handleMenuClick,
     });
 
+    const options: MenuOption[] = baseOptions.map((option) => ({
+      ...option,
+      handler: handleMenuClick,
+    }));
+
     return options;
+  }
+
+  /**
+   * Adds a new column in the position given
+   *
+   * @param position The position for the new column.
+   *        Supported values are "ahead" and "behind"
+   */
+  function addColumn(position: string) {
+    // by default new column position will match old column
+    let newColumnIdx: number = columnId;
+
+    if (position === "ahead") {
+      newColumnIdx = columnId + 1;
+    }
+
+    if (newColumnIdx < 0) {
+      // minimum index should be zero
+      newColumnIdx = 0;
+    } else if (newColumnIdx > categories.length) {
+      // maximum index should be a unit increment on the current list of columns
+      newColumnIdx = categories.length;
+    }
+
+    const newColumnTitle = "New Column";
+    const newCategories = [...categories];
+    newCategories.splice(newColumnIdx, 0, newColumnTitle);
+    categoriesDispatch({
+      type: "set",
+      categories: newCategories,
+    });
+
+    if (newColumnIdx < categories.length && boardCards.length > 0) {
+      // updating cards that are affected by column changes
+      const newBoardCards: CardExtendedData[] = boardCards.map((card) => {
+        const newCard = structuredClone(card);
+
+        if (newCard.categoryIdx >= newColumnIdx) {
+          newCard.categoryIdx++;
+        }
+
+        return newCard;
+      });
+      cardsDispatch({
+        type: "set",
+        cards: newBoardCards,
+      });
+
+      // registering board history changes
+      const historyChangeItem: HistoryChangeItem = {
+        type: "board",
+        value: {
+          categories: structuredClone(newCategories),
+          cards: structuredClone(newBoardCards),
+        },
+      };
+      historyDispatch({ type: "add", changeItem: historyChangeItem });
+    } else {
+      // no need to update cards if there was no affected ones
+      // but we sill need to register board history changes
+      const historyChangeItem: HistoryChangeItem = {
+        type: "categories",
+        value: structuredClone(newCategories),
+      };
+      historyDispatch({ type: "add", changeItem: historyChangeItem });
+    }
   }
 
   /**
@@ -115,76 +180,11 @@ export default function ColumnMenu({
         });
 
         break;
-      case "add-column-right":
-      case "add-column-left":
-        {
-          // position is "right" or "left"
-          const newColumnPosition = key.replace("add-column-", "");
-          let newColumnIdx: number;
-
-          if (newColumnPosition === "right") {
-            newColumnIdx = columnId + 1;
-          } else if (newColumnPosition === "left") {
-            newColumnIdx = columnId;
-          } else {
-            console.error(
-              "[add column] Unrecognized new column position: ",
-              newColumnPosition,
-            );
-            break;
-          }
-
-          if (newColumnIdx < 0) {
-            // minimum index should be zero
-            newColumnIdx = 0;
-          } else if (newColumnIdx > categories.length) {
-            // maximum index should be a unit increment on the current list of columns
-            newColumnIdx = categories.length;
-          }
-
-          const newColumnTitle = "New Column";
-          const newCategories = [...categories];
-          newCategories.splice(newColumnIdx, 0, newColumnTitle);
-          categoriesDispatch({
-            type: "set",
-            categories: newCategories,
-          });
-
-          if (newColumnIdx < categories.length && boardCards.length > 0) {
-            // updating cards that are affected by column changes
-            const newBoardCards: CardExtendedData[] = boardCards.map((card) => {
-              const newCard = structuredClone(card);
-
-              if (newCard.categoryIdx >= newColumnIdx) {
-                newCard.categoryIdx++;
-              }
-
-              return newCard;
-            });
-            cardsDispatch({
-              type: "set",
-              cards: newBoardCards,
-            });
-
-            // registering board history changes
-            const historyChangeItem: HistoryChangeItem = {
-              type: "board",
-              value: {
-                categories: structuredClone(newCategories),
-                cards: structuredClone(newBoardCards),
-              },
-            };
-            historyDispatch({ type: "add", changeItem: historyChangeItem });
-          } else {
-            // no need to update cards if there was no affected ones
-            // but we sill need to register board history changes
-            const historyChangeItem: HistoryChangeItem = {
-              type: "categories",
-              value: structuredClone(newCategories),
-            };
-            historyDispatch({ type: "add", changeItem: historyChangeItem });
-          }
-        }
+      case "add-column-ahead":
+      case "add-column-behind":
+        // position is "ahead" or "behind"
+        const newColumnPosition = key.replace("add-column-", "");
+        addColumn(newColumnPosition);
         break;
       case "remove-column":
         {
