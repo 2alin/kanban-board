@@ -1,41 +1,17 @@
 import "./iconButton.css";
 
-import type { DragEventHandler, MouseEventHandler } from "react";
+import type { ButtonHTMLAttributes } from "react";
 
-interface IconButtonProps {
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
-  id?: string;
-  className?: string;
-  type?: "submit" | "reset" | "button" | undefined;
-  disabled?: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  formAction?: (formData: FormData) => void | Promise<void>;
-  draggable?: boolean;
-  onDragStart?: DragEventHandler<HTMLButtonElement>;
 }
 
-export default function IconButton({
-  label,
-  id,
-  className,
-  type,
-  disabled,
-  onClick,
-  formAction,
-  draggable,
-  onDragStart,
-}: IconButtonProps) {
+export default function IconButton(props: IconButtonProps) {
   return (
     <button
-      aria-label={label}
-      id={id}
-      className={`icon ${className}`}
-      type={type}
-      disabled={disabled}
-      onClick={onClick}
-      formAction={formAction}
-      draggable={draggable}
-      onDragStart={onDragStart}
+      {...props}
+      className={`icon ${props.className}`}
+      aria-label={props.label}
     >
       <span className="icon-img"></span>
     </button>
