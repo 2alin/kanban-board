@@ -1,10 +1,9 @@
-import { defaultBoardData, themes } from "./defaultSettings";
-import type { BoardData_v02 } from "./storage.old.types";
-import type { BoardData, CardEntry, CategoryEntry } from "./storage.types";
-import { hasPropertyPrimitiveTypes } from "./utilities";
+import { defaultBoardData } from "../defaultSettings";
+import type { BoardData_v02 } from "./board.old.types";
+import type { BoardData, CardEntry, CategoryEntry } from "./board.types";
+import { hasPropertyPrimitiveTypes } from "../utilities";
 
 const localStorageKey = "boardData";
-const themeStorageKey = "theme";
 
 /**
  * Checks if a candidate is of Card Entry type
@@ -107,10 +106,12 @@ type AnyVersionBoardData = BoardData | BoardData_v02;
  * @returns A converted board data v0.3
  */
 function migrateDataV02toV03(oldBoardData: BoardData_v02): BoardData {
-  const newCategories: CategoryEntry[] = oldBoardData.categories.map((value) => ({
-    isCollapsed: false,
-    title: value,
-  }));
+  const newCategories: CategoryEntry[] = oldBoardData.categories.map(
+    (value) => ({
+      isCollapsed: false,
+      title: value,
+    }),
+  );
 
   const newBoardData: BoardData = {
     entries: structuredClone(oldBoardData.entries),
@@ -246,58 +247,10 @@ function setCardEntries(cardEntries: CardEntry[]) {
   return true;
 }
 
-/**
- * Gets the theme locally stored
- *
- * @returns The theme locally stored
- */
-function getTheme(): string | null {
-  let storedTheme;
-
-  try {
-    storedTheme = localStorage.getItem(themeStorageKey);
-  } catch (error) {
-    console.error(
-      "[storage.theme.get] Couldn't retrieve the stored theme",
-      error,
-    );
-    storedTheme = null;
-  }
-
-  return storedTheme;
-}
-
-/**
- * Stores the theme in local storage
- *
- * @param theme The theme to store
- * @returns Wheter the theme was successfully stored or not
- */
-function setTheme(theme: string): boolean {
-  try {
-    if (!themes.includes(theme)) {
-      throw new Error("Theme value received is not supported");
-    }
-
-    localStorage.setItem(themeStorageKey, theme);
-  } catch (error) {
-    console.error("[storage.theme.set] Couldn't store the theme", error);
-    return false;
-  }
-
-  return true;
-}
-
 export default {
-  board: {
-    get: getBoardData,
-    set: setBoardData,
-    entries: {
-      set: setCardEntries,
-    },
-  },
-  theme: {
-    get: getTheme,
-    set: setTheme,
+  get: getBoardData,
+  set: setBoardData,
+  entries: {
+    set: setCardEntries,
   },
 };

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
+import storage from "../storage";
 
 import type { CategoryAction } from "./categories.types";
-import storage from "../storage";
 import { HistoryDispatchContext } from "./history";
 import type { HistoryAction, HistoryChangeItem } from "./history.types";
 import type { CategoryData } from "../app.types";

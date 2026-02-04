@@ -2,10 +2,10 @@ import { createRoot } from "react-dom/client";
 
 import { defaultBoardData, defaultTheme, themes } from "./defaultSettings";
 import storage from "./storage";
+import type { BoardData } from "./storage/board.types";
 import { getRandomId } from "./utilities";
 
 import App from "./app";
-import type { BoardData } from "./storage.types";
 import type { CardExtendedData, CategoryData } from "./app.types";
 
 function handleThemeChange(event: React.MouseEvent) {

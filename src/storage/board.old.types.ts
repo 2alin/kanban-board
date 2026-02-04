@@ -1,4 +1,4 @@
-import type { CardEntry } from "./storage.types";
+import type { CardEntry } from "./board.types";
 
 /**
  * Persistant board data for storage v0.2

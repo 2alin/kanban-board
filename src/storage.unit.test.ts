@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import type { BoardData_v02 } from "./storage.old.types";
-import type { BoardData } from "./storage.types";
-import { migrateData } from "./storage";
+import type { BoardData_v02 } from "./storage/board.old.types";
+import type { BoardData } from "./storage/board.types";
+import { migrateData } from "./storage/board";
 
 const boardDataV02: BoardData_v02 = {
   version: "0.2",
@@ -62,7 +62,6 @@ const boardDataV03: BoardData = {
 describe("migrateData", () => {
   it("should convert to the expected data object", () => {
     const newBoardData = migrateData(boardDataV02);
-
 
     // expect(newBoardData).toEqual(boardDataV03);
     expect(newBoardData).toStrictEqual(boardDataV03);

@@ -1,4 +1,5 @@
-import type { BoardData } from "./storage.types";
+import type { BoardData } from "./storage/board.types";
+
 
 /**
  * Valid theme values
