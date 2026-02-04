@@ -73,6 +73,10 @@ function categoriesReducer(
       newCategories = structuredClone(categories);
       newCategories[action.id].title = action.value.trim();
       break;
+    case "collapse":
+      newCategories = structuredClone(categories);
+      newCategories[action.id].isCollapsed = action.value;
+      break;
     default:
       newCategories = structuredClone(categories);
   }

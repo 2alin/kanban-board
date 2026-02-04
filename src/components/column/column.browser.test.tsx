@@ -13,6 +13,7 @@ function renderColumn(cards: CardExtendedData[]) {
     <Column
       columnId={columnId}
       title={columnTitle}
+      isCollapsed={false}
       cards={cards}
       {...{
         cardDragState: null,

@@ -4,12 +4,15 @@ import {
   useContext,
   useId,
   useRef,
-  useState,
   type Dispatch,
   type SetStateAction,
 } from "react";
 
-import type { CardDragState, CardExtendedData, ModalState } from "../../app.types";
+import type {
+  CardDragState,
+  CardExtendedData,
+  ModalState,
+} from "../../app.types";
 import Card from "../card";
 import { CardsDispatchContext } from "../../contexts/cards";
 import ColumnHeader from "./columnHeader";
@@ -17,6 +20,7 @@ import ColumnHeader from "./columnHeader";
 interface ColumnProps {
   columnId: number;
   title: string;
+  isCollapsed: boolean;
   cards: CardExtendedData[];
   cardDragState: CardDragState;
   setCardDragState: Dispatch<SetStateAction<CardDragState>>;
@@ -26,14 +30,13 @@ interface ColumnProps {
 export default function Column({
   columnId,
   title,
+  isCollapsed,
   cards,
   cardDragState,
   setCardDragState,
   setModalState,
 }: ColumnProps) {
   const cardsDispatch = useContext(CardsDispatchContext);
-
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const columnRef = useRef<HTMLElement>(null);
   const headerId = useId();
@@ -118,7 +121,6 @@ export default function Column({
           columnId,
           columnRef,
           isCollapsed,
-          setIsCollapsed,
           setModalState,
         }}
         cardsAmount={cards.length}

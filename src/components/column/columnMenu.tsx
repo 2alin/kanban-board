@@ -13,7 +13,6 @@ interface ColumnMenuProps {
   columnId: number;
   columnRef: React.RefObject<HTMLElement | null>;
   setIsTitleEdit: Dispatch<SetStateAction<boolean>>;
-  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
   setModalState: Dispatch<SetStateAction<ModalState>>;
 }
 
@@ -21,7 +20,6 @@ export default function ColumnMenu({
   columnId,
   columnRef,
   setIsTitleEdit,
-  setIsCollapsed,
   setModalState,
 }: ColumnMenuProps) {
   const historyDispatch = useContext(HistoryDispatchContext);
@@ -161,7 +159,12 @@ export default function ColumnMenu({
 
     switch (key) {
       case "collapse-column":
-        setIsCollapsed(true);
+        categoriesDispatch({
+          type: "collapse",
+          id: columnId,
+          value: true,
+          addToHistory: true,
+        });
         break;
       case "edit-column-name":
         setIsTitleEdit(true);

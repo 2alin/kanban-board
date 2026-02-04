@@ -34,4 +34,23 @@ interface RenameAction {
   addToHistory?: boolean;
 }
 
-export type CategoryAction = SetAction | RenameAction;
+/**
+ * Categories dispatch action to change collapse state
+ */
+interface CollapseAction {
+  type: "collapse";
+  /**
+   * The Id of the category to change its collapse state
+   */
+  id: number;
+  /**
+   * The new collapse state for the category
+   */
+  value: boolean;
+  /**
+   * Whether the new state of categories should be added to history or not
+   */
+  addToHistory?: boolean;
+}
+
+export type CategoryAction = SetAction | RenameAction | CollapseAction;

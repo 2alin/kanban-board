@@ -20,7 +20,6 @@ interface ColumnHeaderProps {
   columnRef: RefObject<HTMLElement | null>;
   cardsAmount: number;
   isCollapsed: boolean;
-  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
   setModalState: Dispatch<SetStateAction<ModalState>>;
 }
 
@@ -31,7 +30,6 @@ export default function ColumnHeader({
   columnRef,
   cardsAmount,
   isCollapsed,
-  setIsCollapsed,
   setModalState,
 }: ColumnHeaderProps) {
   const categoriesDispatch = useContext(CategoriesDispatchContext);
@@ -62,7 +60,14 @@ export default function ColumnHeader({
             <IconButton
               label="Expand column"
               className="expand"
-              onClick={() => setIsCollapsed(false)}
+              onClick={() =>
+                categoriesDispatch({
+                  type: "collapse",
+                  id: columnId,
+                  value: false,
+                  addToHistory: true,
+                })
+              }
             />
           )}
           <CounterBadge amount={cardsAmount} />
@@ -74,7 +79,6 @@ export default function ColumnHeader({
               columnId,
               columnRef,
               setIsTitleEdit,
-              setIsCollapsed,
               setModalState,
             }}
           />

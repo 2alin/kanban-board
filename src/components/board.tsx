@@ -41,6 +41,7 @@ export default function Board({
           <Column
             key={index}
             columnId={index}
+            isCollapsed={category.isCollapsed || false}
             title={category.title}
             cards={cardsInCategory}
             {...{ cardDragState, setCardDragState, setModalState }}
