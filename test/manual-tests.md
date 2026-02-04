@@ -13,8 +13,8 @@ Note: keep the dev tools console open to detect any error
 - Remove the card
 - Undo 2 times and redo 2 times
 - Rename a category
-- Add a column
-- Remove a column
+- Add and remove a column
+- Minimize and expand a column
 - Import a valid board data json file
 - Cards should be able to move around the board through card buttons
 - Cards should be able to move around the board with "drag and drop" functionality
