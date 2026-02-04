@@ -1,4 +1,5 @@
 import type { ModalState } from "./app.types";
+import IconButton from "./shared/iconButton";
 
 interface NewCardButtonProps {
   setModalState: (value: React.SetStateAction<ModalState>) => void;
@@ -14,12 +15,11 @@ export default function NewCardButton({ setModalState }: NewCardButtonProps) {
   }
 
   return (
-    <button
+    <IconButton
+      label="Add new card to board"
       className="icon"
       id="new-card-button"
       onClick={handleNewCardButtonClick}
-    >
-      <span className="icon-img"></span>
-    </button>
+    />
   );
 }

@@ -11,6 +11,7 @@ import { CategoriesDispatchContext } from "../../contexts/categories";
 import ColumnMenu from "./columnMenu";
 import CounterBadge from "./counterBadge";
 import TitleEditForm from "./titleEditForm";
+import IconButton from "../shared/iconButton";
 
 interface ColumnHeaderProps {
   title: string;
@@ -58,13 +59,11 @@ export default function ColumnHeader({
       ) : (
         <>
           {isCollapsed && (
-            <button
-              aria-label="Expand column"
-              className="icon expand"
+            <IconButton
+              label="Expand column"
+              className="expand"
               onClick={() => setIsCollapsed(false)}
-            >
-              <span className="icon-img"></span>
-            </button>
+            />
           )}
           <CounterBadge amount={cardsAmount} />
           <h2 className="show title" id={headerId}>
