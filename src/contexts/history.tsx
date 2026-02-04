@@ -4,7 +4,7 @@ import {
   type ActionDispatch,
   type PropsWithChildren,
 } from "react";
-import {} from "../components/app.types";
+import {} from "../app.types";
 import type {
   BoardHistory,
   BoardHistoryWithIdx,
@@ -101,13 +101,13 @@ export function addChangeItem(
 
   switch (changeItem.type) {
     case "categories":
-      newHistoryItem.categories = [...changeItem.value];
+      newHistoryItem.categories = structuredClone(changeItem.value);
       break;
     case "cards":
       newHistoryItem.cards = structuredClone(changeItem.value);
       break;
     case "board":
-      newHistoryItem.categories = [...changeItem.value.categories];
+      newHistoryItem.categories = structuredClone(changeItem.value.categories);
       newHistoryItem.cards = structuredClone(changeItem.value.cards);
       break;
     default:

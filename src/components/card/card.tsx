@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { CardsDispatchContext } from "../../contexts/cards";
 import { CategoriesContext } from "../../contexts/categories";
 
-import type { CardDragState, CardExtendedData, ModalState } from "../app.types";
+import type { CardDragState, CardExtendedData, ModalState } from "../../app.types";
 import CategorySelector from "../shared/categorySelector";
 import RichText from "./richText";
 import IconButton from "../shared/iconButton";

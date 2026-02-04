@@ -4,9 +4,9 @@ import { defaultBoardData, defaultTheme, themes } from "./defaultSettings";
 import storage from "./storage";
 import { getRandomId } from "./utilities";
 
-import App from "./components/app";
+import App from "./app";
 import type { BoardData } from "./storage.types";
-import type { CardExtendedData } from "./components/app.types";
+import type { CardExtendedData, CategoryData } from "./app.types";
 
 function handleThemeChange(event: React.MouseEvent) {
   const { target } = event;
@@ -53,7 +53,7 @@ async function initialize() {
   if (!initialBoardData) {
     console.error("Couldn't retrieve default board data from storage");
     initialBoardData = JSON.parse(
-      JSON.stringify(defaultBoardData)
+      JSON.stringify(defaultBoardData),
     ) as BoardData;
   }
 
@@ -83,7 +83,14 @@ async function initialize() {
         categoryIdx,
         orderInCategory: entry.orderInCategory,
       };
-    }
+    },
+  );
+
+  const initialCategories: CategoryData[] = initialBoardData.categories.map(
+    (entry) => ({
+      isCollapsed: entry.isCollapsed,
+      title: entry.title,
+    }),
   );
 
   const rootContainer = document.getElementById("root");
@@ -95,10 +102,10 @@ async function initialize() {
   const root = createRoot(rootContainer);
   root.render(
     <App
-      initialCategories={initialBoardData.categories}
+      initialCategories={initialCategories}
       initialCards={initialCards}
       handleThemeChange={handleThemeChange}
-    />
+    />,
   );
 }
 

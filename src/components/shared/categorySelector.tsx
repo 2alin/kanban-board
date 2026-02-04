@@ -1,7 +1,8 @@
 import { useState } from "react";
+import type { CategoryData } from "../../app.types";
 
 interface CategorySelectorProps {
-  categories: string[];
+  categories: CategoryData[];
   defaultValue?: string;
   onChange?: (newValue: string) => void;
 }
@@ -26,7 +27,7 @@ export default function CategorySelector({
     <select name="categoryIdx" value={selected} onChange={handleChange}>
       {categories.map((category, index) => (
         <option value={index} key={index}>
-          {category}
+          {category.title}
         </option>
       ))}
     </select>

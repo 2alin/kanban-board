@@ -6,7 +6,7 @@ import {
   type SetStateAction,
 } from "react";
 
-import type { ModalState } from "../app.types";
+import type { ModalState } from "../../app.types";
 import { CategoriesDispatchContext } from "../../contexts/categories";
 import ColumnMenu from "./columnMenu";
 import CounterBadge from "./counterBadge";

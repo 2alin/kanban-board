@@ -9,7 +9,7 @@ import {
 import { CardsContext, toCardsMap } from "../contexts/cards";
 import { CategoriesContext } from "../contexts/categories";
 
-import type { CardDragState, ModalState } from "./app.types";
+import type { CardDragState, ModalState } from "../app.types";
 import Column from "./column";
 import { getISODate } from "../utilities";
 
@@ -41,7 +41,7 @@ export default function Board({
           <Column
             key={index}
             columnId={index}
-            title={category}
+            title={category.title}
             cards={cardsInCategory}
             {...{ cardDragState, setCardDragState, setModalState }}
           />

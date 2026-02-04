@@ -1,4 +1,18 @@
 /**
+ * Persistant Category data
+ */
+export interface CategoryEntry {
+  /**
+   * Whether the category is collapsed or not
+   */
+  isCollapsed: boolean;
+  /**
+   * Category title
+   */
+  title: string;
+}
+
+/**
  * Persistant Card data
  */
 export interface CardEntry {
@@ -28,7 +42,7 @@ export interface BoardData {
   /**
    * names that will be assigned to board columns
    */
-  categories: string[];
+  categories: CategoryEntry[];
   /**
    * data that will be used to populate the cards
    */

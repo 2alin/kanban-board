@@ -19,8 +19,8 @@ describe("addChangeItem", () => {
     const newCards = structuredClone(cards);
     newCards[0].title = "Card 1 Updated";
 
-    const newCategories = [...categories];
-    newCategories[0] = "Category 1 Updated";
+    const newCategories = structuredClone(categories);
+    newCategories[0] = { title: "Category 1 Updated" };
 
     const historyChangeItem: HistoryChangeItem = {
       type: "board",
@@ -62,8 +62,8 @@ describe("addChangeItem", () => {
   });
 
   it("should add a categories history change item", () => {
-    const newCategories = [...categories];
-    newCategories[0] = "Category 1 Updated";
+    const newCategories = structuredClone(categories);
+    newCategories[0] = { title: "Category 1 Updated" };
 
     const historyChangeItem: HistoryChangeItem = {
       type: "categories",

@@ -4,7 +4,7 @@ import type {
   CardBaseData,
   CardExtendedData,
   CardsMap,
-} from "../components/app.types";
+} from "../app.types";
 import type { CardsAction } from "./cards.types";
 import { getRandomId } from "../utilities";
 import storage from "../storage";

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import Column from "./column";
-import type { CardExtendedData } from "../app.types";
+import type { CardExtendedData } from "../../app.types";
 import { page, userEvent } from "vitest/browser";
 import { cards } from "../../../test/data/board";
 

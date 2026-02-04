@@ -9,7 +9,7 @@ import {
   type SetStateAction,
 } from "react";
 
-import type { CardDragState, CardExtendedData, ModalState } from "../app.types";
+import type { CardDragState, CardExtendedData, ModalState } from "../../app.types";
 import Card from "../card";
 import { CardsDispatchContext } from "../../contexts/cards";
 import ColumnHeader from "./columnHeader";

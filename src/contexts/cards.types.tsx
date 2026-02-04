@@ -1,4 +1,4 @@
-import type { CardBaseData, CardExtendedData } from "../components/app.types";
+import type { CardBaseData, CardExtendedData } from "../app.types";
 
 /**
  * Cards dispatch action to replace all cards

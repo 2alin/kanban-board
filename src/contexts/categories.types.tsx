@@ -1,3 +1,5 @@
+import type { CategoryData } from "../app.types";
+
 /**
  * Categories dispatch action to set a new list of categories
  */
@@ -6,7 +8,7 @@ interface SetAction {
   /**
    * The new categories to set
    */
-  categories: string[];
+  categories: CategoryData[];
   /**
    * Whether the new state of categories should be added to history or not
    */

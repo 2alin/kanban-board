@@ -1,4 +1,4 @@
-import type { ModalState } from "./app.types";
+import type { ModalState } from "../app.types";
 import IconButton from "./shared/iconButton";
 
 interface NewCardButtonProps {

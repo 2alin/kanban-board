@@ -6,7 +6,7 @@ import {
 import { HistoryDispatchContext } from "../../contexts/history";
 import Menu, { type Option as MenuOption } from "../shared/menu";
 import { CardsContext, CardsDispatchContext } from "../../contexts/cards";
-import type { CardExtendedData, ModalState } from "../app.types";
+import type { CardExtendedData, ModalState } from "../../app.types";
 import type { HistoryChangeItem } from "../../contexts/history.types";
 
 interface ColumnMenuProps {
@@ -99,8 +99,10 @@ export default function ColumnMenu({
     }
 
     const newColumnTitle = "New Column";
-    const newCategories = [...categories];
-    newCategories.splice(newColumnIdx, 0, newColumnTitle);
+    const newCategories = structuredClone(categories);
+    newCategories.splice(newColumnIdx, 0, {
+      title: newColumnTitle,
+    });
     categoriesDispatch({
       type: "set",
       categories: newCategories,
