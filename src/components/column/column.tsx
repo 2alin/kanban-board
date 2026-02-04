@@ -4,6 +4,7 @@ import {
   useContext,
   useId,
   useRef,
+  useState,
   type Dispatch,
   type SetStateAction,
 } from "react";
@@ -30,10 +31,12 @@ export default function Column({
   setCardDragState,
   setModalState,
 }: ColumnProps) {
+  const cardsDispatch = useContext(CardsDispatchContext);
+
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   const columnRef = useRef<HTMLElement>(null);
   const headerId = useId();
-
-  const cardsDispatch = useContext(CardsDispatchContext);
 
   function handleDragOver(event: React.DragEvent<HTMLElement>) {
     if (!cardDragState) {
@@ -99,7 +102,7 @@ export default function Column({
 
   return (
     <section
-      className="column"
+      className={`column ${isCollapsed && "collapsed"}`}
       ref={columnRef}
       aria-labelledby={headerId}
       onDragOver={handleDragOver}
@@ -114,6 +117,8 @@ export default function Column({
           headerId,
           columnId,
           columnRef,
+          isCollapsed,
+          setIsCollapsed,
           setModalState,
         }}
         cardsAmount={cards.length}

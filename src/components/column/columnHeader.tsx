@@ -18,6 +18,8 @@ interface ColumnHeaderProps {
   columnId: number;
   columnRef: RefObject<HTMLElement | null>;
   cardsAmount: number;
+  isCollapsed: boolean;
+  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
   setModalState: Dispatch<SetStateAction<ModalState>>;
 }
 
@@ -27,6 +29,8 @@ export default function ColumnHeader({
   columnId,
   columnRef,
   cardsAmount,
+  isCollapsed,
+  setIsCollapsed,
   setModalState,
 }: ColumnHeaderProps) {
   const categoriesDispatch = useContext(CategoriesDispatchContext);
@@ -53,12 +57,27 @@ export default function ColumnHeader({
         />
       ) : (
         <>
+          {isCollapsed && (
+            <button
+              aria-label="Expand column"
+              className="icon expand"
+              onClick={() => setIsCollapsed(false)}
+            >
+              <span className="icon-img"></span>
+            </button>
+          )}
           <CounterBadge amount={cardsAmount} />
           <h2 className="show title" id={headerId}>
             {title}
           </h2>
           <ColumnMenu
-            {...{ columnId, columnRef, setIsTitleEdit, setModalState }}
+            {...{
+              columnId,
+              columnRef,
+              setIsTitleEdit,
+              setIsCollapsed,
+              setModalState,
+            }}
           />
         </>
       )}

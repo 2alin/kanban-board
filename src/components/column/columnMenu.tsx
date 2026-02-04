@@ -12,14 +12,16 @@ import type { HistoryChangeItem } from "../../contexts/history.types";
 interface ColumnMenuProps {
   columnId: number;
   columnRef: React.RefObject<HTMLElement | null>;
-  setModalState: Dispatch<SetStateAction<ModalState>>;
   setIsTitleEdit: Dispatch<SetStateAction<boolean>>;
+  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
+  setModalState: Dispatch<SetStateAction<ModalState>>;
 }
 
 export default function ColumnMenu({
   columnId,
   columnRef,
   setIsTitleEdit,
+  setIsCollapsed,
   setModalState,
 }: ColumnMenuProps) {
   const historyDispatch = useContext(HistoryDispatchContext);
@@ -36,37 +38,41 @@ export default function ColumnMenu({
   function getMenuOptions() {
     const options = [
       {
+        key: "collapse-column",
+        text: "Minimize column",
+        handler: handleMenuClick
+      },
+      {
         key: "edit-column-name",
-        text: "Edit Column Title",
+        text: "Edit column title",
         handler: handleMenuClick,
       },
       {
         key: "add-column-right",
-        text: "Add Column Ahead",
+        text: "Add column ahead",
         handler: handleMenuClick,
       },
       {
         key: "add-column-left",
-        text: "Add Column Behind",
-        handler: handleMenuClick,
-      },
-      {
-        key: "add-card",
-        text: "Add Card",
+        text: "Add column behind",
         handler: handleMenuClick,
       },
     ];
 
     // we shouldn't allow removal columns if there's only one column left
     if (categories.length >= 2) {
-      const deleteOption = {
+      options.push({
         key: "remove-column",
-        text: "Remove Column",
+        text: "Remove column",
         handler: handleMenuClick,
-      };
-
-      options.splice(3, 0, deleteOption);
+      });
     }
+
+    options.push({
+      key: "add-card",
+      text: "Add card",
+      handler: handleMenuClick,
+    });
 
     return options;
   }
@@ -87,6 +93,9 @@ export default function ColumnMenu({
     const { key } = target.dataset;
 
     switch (key) {
+      case "collapse-column":
+        setIsCollapsed(true);
+        break;
       case "edit-column-name":
         setIsTitleEdit(true);
         break;
