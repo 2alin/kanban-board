@@ -1,155 +1,63 @@
+@import url(themes.css);
+
 :root {
   font-family: noto-sans, system-ui, sans-serif;
 }
 
 body {
   margin: 0;
-  background-color: var(--theme-bg-color);
+}
+
+body[data-theme^="light"] {
+  background-color: var(--theme-gray-50);
+  color: var(--theme-gray-950);
+}
+
+body[data-theme^="dark"] {
+  background-color: var(--theme-gray-900);
+  color: var(--theme-gray-50);
 }
 
 /* ----------------- */
 /* INBUILT OVERRIDES */
 /* ----------------- */
 
-button,
-input[type="file"] {
-  padding: 0.3rem;
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
-button:hover,
-button:focus {
-  filter: brightness(1.15);
+button,
+input,
+input::file-selector-button,
+select,
+textarea {
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background-color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button,
+input::file-selector-button {
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 0 0 2px var(--theme-primary-500);
 }
 
 select {
   padding: 0.2rem;
 }
 
-button,
-input,
-select,
-textarea {
-  border: 0;
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-}
-
 a {
   color: inherit;
   text-decoration-line: none;
   border-bottom: 1px dotted;
-}
-
-/* ------ */
-/* THEMES */
-/* ------ */
-
-body,
-#theme-select-section button .color-sample {
-  /* Generating shades of theme color */
-
-  --theme-color: hsl(
-    var(--theme-color-h),
-    var(--theme-color-s),
-    var(--theme-color-l)
-  );
-  --theme-dark-color: hsl(
-    calc(var(--theme-color-h) + 1),
-    calc(var(--theme-color-s)),
-    calc(var(--theme-color-l) - 10%)
-  );
-  --theme-darker-color: hsl(
-    calc(var(--theme-color-h) + 1),
-    calc(var(--theme-color-s) + 30%),
-    calc(var(--theme-color-l) - 25%)
-  );
-  --theme-light-color: hsl(
-    calc(var(--theme-color-h) - 1),
-    calc(var(--theme-color-s) + 15%),
-    calc(var(--theme-color-l) + 45%)
-  );
-  --theme-lighter-color: hsl(
-    calc(var(--theme-color-h) - 1),
-    calc(var(--theme-color-s) + 20%),
-    calc(var(--theme-color-l) + 58%)
-  );
-}
-
-/* ------------ */
-/* COLOR THEMES */
-
-body,
-body[data-theme="color-1"],
-#theme-select-section button[data-theme="color-1"] .color-sample {
-  /* Defining the values for the theme color */
-  --theme-color-h: 208;
-  --theme-color-s: 23%;
-  --theme-color-l: 35%;
-}
-
-body[data-theme="color-2"],
-#theme-select-section button[data-theme="color-2"] .color-sample {
-  /* Defining the values for the theme color */
-  --theme-color-h: 240;
-  --theme-color-s: 15%;
-  --theme-color-l: 38%;
-}
-
-body[data-theme="color-3"],
-#theme-select-section button[data-theme="color-3"] .color-sample {
-  /* Defining the values for the theme color */
-  --theme-color-h: 214;
-  --theme-color-s: 25%;
-  --theme-color-l: 35%;
-}
-
-body[data-theme="color-4"],
-#theme-select-section button[data-theme="color-4"] .color-sample {
-  /* Defining the values for the theme color */
-  --theme-color-h: 270;
-  --theme-color-s: 25%;
-  --theme-color-l: 40%;
-}
-
-body[data-theme^="color"],
-#theme-select-section button[data-theme^="color"] .color-sample {
-  /* Defining theme variables to be used */
-  --theme-main-color: var(--theme-color);
-  --theme-section-bg-color: var(--theme-light-color);
-  --theme-section-text-color: var(--theme-darker-color);
-  --theme-section-outline-color: var(--theme-dark-color);
-  --theme-cta-bg-color: var(--theme-color);
-  --theme-cta-bold-bg-color: var(--theme-dark-color);
-  --theme-bg-color: var(--theme-lighter-color);
-  --theme-text-color: hsl(0 100% 100%);
-}
-
-body[data-theme^="color"] {
-  color-scheme: dark;
-}
-
-/* ------------ */
-/* LIGHT THEMES */
-
-body[data-theme^="light"],
-#theme-select-section button[data-theme^="light"] .color-sample {
-  /* Defining the values for the theme color */
-  --theme-color-h: 208;
-  --theme-color-s: 23%;
-  --theme-color-l: 35%;
-
-  /* Defining theme variables to be used */
-  --theme-main-color: var(--theme-light-color);
-  --theme-section-bg-color: var(--theme-lighter-color);
-  --theme-section-text-color: var(--theme-dark-color);
-  --theme-section-outline-color: var(--theme-color);
-  --theme-cta-bg-color: var(--theme-light-color);
-  --theme-cta-bold-bg-color: var(--theme-light-color);
-  --theme-bg-color: hsl(0 100% 100%);
-  --theme-text-color: var(--theme-darker-color);
-}
-
-body[data-theme^="light"] {
-  color-scheme: light;
 }

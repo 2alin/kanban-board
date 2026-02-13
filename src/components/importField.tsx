@@ -1,4 +1,4 @@
-import "./importSection.css";
+import "./importField.css";
 
 import { useContext, useState } from "react";
 
@@ -15,7 +15,7 @@ const messageClassNames = {
   success: "success",
 };
 
-export default function ImportSection() {
+export default function ImportField() {
   const historyDispatch = useContext(HistoryDispatchContext);
 
   const [isFileSelected, setIsFileSelected] = useState(false);
@@ -120,8 +120,8 @@ export default function ImportSection() {
   }
 
   return (
-    <section id="import-section" className={messageClassToShow}>
-      <span>Import board data: </span>
+    <article id="import-field" className={messageClassToShow}>
+      <span className="field-name">Import: </span>
       <input
         type="file"
         name="import-file"
@@ -133,10 +133,10 @@ export default function ImportSection() {
         onClick={handleLoadFileClick}
         hidden={!isFileSelected}
       >
-        Load selected data
+        Load Selected
       </button>
       <span className="success">Board data loaded succcesfully!</span>
       <span className="error">Error while loading board data!</span>
-    </section>
+    </article>
   );
 }

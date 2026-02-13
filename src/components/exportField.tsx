@@ -11,7 +11,7 @@ function isValirURL(text: string) {
   return URL.canParse(text);
 }
 
-interface ExportSectionProps {
+interface ExportFieldProps {
   /**
    * The last time the board data (cards data or state, columns)
    * was changed, in ISO string format
@@ -19,9 +19,9 @@ interface ExportSectionProps {
   lastChangedBoard: string;
 }
 
-export default function ExportSection({
+export default function ExportField({
   lastChangedBoard,
-}: ExportSectionProps) {
+}: ExportFieldProps) {
   const [downloadUrl, setDownloadUrl] = useState("");
   const [lastChangedDownload, setLastChangedDownload] = useState("");
 
@@ -39,10 +39,10 @@ export default function ExportSection({
     !isValirURL(downloadUrl) || lastChangedBoard !== lastChangedDownload;
 
   return (
-    <section id="export-section">
-      <span>Export board data: </span>
+    <article id="export-field">
+      <span className="field-name">Export: </span>
       <button id="export-button" onClick={handleExportDataClick}>
-        export
+        Prepare Data
       </button>
       <span className="download" hidden={isDownloadHidden}>
         <span>Your board data is ready to </span>
@@ -54,6 +54,6 @@ export default function ExportSection({
           download
         </a>
       </span>
-    </section>
+    </article>
   );
 }

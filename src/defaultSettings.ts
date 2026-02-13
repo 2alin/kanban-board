@@ -4,7 +4,7 @@ import type { BoardData } from "./storage/board.types";
 /**
  * Valid theme values
  */
-export const themes = ["light-1", "color-1", "color-2", "color-3", "color-4"];
+export const themes = ["light-1", "dark-1",];
 
 /**
  * Default theme value

@@ -10,8 +10,8 @@ export default function ThemeSelector({
   handleThemeChange,
 }: ThemeSelectorProps) {
   return (
-    <section id="theme-select-section">
-      <span>Select theme: </span>
+    <article id="theme-select-section">
+      <span>Select: </span>
       {themes.map((theme) => (
         <button data-theme={theme} onClick={handleThemeChange} key={theme}>
           <span className="color-sample"></span>
@@ -20,6 +20,6 @@ export default function ThemeSelector({
           <span className="color-sample"></span>
         </button>
       ))}
-    </section>
+    </article>
   );
 }
