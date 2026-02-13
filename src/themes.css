@@ -15,11 +15,13 @@ body[data-theme="dark-1"] {
   --theme-secondary-50: #f8f7fb;
   --theme-secondary-100: #f2f1f6;
   --theme-secondary-200: #e6e5ef;
+  --theme-secondary-250: #dcdae9;
   --theme-secondary-300: #d1cfe3;
   --theme-secondary-400: #b8b4d1;
   --theme-secondary-500: #9d94be;
   --theme-secondary-600: #887bac;
   --theme-secondary-700: #8174a0;
+  --theme-secondary-750: #726690;
   --theme-secondary-800: #635780;
   --theme-secondary-900: #534969;
   --theme-secondary-950: #352f46;
@@ -35,7 +37,7 @@ body[data-theme="dark-1"] {
   --theme-gray-800: #354557;
   --theme-gray-900: #303c4a;
   --theme-gray-950: #202731;
-  
+
   --theme-warning-50: #fcf4f4;
   --theme-warning-100: #fae6e6;
   --theme-warning-200: #f6d2d2;

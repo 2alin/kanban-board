@@ -1,3 +1,5 @@
+import "./columnHeader.css"
+
 import {
   useContext,
   useState,

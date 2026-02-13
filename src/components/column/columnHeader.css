@@ -1,0 +1,128 @@
+.column > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+}
+
+body[data-theme^="light"] .column > header {
+  color: var(--theme-gray-800);
+}
+
+body[data-theme^="dark"] .column > header {
+  color: var(--theme-gray-100);
+}
+
+.column > header .show.title {
+  flex: 1 1 auto;
+  margin: 0 0.5rem;
+  width: 50%;
+  font-weight: 500;
+  font-size: 1.2rem;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.column > header .menu-component .options.container {
+  z-index: 100;
+}
+
+.column > header .menu-component .options.list {
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  overflow: hidden;
+}
+
+body[data-theme^="light"] .column > header .menu-component .options.list {
+  --background-menu-list: var(--theme-secondary-250);
+  border-color: var(--theme-secondary-400);
+}
+
+body[data-theme^="dark"] .column > header .menu-component .options.list {
+  --background-menu-list: var(--theme-secondary-750);
+  border-color: var(--theme-secondary-600);
+}
+
+.column > header .menu-component .option button {
+  text-transform: capitalize;
+  box-shadow: none;
+}
+
+body[data-theme^="light"]
+  .column
+  > header
+  .menu-component
+  .option
+  button:hover {
+  background-color: var(--theme-secondary-300);
+}
+
+body[data-theme^="dark"] .column > header .menu-component .option button:hover {
+  background-color: var(--theme-secondary-700);
+}
+
+.column > header .edit.form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.column > header .edit.title {
+  width: 50%;
+  flex: 1 1 auto;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+body[data-theme^="light"] .column > header .edit.title {
+  background-color: var(--theme-secondary-250);
+}
+
+body[data-theme^="dark"] .column > header .edit.title {
+  background-color: var(--theme-secondary-750);
+}
+
+.column > header .edit.form button {
+  flex-shrink: 0;
+}
+
+.column > header .edit.form button.icon {
+  --button-size: 1.5rem;
+  border-radius: 4px;
+  margin: 0 0.5rem;
+}
+
+body[data-theme^="light"] .column > header .edit.form .icon-img {
+  background-color: var(--theme-primary-500);
+}
+
+body[data-theme^="dark"] .column > header .edit.form .icon-img {
+  background-color: var(--theme-primary-400);
+}
+
+.column > header .edit.form .cancel .icon-img {
+  mask-image: url("/icons/close.svg");
+}
+
+.column > header .edit.form .submit .icon-img {
+  mask-image: url("/icons/check.svg");
+}
+
+.column > header .menu-component button.icon {
+  --button-size: 1.25rem;
+  border-radius: 0.25rem;
+}
+
+.column > header .menu-component .icon-img {
+  mask-image: url("/icons/menu.svg");
+}
+
+body[data-theme^="light"] .column > header .menu-component .icon-img {
+  background-color: var(--theme-gray-800);
+}
+
+body[data-theme^="dark"] .column > header .menu-component .icon-img {
+  background-color: var(--theme-gray-100);
+}

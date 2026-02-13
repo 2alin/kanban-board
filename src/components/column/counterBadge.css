@@ -6,9 +6,15 @@
   border-radius: 0.5rem;
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--theme-text-color);
-  background-color: var(--theme-main-color);
   overflow: hidden;
+}
+
+body[data-theme^="light"] .column .badge {
+  background-color: var(--theme-secondary-250);
+}
+
+body[data-theme^="dark"] .column .badge {
+  background-color: var(--theme-secondary-750);
 }
 
 .column .badge.empty {
