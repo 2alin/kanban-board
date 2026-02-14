@@ -4,19 +4,33 @@
   gap: 1.5rem;
 }
 
+body[data-theme^="light"] .history-controls {
+  --text-support-color: var(--theme-gray-700);
+  --cta-bg-color: var(--theme-primary-200);
+  --cta-border-color: var(--theme-primary-300);
+}
+
+body[data-theme^="dark"] .history-controls {
+  --text-support-color: var(--theme-gray-200);
+  --cta-bg-color: var(--theme-primary-900);
+  --cta-border-color: var(--theme-primary-600);
+}
+
 .history-controls button:disabled {
   visibility: hidden;
 }
 
 .history-controls button.icon {
   --button-size: 2.5rem;
-  border-radius: 4px;
-  padding: 0.25rem;
-  background-color: var(--theme-cta-bg-color);
+  border-radius: 0.7rem;
+  padding: 0.3rem;
+  border: 1px solid;
+  border-color: var(--cta-border-color);
+  background-color: var(--cta-bg-color);
 }
 
 .history-controls button .icon-img {
-  background-color: var(--theme-text-color);
+  background-color: var(--text-support-color);
 }
 
 .history-controls button.undo .icon-img {
