@@ -9,10 +9,10 @@ import { CategoriesProvider } from "./contexts/categories";
 
 import Board from "./components/board";
 import CardModal from "./components/cardModal";
-import ExportSection from "./components/exportSection";
+import ExportField from "./components/exportField";
 import { HistoryControls } from "./components/historyControls";
 import NewCardButton from "./components/newCardButton";
-import ImportSection from "./components/importSection";
+import ImportField from "./components/importField";
 import ThemeSelector from "./components/themeSelector";
 import { HistoryProvider } from "./contexts/history";
 import type {
@@ -62,9 +62,19 @@ export default function App({
           />
 
           <footer id="main-footer">
-            <ImportSection />
-            <ExportSection lastChangedBoard={lastChangedBoard} />
-            <ThemeSelector {...{ handleThemeChange }} />
+            <section className="board-data">
+              <h2>Board data</h2>
+              <div className="section-content">
+                <ImportField />
+                <ExportField lastChangedBoard={lastChangedBoard} />
+              </div>
+            </section>
+            <section>
+              <h2>Color Theme</h2>
+              <div className="section-content">
+                <ThemeSelector {...{ handleThemeChange }} />
+              </div>
+            </section>
           </footer>
 
           {modalState && (

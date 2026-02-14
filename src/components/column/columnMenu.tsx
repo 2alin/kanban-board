@@ -235,6 +235,7 @@ export default function ColumnMenu({
       isIconButton={true}
       positionY="bottom"
       positionX="right"
+      className="column-menu"
     />
   );
 }

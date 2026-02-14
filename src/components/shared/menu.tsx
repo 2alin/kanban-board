@@ -14,6 +14,7 @@ interface MenuProps {
   isIconButton?: boolean;
   positionX?: string;
   positionY?: string;
+  className?: string;
 }
 
 export default function Menu({
@@ -22,6 +23,7 @@ export default function Menu({
   isIconButton,
   positionX,
   positionY,
+  className,
   children,
 }: React.PropsWithChildren<MenuProps>) {
   const postfixId = useId();
@@ -209,7 +211,7 @@ export default function Menu({
 
   return (
     <div
-      className="menu-component"
+      className={`menu-component ${className}`}
       data-position-x={positionX}
       data-position-y={positionY || getBestPosition()}
       onClick={handleClick}

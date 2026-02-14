@@ -1,0 +1,31 @@
+#import-field span.success {
+  font-weight: 500;
+}
+
+body[data-theme^="light"] #import-field span.success {
+  color: var(--theme-primary-700)
+}
+
+body[data-theme^="dark"] #import-field span.success {
+  color: var(--theme-primary-200)
+}
+
+body[data-theme^="light"] #import-field span.error {
+  color: var(--theme-warning-700)
+}
+
+body[data-theme^="dark"] #import-field span.error {
+  color: var(--theme-warning-200)
+}
+#import-field span.success,
+#import-field span.error {
+  display: none;
+}
+
+#import-field.success span.success {
+  display: initial;
+}
+
+#import-field.error span.error {
+  display: initial;
+}

@@ -3,108 +3,29 @@
   flex-shrink: 0;
   flex-basis: 420px;
   max-width: 580px;
-  margin-left: 1.75rem;
-  background-color: var(--theme-section-bg-color);
-  color: var(--theme-section-text-color);
-  border-radius: 0.5rem;
+  border: 1px solid;
+  border-radius: 0.75rem;
   overflow: auto;
   min-height: 120px;
 }
 
-.column:first-child {
-  margin-left: 0rem;
+body[data-theme^="light"] .column {
+  background-color: var(--theme-secondary-200);
+  border-color: var(--theme-secondary-300);
+  --text-support-color: var(--theme-gray-800);
+}
+
+body[data-theme^="dark"] .column {
+  background-color: var(--theme-secondary-800);
+  border-color: var(--theme-secondary-700);
+  --text-support-color: var(--theme-gray-200);
 }
 
 @media screen and (width <= 580px) {
   .column {
     flex: auto;
-    margin-left: 0;
-    margin-top: 1.75rem;
     overflow: visible;
   }
-
-  .column:first-child {
-    margin-top: 0rem;
-  }
-}
-
-.column > header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0.75rem;
-}
-
-.column > header .show.title {
-  width: 50%;
-  flex: 1 1 auto;
-  font-size: 1.5rem;
-  text-align: center;
-  margin: 0 0.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.column > header .menu-component .options.container {
-  z-index: 100;
-}
-
-.column > header .menu-component .options.list {
-  font-size: 0.9rem;
-  border-radius: 4px;
-  border: 1px solid var(--theme-text-color);
-  --background-menu-list: var(--theme-cta-bold-bg-color);
-  color: var(--theme-text-color);
-  overflow: hidden;
-}
-
-.column > header .menu-component .option button {
-  text-transform: capitalize;
-}
-
-.column > header .edit.form {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.column > header .edit.title {
-  width: 50%;
-  flex: 1 1 auto;
-  border-radius: 4px;
-  background-color: var(--theme-section-bg-color);
-}
-
-.column > header .edit.form button {
-  flex-shrink: 0;
-}
-
-.column > header .edit.form button.icon {
-  --button-size: 1.5rem;
-  border-radius: 4px;
-  background-color: var(--theme-section-bg-color);
-  margin: 0 0.5rem;
-}
-
-.column > header .edit.form .cancel .icon-img {
-  mask-image: url("/icons/close.svg");
-  background-color: var(--theme-section-text-color);
-}
-
-.column > header .edit.form .submit .icon-img {
-  mask-image: url("/icons/check.svg");
-  background-color: var(--theme-section-text-color);
-}
-
-.column > header .menu-component button.icon {
-  --button-size: 1.25rem;
-  border-radius: 4px;
-  background-color: var(--theme-section-bg-color);
-}
-
-.column > header .menu-component .icon-img {
-  mask-image: url("/icons/menu.svg");
-  background-color: var(--theme-section-text-color);
 }
 
 .column .card-list {
@@ -119,26 +40,34 @@
   display: block;
   padding: 0.75rem;
   margin-bottom: 1rem;
-  border: 2px dashed var(--theme-text-color);
-  border-radius: 0.5rem;
+  border: 2px dashed;
+  border-radius: 0.65rem;
   text-align: center;
-  background-color: var(--theme-main-color);
-  color: var(--theme-text-color);
-  filter: opacity(0.5);
+  text-transform: capitalize;
+  color: var(--text-support-color);
+}
+
+body[data-theme^="light"] .column .drop.placeholder {
+  background-color: var(--theme-primary-200);
+  border-color: var(--theme-primary-300);
+}
+
+body[data-theme^="dark"] .column .drop.placeholder {
+  background-color: var(--theme-primary-800);
+  border-color: var(--theme-primary-600);
 }
 
 /* ----------------- */
 /* Collapsed columns */
 
 .column.collapsed button.expand {
-  --button-size: 1.5rem;
-  background-color: var(--theme-section-bg-color);
+  --button-size: 1.25rem;
   order: 1;
 }
 
 .column.collapsed button.expand .icon-img {
   mask-image: url("/icons/expand.svg");
-  background-color: var(--theme-section-text-color);
+  background-color: var(--text-support-color);
 }
 
 .column.collapsed .menu-component,
@@ -159,7 +88,7 @@
   .column.collapsed header {
     flex-direction: column;
     align-items: center;
-    gap: 1.05rem;
+    gap: 1rem;
   }
 
   .column.collapsed button.expand {

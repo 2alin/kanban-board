@@ -6,9 +6,22 @@
   min-width: 350px;
 }
 
+body[data-theme^="light"] #root {
+  --text-support-color: var(--theme-gray-800);
+  --cta-bg-color: var(--theme-primary-200);
+  --cta-border-color: var(--theme-primary-300);
+}
+
+body[data-theme^="dark"] #root {
+  --text-support-color: var(--theme-gray-200);
+  --cta-bg-color: var(--theme-primary-800);
+  --cta-border-color: var(--theme-primary-600);
+}
+
 #board {
   align-self: stretch;
   display: flex;
+  gap: 1rem;
   /* we may have too many columns */
   overflow: auto;
   margin: 1rem 0;
@@ -30,14 +43,24 @@
 
 #new-card-button {
   --button-size: 2.5rem;
-  border-radius: 4px;
-  padding: 0.25rem;
-  background-color: var(--theme-cta-bg-color);
+  padding: 0.3rem;
+  border: 1px solid;
+  border-radius: 0.7rem;
+  background-color: var(--cta-bg-color);
+  border-color: var(--cta-border-color);
+}
+
+body[data-theme^="dark"] #new-card-button {
+  /*
+    color adjustment due to button not being surrounded by similar elements
+    like other elements with the same background in the app
+  */
+  background-color: var(--theme-primary-900);
 }
 
 #new-card-button .icon-img {
   mask-image: url("/icons/add.svg");
-  background-color: var(--theme-text-color);
+  background-color: var(--text-support-color);
 }
 
 /* --------------------- */
@@ -45,25 +68,78 @@
 /* --------------------- */
 
 #main-footer {
-  margin-top: 1rem;
-  padding: 0 1rem;
-  background-color: var(--theme-section-bg-color);
-  font-weight: 600;
-  color: var(--theme-section-text-color);
-  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 0.75rem;
 }
 
-#main-footer section {
-  margin: 1rem 0;
+@media screen and (width <= 580px) {
+  #main-footer {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+body[data-theme^="light"] #main-footer {
+  background-color: var(--theme-secondary-200);
+  border-color: var(--theme-secondary-300);
+}
+
+body[data-theme^="dark"] #main-footer {
+  background-color: var(--theme-secondary-800);
+  border-color: var(--theme-secondary-700);
 }
 
 #main-footer button,
-#main-footer input {
-  margin: 0.5rem;
-  background-color: var(--theme-cta-bg-color);
-  color: var(--theme-text-color);
-  border: 0;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 600;
+#main-footer input::file-selector-button {
+  border-radius: 0.6rem;
+  padding: 0.2rem 0.4rem;
+  font-size: inherit;
+  background-color: var(--cta-bg-color);
+  border: 1px solid var(--cta-border-color);
+}
+
+#main-footer a {
+  border-bottom: 2px solid;
+  border-color: var(--cta-border-color);
+}
+
+#main-footer section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#main-footer .section-content {
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-left: 2px solid;
+  border-color: var(--theme-gray-400);
+}
+
+#main-footer h2 {
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--text-support-color);
+}
+
+#main-footer article {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+#main-footer .field-name {
+  color: var(--text-support-color);
+}
+
+#main-footer .board-data article {
+  flex-wrap: wrap;
 }

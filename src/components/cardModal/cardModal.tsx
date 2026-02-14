@@ -112,7 +112,17 @@ export default function CardModal({
   return (
     <dialog className="modal" ref={modalRef} onClose={cleanDialog}>
       <section className="form-container">
-        <h2 className="title">{modalTitle.get(modalState.type) || ""}</h2>
+        <header>
+          <h2 className="title">{modalTitle.get(modalState.type) || ""}</h2>
+          <button
+            className="icon cancel"
+            id="cancel-modal-card-button"
+            aria-label="cancel new card form"
+            onClick={() => modalRef.current?.close()}
+          >
+            <span className="icon-img"></span>
+          </button>
+        </header>
 
         <CardForm
           formData={formData}
@@ -121,12 +131,6 @@ export default function CardModal({
         />
 
         <footer>
-          <button
-            id="cancel-modal-card-button"
-            onClick={() => modalRef.current?.close()}
-          >
-            cancel
-          </button>
           <button id="submit-card-button" onClick={handleSubmit}>
             {submitButtonText.get(modalState.type) || ""}
           </button>

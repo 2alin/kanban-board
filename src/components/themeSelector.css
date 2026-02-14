@@ -4,10 +4,10 @@
 }
 
 #theme-select-section button {
-  border: 1px solid var(--theme-text-color);
-  border-radius: 4px;
+  border: 1px solid;
+  overflow: hidden;
+  border-radius: 0.5rem;
   background: none;
-  overflow: visible;
   padding: 0;
   display: grid;
   align-self: center;
@@ -15,24 +15,46 @@
   grid-template-rows: 1fr 1fr;
 }
 
+body[data-theme^="light"] #theme-select-section button {
+  border-color: var(--theme-primary-300)
+}
+body[data-theme^="dark"] #theme-select-section button {
+  border-color: var(--theme-primary-600)
+}
+
 #theme-select-section .color-sample {
   width: 1rem;
   height: 1rem;
 }
 
-/**
- * Let's highlight the main theme color, assigning it
- * to two right mini squares (children 2 and 4)
- */
-#theme-select-section .color-sample:nth-child(1) {
-  background-color: var(--theme-section-bg-color);
+/* 
+  Selectors for light themes
+*/
+#theme-select-section [data-theme^="light"] .color-sample:nth-child(1) {
+  background-color: var(--theme-primary-200);
 }
-#theme-select-section .color-sample:nth-child(2) {
-  background-color: var(--theme-main-color);
+#theme-select-section [data-theme^="light"] .color-sample:nth-child(2) {
+  background-color: var(--theme-primary-300);
 }
-#theme-select-section .color-sample:nth-child(3) {
-  background-color: var(--theme-section-text-color);
+#theme-select-section [data-theme^="light"] .color-sample:nth-child(3) {
+  background-color: var(--theme-secondary-200);
 }
-#theme-select-section .color-sample:nth-child(4) {
-  background-color: var(--theme-main-color);
+#theme-select-section [data-theme^="light"] .color-sample:nth-child(4) {
+  background-color: var(--theme-secondary-300);
+}
+
+/* 
+  Selectors for dark themes
+*/
+#theme-select-section [data-theme^="dark"] .color-sample:nth-child(1) {
+  background-color: var(--theme-primary-800);
+}
+#theme-select-section [data-theme^="dark"] .color-sample:nth-child(2) {
+  background-color: var(--theme-primary-700);
+}
+#theme-select-section [data-theme^="dark"] .color-sample:nth-child(3) {
+  background-color: var(--theme-secondary-800);
+}
+#theme-select-section [data-theme^="dark"] .color-sample:nth-child(4) {
+  background-color: var(--theme-secondary-700);
 }
