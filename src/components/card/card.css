@@ -11,6 +11,11 @@ body[data-theme^="light"] .card {
   border-color: var(--theme-primary-300);
 }
 
+body[data-theme^="dark"] .card {
+  background-color: var(--theme-primary-800);
+  border-color: var(--theme-primary-600);
+}
+
 .card header {
   margin-bottom: 1rem;
   overflow: hidden;

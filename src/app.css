@@ -31,19 +31,19 @@
 
 #new-card-button {
   --button-size: 2.5rem;
-  padding: 0.25rem;
+  padding: 0.3rem;
   border: 1px solid;
   border-radius: 0.7rem;
 }
 
 body[data-theme^="light"] #new-card-button {
   border-color: var(--theme-primary-300);
-  background-color: var(--theme-primary-50);
+  background-color: var(--theme-primary-200);
 }
 
 body[data-theme^="dark"] #new-card-button {
+  background-color: var(--theme-primary-900);
   border-color: var(--theme-primary-600);
-  background-color: var(--theme-primary-950);
 }
 
 #new-card-button .icon-img {
@@ -51,11 +51,11 @@ body[data-theme^="dark"] #new-card-button {
 }
 
 body[data-theme^="light"] #new-card-button .icon-img {
-  background-color: var(--theme-primary-500);
+  background-color: var(--theme-gray-700);
 }
 
 body[data-theme^="dark"] #new-card-button .icon-img {
-  background-color: var(--theme-primary-400);
+  background-color: var(--theme-gray-200);
 }
 
 /* --------------------- */
@@ -115,11 +115,9 @@ body[data-theme^="light"] #main-footer a {
   border-color: var(--theme-primary-300);
 }
 
-
 body[data-theme^="dark"] #main-footer a {
   border-color: var(--theme-primary-600);
 }
-
 
 #main-footer section {
   display: flex;
@@ -143,7 +141,6 @@ body[data-theme^="light"] #main-footer .section-content {
 body[data-theme^="dark"] #main-footer .section-content {
   border-color: var(--theme-gray-400);
 }
-
 
 #main-footer h2 {
   font-weight: 500;
