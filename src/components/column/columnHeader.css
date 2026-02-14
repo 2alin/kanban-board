@@ -24,42 +24,54 @@ body[data-theme^="dark"] .column > header {
   text-overflow: ellipsis;
 }
 
-.column > header .menu-component .options.container {
+.column-menu button.icon {
+  --button-size: 1.25rem;
+  border-radius: 0.25rem;
+}
+
+.column-menu .icon-img {
+  mask-image: url("/icons/menu.svg");
+}
+
+body[data-theme^="light"] .column-menu .icon-img {
+  background-color: var(--theme-gray-800);
+}
+
+body[data-theme^="dark"] .column-menu .icon-img {
+  background-color: var(--theme-gray-100);
+}
+
+.column-menu .options.container {
   z-index: 100;
 }
 
-.column > header .menu-component .options.list {
+.column-menu .options.list {
   font-size: 0.9rem;
   border-radius: 0.5rem;
   border: 1px solid;
   overflow: hidden;
 }
 
-body[data-theme^="light"] .column > header .menu-component .options.list {
+body[data-theme^="light"] .column-menu .options.list {
   --background-menu-list: var(--theme-secondary-250);
   border-color: var(--theme-secondary-400);
 }
 
-body[data-theme^="dark"] .column > header .menu-component .options.list {
+body[data-theme^="dark"] .column-menu .options.list {
   --background-menu-list: var(--theme-secondary-750);
   border-color: var(--theme-secondary-600);
 }
 
-.column > header .menu-component .option button {
+.column-menu .option button {
   text-transform: capitalize;
   box-shadow: none;
 }
 
-body[data-theme^="light"]
-  .column
-  > header
-  .menu-component
-  .option
-  button:hover {
+body[data-theme^="light"] .column-menu .option button:hover {
   background-color: var(--theme-secondary-300);
 }
 
-body[data-theme^="dark"] .column > header .menu-component .option button:hover {
+body[data-theme^="dark"] .column-menu .option button:hover {
   background-color: var(--theme-secondary-700);
 }
 
@@ -108,21 +120,4 @@ body[data-theme^="dark"] .column > header .edit.form .icon-img {
 
 .column > header .edit.form .submit .icon-img {
   mask-image: url("/icons/check.svg");
-}
-
-.column > header .menu-component button.icon {
-  --button-size: 1.25rem;
-  border-radius: 0.25rem;
-}
-
-.column > header .menu-component .icon-img {
-  mask-image: url("/icons/menu.svg");
-}
-
-body[data-theme^="light"] .column > header .menu-component .icon-img {
-  background-color: var(--theme-gray-800);
-}
-
-body[data-theme^="dark"] .column > header .menu-component .icon-img {
-  background-color: var(--theme-gray-100);
 }
