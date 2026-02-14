@@ -26,7 +26,7 @@ body[data-theme^="dark"] .column > header {
 
 .column-menu button.icon {
   --button-size: 1.25rem;
-  border-radius: 0.25rem;
+  border-radius: 0.3rem;
 }
 
 .column-menu .icon-img {
@@ -47,7 +47,7 @@ body[data-theme^="dark"] .column-menu .icon-img {
 
 .column-menu .options.list {
   font-size: 0.9rem;
-  border-radius: 0.5rem;
+  border-radius: 0.7rem;
   border: 1px solid;
   overflow: hidden;
 }
@@ -85,7 +85,7 @@ body[data-theme^="dark"] .column-menu .option button:hover {
   width: 50%;
   flex: 1 1 auto;
   padding: 0.3rem 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
 }
 
 body[data-theme^="light"] .column > header .edit.title {
@@ -102,7 +102,7 @@ body[data-theme^="dark"] .column > header .edit.title {
 
 .column > header .edit.form button.icon {
   --button-size: 1.5rem;
-  border-radius: 4px;
+  border-radius: 0.3rem;
   margin: 0 0.5rem;
 }
 

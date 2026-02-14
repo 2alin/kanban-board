@@ -1,10 +1,14 @@
 .card {
-  color: var(--theme-text-color);
-  background-color: var(--theme-main-color);
   margin-bottom: 1rem;
   padding: 0.75rem;
-  border-radius: 0.5rem;
+  border: 1px solid;
+  border-radius: 0.75rem;
   word-wrap: break-word;
+}
+
+body[data-theme^="light"] .card {
+  background-color: var(--theme-primary-200);
+  border-color: var(--theme-primary-300);
 }
 
 .card header {

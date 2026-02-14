@@ -33,7 +33,7 @@
   --button-size: 2.5rem;
   padding: 0.25rem;
   border: 1px solid;
-  border-radius: 0.4rem;
+  border-radius: 0.7rem;
 }
 
 body[data-theme^="light"] #new-card-button {
@@ -68,7 +68,7 @@ body[data-theme^="dark"] #new-card-button .icon-img {
   gap: 1rem;
   padding: 1rem;
   border: 1px solid;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 }
 
 @media screen and (width <= 580px) {
@@ -90,7 +90,7 @@ body[data-theme^="dark"] #main-footer {
 
 #main-footer button,
 #main-footer input::file-selector-button {
-  border-radius: 0.3rem;
+  border-radius: 0.6rem;
   padding: 0.2rem 0.4rem;
   font-size: 0.9rem;
 }

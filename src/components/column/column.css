@@ -4,7 +4,7 @@
   flex-basis: 420px;
   max-width: 580px;
   border: 1px solid;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   overflow: auto;
   min-height: 120px;
 }

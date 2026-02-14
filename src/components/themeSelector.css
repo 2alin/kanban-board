@@ -6,7 +6,7 @@
 #theme-select-section button {
   border: 1px solid;
   overflow: hidden;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
   background: none;
   padding: 0;
   display: grid;
