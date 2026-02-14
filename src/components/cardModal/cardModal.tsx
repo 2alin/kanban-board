@@ -117,7 +117,7 @@ export default function CardModal({
           <button
             className="icon cancel"
             id="cancel-modal-card-button"
-            aria-label="Close new card form without saving"
+            aria-label="cancel new card form"
             onClick={() => modalRef.current?.close()}
           >
             <span className="icon-img"></span>

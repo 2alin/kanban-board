@@ -5,7 +5,7 @@ import { page, userEvent } from "vitest/browser";
 
 function renderNewCardModal() {
   return render(
-    <CardModal modalState={{ type: "new" }} setModalState={() => {}} />
+    <CardModal modalState={{ type: "new" }} setModalState={() => {}} />,
   );
 }
 
@@ -27,7 +27,8 @@ describe("CardModal component", () => {
   it("should close on 'cancel' button click", async () => {
     renderNewCardModal();
 
-    const cancelButton = page.getByRole("button").getByText("cancel");
+    const cancelButton = page.getByRole("button", { name: "cancel new card" });
+
     await cancelButton.click();
 
     const modal = page.getByRole("dialog");
@@ -37,7 +38,7 @@ describe("CardModal component", () => {
   it("should close on 'escape' key pressed", async () => {
     renderNewCardModal();
 
-    await userEvent.keyboard("{Escape}")
+    await userEvent.keyboard("{Escape}");
 
     const modal = page.getByRole("dialog");
     await expect.element(modal).not.toBeInTheDocument();
