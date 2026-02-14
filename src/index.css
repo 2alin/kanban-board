@@ -44,6 +44,7 @@ textarea {
 }
 
 button,
+select,
 input::file-selector-button {
   cursor: pointer;
 }
