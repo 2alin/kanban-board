@@ -12,11 +12,13 @@
 body[data-theme^="light"] .column {
   background-color: var(--theme-secondary-200);
   border-color: var(--theme-secondary-300);
+  --text-support-color: var(--theme-gray-800);
 }
 
 body[data-theme^="dark"] .column {
   background-color: var(--theme-secondary-800);
   border-color: var(--theme-secondary-700);
+  --text-support-color: var(--theme-gray-200);
 }
 
 @media screen and (width <= 580px) {
@@ -38,12 +40,21 @@ body[data-theme^="dark"] .column {
   display: block;
   padding: 0.75rem;
   margin-bottom: 1rem;
-  border: 2px dashed var(--theme-text-color);
-  border-radius: 0.5rem;
+  border: 2px dashed;
+  border-radius: 0.65rem;
   text-align: center;
-  background-color: var(--theme-main-color);
-  color: var(--theme-text-color);
-  filter: opacity(0.5);
+  text-transform: capitalize;
+  color: var(--text-support-color);
+}
+
+body[data-theme^="light"] .column .drop.placeholder {
+  background-color: var(--theme-primary-200);
+  border-color: var(--theme-primary-300);
+}
+
+body[data-theme^="dark"] .column .drop.placeholder {
+  background-color: var(--theme-primary-800);
+  border-color: var(--theme-primary-600);
 }
 
 /* ----------------- */
@@ -56,14 +67,7 @@ body[data-theme^="dark"] .column {
 
 .column.collapsed button.expand .icon-img {
   mask-image: url("/icons/expand.svg");
-}
-
-body[data-theme^="light"] .column.collapsed button.expand .icon-img {
-  background-color: var(--theme-gray-800);
-}
-
-body[data-theme^="dark"] .column.collapsed button.expand .icon-img {
-  background-color: var(--theme-gray-100);
+  background-color: var(--text-support-color);
 }
 
 .column.collapsed .menu-component,

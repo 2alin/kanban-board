@@ -11,7 +11,7 @@ export default function ThemeSelector({
 }: ThemeSelectorProps) {
   return (
     <article id="theme-select-section">
-      <span>Select: </span>
+      <span className="field-name">Select: </span>
       {themes.map((theme) => (
         <button data-theme={theme} onClick={handleThemeChange} key={theme}>
           <span className="color-sample"></span>

@@ -4,16 +4,23 @@
   border: 1px solid;
   border-radius: 0.75rem;
   word-wrap: break-word;
+  background-color: var(--card-bg-color);
+  color: var(--card-text-color);
+  --button-size: 1.25rem;
 }
 
 body[data-theme^="light"] .card {
-  background-color: var(--theme-primary-200);
+  --card-bg-color: var(--theme-primary-200);
   border-color: var(--theme-primary-300);
+  --card-text-color: var(--theme-gray-950);
+  --card-support-color: var(--theme-gray-800);
 }
 
 body[data-theme^="dark"] .card {
-  background-color: var(--theme-primary-800);
+  --card-bg-color: var(--theme-primary-800);
   border-color: var(--theme-primary-600);
+  --card-text-color: var(--theme-gray-50);
+  --card-support-color: var(--theme-gray-200);
 }
 
 .card header {
@@ -25,7 +32,13 @@ body[data-theme^="dark"] .card {
   gap: 0.5rem;
 }
 
+.card h3 {
+  font-weight: 500;
+}
+
 .card header button.drag {
+  /* slight adjustment to adjust icon size with the rest of footer icons */
+  padding: 0.1rem;
   flex-shrink: 0;
   cursor: grab;
 }
@@ -37,6 +50,10 @@ body[data-theme^="dark"] .card {
 .card .title {
   margin: 0;
   overflow-wrap: anywhere;
+}
+
+.card .description {
+  font-size: 0.95rem;
 }
 
 .card p {
@@ -53,12 +70,14 @@ body[data-theme^="dark"] .card {
 
 .card select {
   max-width: 160px;
-  background-color: var(--theme-main-color);
-  color: var(--theme-text-color);
+  background-color: var(--card-bg-color);
+  color: var(--card-support-color);
   border: 0;
   font-size: 0.9rem;
   font-weight: 400;
-  box-shadow: 0 1px var(--theme-main-color), 0 2px var(--theme-text-color);
+  box-shadow:
+    0 1px var(--card-bg-color),
+    0 2px var(--card-support-color);
 }
 
 .card footer > * {
@@ -81,11 +100,13 @@ body[data-theme^="dark"] .card {
   margin-right: 0;
 }
 
-/* 
-  adding more space for the remove card button to avoid click by mistake 
-  and to the edit button to keep consistency
-*/
 .card footer .buttons.right.container button {
+  /* slight adjustment to adjust icon size with the rest of footer icons */
+  padding: 0.1rem;
+  /* 
+    adding more space for the remove card button to avoid click by mistake 
+    and to the edit button to keep consistency
+  */
   margin-right: calc(1.25 * var(--button-size));
 }
 .card footer .buttons.right.container button:last-of-type {
@@ -94,11 +115,10 @@ body[data-theme^="dark"] .card {
 
 .card button.icon {
   --button-size: 1.25rem;
-  background-color: var(--theme-main-color);
 }
 
 .card button .icon-img {
-  background-color: var(--theme-text-color);
+  background-color: var(--card-support-color);
 }
 
 .card button.drag .icon-img {
