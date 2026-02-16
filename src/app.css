@@ -84,12 +84,12 @@ body[data-theme^="dark"] #new-card-button {
 }
 
 body[data-theme^="light"] #main-footer {
-  background-color: var(--theme-secondary-200);
+  background-color: var(--theme-secondary-100);
   border-color: var(--theme-secondary-300);
 }
 
 body[data-theme^="dark"] #main-footer {
-  background-color: var(--theme-secondary-800);
+  background-color: var(--theme-secondary-900);
   border-color: var(--theme-secondary-700);
 }
 

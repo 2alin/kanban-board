@@ -10,11 +10,11 @@
 }
 
 body[data-theme^="light"] .column .badge {
-  background-color: var(--theme-secondary-250);
+  background-color: var(--theme-secondary-200);
 }
 
 body[data-theme^="dark"] .column .badge {
-  background-color: var(--theme-secondary-750);
+  background-color: var(--theme-secondary-800);
 }
 
 .column .badge.empty {
