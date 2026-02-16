@@ -53,12 +53,12 @@ body[data-theme^="dark"] .column-menu .icon-img {
 }
 
 body[data-theme^="light"] .column-menu .options.list {
-  --background-menu-list: var(--theme-secondary-250);
+  --background-menu-list: var(--theme-secondary-200);
   border-color: var(--theme-secondary-400);
 }
 
 body[data-theme^="dark"] .column-menu .options.list {
-  --background-menu-list: var(--theme-secondary-750);
+  --background-menu-list: var(--theme-secondary-800);
   border-color: var(--theme-secondary-600);
 }
 
@@ -89,11 +89,11 @@ body[data-theme^="dark"] .column-menu .option button:hover {
 }
 
 body[data-theme^="light"] .column > header .edit.title {
-  background-color: var(--theme-secondary-250);
+  background-color: var(--theme-secondary-200);
 }
 
 body[data-theme^="dark"] .column > header .edit.title {
-  background-color: var(--theme-secondary-750);
+  background-color: var(--theme-secondary-800);
 }
 
 .column > header .edit.form button {

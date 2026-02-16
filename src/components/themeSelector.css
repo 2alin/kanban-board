@@ -37,7 +37,7 @@ body[data-theme^="dark"] #theme-select-section button {
   background-color: var(--theme-primary-300);
 }
 #theme-select-section [data-theme^="light"] .color-sample:nth-child(3) {
-  background-color: var(--theme-secondary-200);
+  background-color: var(--theme-secondary-100);
 }
 #theme-select-section [data-theme^="light"] .color-sample:nth-child(4) {
   background-color: var(--theme-secondary-300);
@@ -53,7 +53,7 @@ body[data-theme^="dark"] #theme-select-section button {
   background-color: var(--theme-primary-700);
 }
 #theme-select-section [data-theme^="dark"] .color-sample:nth-child(3) {
-  background-color: var(--theme-secondary-800);
+  background-color: var(--theme-secondary-900);
 }
 #theme-select-section [data-theme^="dark"] .color-sample:nth-child(4) {
   background-color: var(--theme-secondary-700);

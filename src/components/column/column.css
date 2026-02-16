@@ -10,13 +10,13 @@
 }
 
 body[data-theme^="light"] .column {
-  background-color: var(--theme-secondary-200);
+  background-color: var(--theme-secondary-100);
   border-color: var(--theme-secondary-300);
   --text-support-color: var(--theme-gray-800);
 }
 
 body[data-theme^="dark"] .column {
-  background-color: var(--theme-secondary-800);
+  background-color: var(--theme-secondary-900);
   border-color: var(--theme-secondary-700);
   --text-support-color: var(--theme-gray-200);
 }
