@@ -57,6 +57,37 @@ body[data-theme^="dark"] .column .drop.placeholder {
   border-color: var(--theme-primary-600);
 }
 
+.column > footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 0 0.75rem;
+}
+
+.column > footer .button {
+  flex: 1;
+  justify-content: center;
+  background-color: var(--button-bg-color);
+}
+
+.column > footer .button .icon-img {
+  /* considering padding and border of the container to center icon */
+  width: calc(var(--button-size) - 2 * 0.3rem - 2 * 1px);
+  mask-size: contain;
+}
+
+body[data-theme^="light"] .column > footer .button {
+  --cta-bg-color: var(--theme-secondary-100);
+  --cta-border-color: var(--theme-primary-300);
+  --text-support-color: var(--theme-gray-400);
+}
+
+body[data-theme^="dark"] .column > footer .button {
+  --cta-bg-color: var(--theme-primary-800);
+  --cta-border-color: var(--theme-primary-600);
+  --text-support-color: var(--theme-gray-400);
+}
+
 /* ----------------- */
 /* Collapsed columns */
 
@@ -71,7 +102,8 @@ body[data-theme^="dark"] .column .drop.placeholder {
 }
 
 .column.collapsed .menu-component,
-.column.collapsed .card-list {
+.column.collapsed .card-list,
+.column.collapsed footer {
   display: none;
 }
 

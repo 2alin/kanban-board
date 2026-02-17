@@ -13,9 +13,10 @@ import type {
   CardExtendedData,
   ModalState,
 } from "../../app.types";
-import Card from "../card";
 import { CardsDispatchContext } from "../../contexts/cards";
 import ColumnHeader from "./columnHeader";
+import CardsList from "./cardsList";
+import NewCardButton from "../shared/newCardButton";
 
 interface ColumnProps {
   columnId: number;
@@ -125,60 +126,16 @@ export default function Column({
         }}
         cardsAmount={cards.length}
       />
-      {getCardsList(
-        cards,
-        columnId,
-        cardDragState,
-        setCardDragState,
-        setModalState,
-      )}
+      <CardsList
+        {...{ cards, columnId, cardDragState, setCardDragState, setModalState }}
+      />
+      <footer>
+        <NewCardButton
+          label="Add new card in column"
+          categoryIdx={columnId}
+          {...{ setModalState }}
+        />
+      </footer>
     </section>
-  );
-}
-
-function getCardsList(
-  cards: CardExtendedData[],
-  columnId: number,
-  cardDragState: CardDragState,
-  setCardDragState: React.Dispatch<React.SetStateAction<CardDragState>>,
-  setModalState: React.Dispatch<React.SetStateAction<ModalState>>,
-) {
-  let isDragNewPosition = false;
-
-  if (cardDragState) {
-    const {
-      card: cardDragged,
-      newCategoryIdx,
-      newOrderInCategory,
-    } = cardDragState;
-
-    isDragNewPosition =
-      cardDragged.categoryIdx !== newCategoryIdx ||
-      (cardDragged.orderInCategory !== newOrderInCategory &&
-        cardDragged.orderInCategory !== newOrderInCategory - 1);
-  }
-
-  return (
-    <ol className="card-list">
-      {cards.map((card, idx) => (
-        <li key={card.id} style={{ order: idx }}>
-          <Card
-            key={card.id}
-            cardData={card}
-            handlers={{ setCardDragState, setModalState }}
-          />
-        </li>
-      ))}
-      {cardDragState &&
-        cardDragState.newCategoryIdx === columnId &&
-        isDragNewPosition && (
-          <li
-            key={"placeholder"}
-            style={{ order: cardDragState.newOrderInCategory - 1 }}
-          >
-            <span className="drop placeholder"> Drop card</span>
-          </li>
-        )}
-    </ol>
   );
 }
