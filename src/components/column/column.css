@@ -57,31 +57,31 @@ body[data-theme^="dark"] .column .drop.placeholder {
   border-color: var(--theme-primary-600);
 }
 
-.column footer {
+.column > footer {
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
   padding: 0 0.75rem;
 }
 
-.column footer .button {
+.column > footer .button {
   flex: 1;
   justify-content: center;
   background-color: var(--button-bg-color);
 }
 
-.column footer .button .icon-img {
+.column > footer .button .icon-img {
   width: calc(var(--button-size) - 2 * 0.3rem - 2 * 1px);
   mask-size: contain;
   background-color: var(--text-support-color);
 }
 
-body[data-theme^="light"] .column footer .button {
+body[data-theme^="light"] .column > footer .button {
   --button-bg-color: var(--theme-primary-200);
   --text-support-color: var(--theme-gray-500);
 }
 
-body[data-theme^="dark"] .column footer .button {
+body[data-theme^="dark"] .column > footer .button {
   --button-bg-color: var(--theme-primary-800);
   --text-support-color: var(--theme-gray-300);
 }
