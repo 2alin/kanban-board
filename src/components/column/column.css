@@ -71,19 +71,21 @@ body[data-theme^="dark"] .column .drop.placeholder {
 }
 
 .column > footer .button .icon-img {
+  /* considering padding and border of the container to center icon */
   width: calc(var(--button-size) - 2 * 0.3rem - 2 * 1px);
   mask-size: contain;
-  background-color: var(--text-support-color);
 }
 
 body[data-theme^="light"] .column > footer .button {
-  --button-bg-color: var(--theme-primary-200);
-  --text-support-color: var(--theme-gray-500);
+  --cta-bg-color: var(--theme-secondary-100);
+  --cta-border-color: var(--theme-primary-300);
+  --text-support-color: var(--theme-gray-400);
 }
 
 body[data-theme^="dark"] .column > footer .button {
-  --button-bg-color: var(--theme-primary-800);
-  --text-support-color: var(--theme-gray-300);
+  --cta-bg-color: var(--theme-primary-800);
+  --cta-border-color: var(--theme-primary-600);
+  --text-support-color: var(--theme-gray-400);
 }
 
 /* ----------------- */
