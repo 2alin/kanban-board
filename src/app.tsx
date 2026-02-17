@@ -11,7 +11,7 @@ import Board from "./components/board";
 import CardModal from "./components/cardModal";
 import ExportField from "./components/exportField";
 import { HistoryControls } from "./components/historyControls";
-import NewCardButton from "./components/newCardButton";
+import NewCardButton from "./components/shared/newCardButton";
 import ImportField from "./components/importField";
 import ThemeSelector from "./components/themeSelector";
 import { HistoryProvider } from "./contexts/history";
@@ -50,7 +50,10 @@ export default function App({
       <CategoriesProvider {...{ initialCategories }}>
         <CardsProvider {...{ initialCards }}>
           <header>
-            <NewCardButton {...{ setModalState }} />
+            <NewCardButton
+              label="Add new card in board"
+              {...{ setModalState }}
+            />
             <HistoryControls />
           </header>
 

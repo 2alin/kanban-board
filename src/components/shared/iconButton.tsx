@@ -4,14 +4,19 @@ import type { ButtonHTMLAttributes } from "react";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
+  className?: string;
 }
 
-export default function IconButton(props: IconButtonProps) {
+export default function IconButton({
+  label,
+  className,
+  ...forwardedProps
+}: IconButtonProps) {
   return (
     <button
-      {...props}
-      className={`icon ${props.className}`}
-      aria-label={props.label}
+      {...forwardedProps}
+      className={`icon ${className}`}
+      aria-label={label}
     >
       <span className="icon-img"></span>
     </button>

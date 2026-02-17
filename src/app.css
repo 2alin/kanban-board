@@ -41,28 +41,6 @@ body[data-theme^="dark"] #root {
   justify-content: space-between;
 }
 
-#new-card-button {
-  --button-size: 2.5rem;
-  padding: 0.3rem;
-  border: 1px solid;
-  border-radius: 0.7rem;
-  background-color: var(--cta-bg-color);
-  border-color: var(--cta-border-color);
-}
-
-body[data-theme^="dark"] #new-card-button {
-  /*
-    color adjustment due to button not being surrounded by similar elements
-    like other elements with the same background in the app
-  */
-  background-color: var(--theme-primary-900);
-}
-
-#new-card-button .icon-img {
-  mask-image: url("/icons/add.svg");
-  background-color: var(--text-support-color);
-}
-
 /* --------------------- */
 /*       FOOTER          */
 /* --------------------- */
