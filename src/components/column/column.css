@@ -100,7 +100,8 @@ body[data-theme^="dark"] .column footer .button {
 }
 
 .column.collapsed .menu-component,
-.column.collapsed .card-list {
+.column.collapsed .card-list,
+.column.collapsed footer {
   display: none;
 }
 
