@@ -12,12 +12,14 @@ export interface CardFormData {
 
 interface CardFormProps {
   formData: CardFormData;
+  elementToFocusRef: React.Ref<HTMLInputElement>;
   onSubmit: (event: React.FormEvent) => void;
   onChange: (newFormData: CardFormData) => void;
 }
 
 export default function CardForm({
   formData,
+  elementToFocusRef,
   onSubmit,
   onChange,
 }: CardFormProps) {
@@ -35,7 +37,7 @@ export default function CardForm({
     >
       <label htmlFor="modal-card-title">Title: </label>
       <input
-        autoFocus={true}
+        ref={elementToFocusRef}
         type="text"
         name="title"
         id="modal-card-title"

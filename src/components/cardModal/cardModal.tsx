@@ -27,6 +27,7 @@ export default function CardModal({
 }: CardModalProps) {
   const cardsDispatch = useContext(CardsDispatchContext);
   const modalRef = useRef<null | HTMLDialogElement>(null);
+  const elementToFocusRef = useRef<HTMLInputElement>(null);
 
   if (!modalState) {
     return;
@@ -109,6 +110,13 @@ export default function CardModal({
     }
   }, [modalState]);
 
+  /**
+   * Bring focus to desired element on dialog opened
+   */
+  useEffect(() => {
+    elementToFocusRef.current?.focus();
+  }, [modalRef])
+
   return (
     <dialog className="modal" ref={modalRef} onClose={cleanDialog}>
       <section className="form-container">
@@ -125,7 +133,7 @@ export default function CardModal({
         </header>
 
         <CardForm
-          formData={formData}
+          {...{formData, elementToFocusRef}}
           onSubmit={handleSubmit}
           onChange={handleChange}
         />
