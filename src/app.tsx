@@ -19,6 +19,8 @@ import type {
   BoardHistoryItem,
   BoardHistoryWithIdx,
 } from "./contexts/history.types";
+import GDriveSyncField from "./components/syncField";
+import { AuthProvider } from "./contexts/auth";
 
 interface AppProps {
   initialCategories: CategoryData[];
@@ -46,52 +48,55 @@ export default function App({
   };
 
   return (
-    <HistoryProvider {...{ initBoardHistoryWithIdx }}>
-      <CategoriesProvider {...{ initialCategories }}>
-        <CardsProvider {...{ initialCards }}>
-          <header>
-            <NewCardButton
-              label="Add new card in board"
-              {...{ setModalState }}
+    <AuthProvider>
+      <HistoryProvider {...{ initBoardHistoryWithIdx }}>
+        <CategoriesProvider {...{ initialCategories }}>
+          <CardsProvider {...{ initialCards }}>
+            <header>
+              <NewCardButton
+                label="Add new card in board"
+                {...{ setModalState }}
+              />
+              <HistoryControls />
+            </header>
+
+            <Board
+              {...{
+                setModalState,
+                setLastChangedBoard,
+              }}
             />
-            <HistoryControls />
-          </header>
 
-          <Board
-            {...{
-              setModalState,
-              setLastChangedBoard,
-            }}
-          />
+            <footer id="main-footer">
+              <section className="board-data">
+                <h2>Board data</h2>
+                <div className="section-content">
+                  <ImportField />
+                  <ExportField lastChangedBoard={lastChangedBoard} />
+                  <GDriveSyncField />
+                </div>
+              </section>
+              <section>
+                <h2>Color Theme</h2>
+                <div className="section-content">
+                  <ThemeSelector {...{ handleThemeChange }} />
+                </div>
+              </section>
+            </footer>
 
-          <footer id="main-footer">
-            <section className="board-data">
-              <h2>Board data</h2>
-              <div className="section-content">
-                <ImportField />
-                <ExportField lastChangedBoard={lastChangedBoard} />
-              </div>
-            </section>
-            <section>
-              <h2>Color Theme</h2>
-              <div className="section-content">
-                <ThemeSelector {...{ handleThemeChange }} />
-              </div>
-            </section>
-          </footer>
-
-          {modalState && (
-            <CardModal
-              key={
-                modalState.type === "edit"
-                  ? modalState.cardToEdit.id
-                  : modalState.type
-              }
-              {...{ modalState, setModalState }}
-            />
-          )}
-        </CardsProvider>
-      </CategoriesProvider>
-    </HistoryProvider>
+            {modalState && (
+              <CardModal
+                key={
+                  modalState.type === "edit"
+                    ? modalState.cardToEdit.id
+                    : modalState.type
+                }
+                {...{ modalState, setModalState }}
+              />
+            )}
+          </CardsProvider>
+        </CategoriesProvider>
+      </HistoryProvider>
+    </AuthProvider>
   );
 }

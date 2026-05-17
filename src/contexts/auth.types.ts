@@ -1,10 +1,17 @@
 /**
+ * User Information that the app uses
+ */
+export interface UserInfo {
+  givenName: string;
+  email: string;
+}
+
+/**
  * Authorization data
  */
 export interface Auth {
   token: string | null;
-  email: string | null;
-  name: string | null;
+  userInfo: UserInfo | null;
 }
 
 /**
@@ -23,4 +30,15 @@ interface UpdateTokenAction {
   token: string;
 }
 
-export type AuthAction = UpdateAuthAction | UpdateTokenAction;
+/**
+ * Updates the user info
+ */
+interface UpdateUserInfoAction {
+  type: "updateUserInfo";
+  userInfo: UserInfo;
+}
+
+export type AuthAction =
+  | UpdateAuthAction
+  | UpdateTokenAction
+  | UpdateUserInfoAction;
