@@ -2,11 +2,13 @@
 import { defineConfig } from "vite";
 import { playwright } from "@vitest/browser-playwright";
 import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [react()],
   base: "/kanban-board",
   root: "./src",
+  envDir: path.resolve(__dirname),
   build: {
     outDir: "../dist",
     emptyOutDir: true,
